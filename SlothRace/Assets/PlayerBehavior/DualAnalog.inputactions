@@ -6,7 +6,7 @@
             "id": "fb8d6404-ed77-4dcb-9196-b47c736924a7",
             "actions": [
                 {
-                    "name": "Skill",
+                    "name": "MoveLeftArm",
                     "type": "Button",
                     "id": "da5efce7-0b41-45bb-9a3c-2c57823845bf",
                     "expectedControlType": "Button",
@@ -15,12 +15,30 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
+                    "name": "MoveLeftLeg",
                     "type": "Button",
                     "id": "9d9d5356-4085-4f50-8882-b9d4260bc222",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveRightArm",
+                    "type": "Button",
+                    "id": "26110d56-bce0-4de2-97a4-e1f9926c32b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveRightLeg",
+                    "type": "Button",
+                    "id": "a65d09cf-562b-40b1-9d55-07e562046e88",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -40,37 +58,39 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Sprint",
-                    "type": "Button",
-                    "id": "26110d56-bce0-4de2-97a4-e1f9926c32b2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Skill",
+                    "action": "MoveLeftArm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "b234b275-22c8-4fbb-9e42-e9480c4576e0",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Skill",
+                    "action": "MoveLeftArm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1105f9a9-0cc7-449b-9ba5-a26dd15f4f4d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveLeftArm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -208,45 +228,67 @@
                 },
                 {
                     "name": "",
-                    "id": "2f5b8d2b-75fd-4c50-9411-259ba8abaf67",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "41998381-8c60-4e79-a0b2-0bf50584e6c9",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "999c0e5f-238f-488d-b727-fd5b1271e879",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Jump",
+                    "action": "MoveLeftLeg",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "832f65c8-de1f-4df4-a4a3-fdbcb4dffcc6",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Jump",
+                    "action": "MoveLeftLeg",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f5b8d2b-75fd-4c50-9411-259ba8abaf67",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveRightArm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41998381-8c60-4e79-a0b2-0bf50584e6c9",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveRightArm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8cf1ecad-b843-42df-8e55-fa9716e683db",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveRightLeg",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59d8c4c0-ae3d-418e-8d66-717a34651708",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveRightLeg",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

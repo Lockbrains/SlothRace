@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public Vector2 leftStick = Vector2.zero;
     public Vector2 rightStick = Vector2.zero;
 
+    public bool leftHand, leftArm, rightHand, rightArm;
+
     //a complex component that facilitates the control of a character
     public CharacterController controller;
 
@@ -45,6 +47,10 @@ public class Player : MonoBehaviour
     public Game game;
 
     public Animator animator;
+
+
+    // Sloth Animation
+    public Animator slothAnimator;
 
     private void Start()
     {
@@ -72,20 +78,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //uncomment only one at the time! 
-
-        SingleStickMovement();
-
-        //FirstPersonMovement();
-
-        //TwinStickMovement();
-
-        //PlayerRelativeMovement();
-
-
+        SlothMovement();
 
         //basic example of controlling an animated character
-        if (animator != null && controller.velocity.magnitude > 0.1f)
+        /*if (animator != null && controller.velocity.magnitude > 0.1f)
         {
             if (controller.isGrounded)
             {
@@ -109,30 +105,12 @@ public class Player : MonoBehaviour
         {
             animator.speed = 1;
             animator.Play("Idle");
-        }
+        }*/
     }
 
-
-    //left stick determines the movement, character faces the direction
-    void SingleStickMovement()
+    void SlothMovement()
     {
         float targetSpeed = movementSpeed;
-
-        //change speed based on sprint input 
-        if (sprinting)
-        {
-            targetSpeed = sprintSpeed;
-        }
-
-        //factor gravity
-        verticalVelocity += gravity * Time.deltaTime;
-
-        if (controller.isGrounded && jumpedThisFrame)
-        {
-            //calculate the jump velocity based on the desired jump height
-            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
         //combining the left stick input and the vertical velocity
         //absolute coordinates movement: up means +z in the world, left means -x
         Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed);
@@ -140,140 +118,35 @@ public class Player : MonoBehaviour
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         controller.Move(movement * Time.deltaTime);
 
-        //absolute rotation: controller rotates in the direction of the stick
-        //Keep the rotation if the stick is not being moved 
-        //magnitude is the lenght of the vector, small magnitude = stick in the dead zone 
         if (leftStick.magnitude > 0.1f)
         {
-            Vector3 lookDirection = new Vector3(leftStick.x, 0, leftStick.y);
-            transform.rotation = Quaternion.LookRotation(lookDirection);
+            transform.Rotate(0, leftStick.x * Time.deltaTime * rotationSpeed, 0);
         }
 
-        //end of the frame reset the bool
-        jumpedThisFrame = false;
+        
+        if (leftStick.magnitude == 0f)
+        {
+            slothAnimator.speed = 0;
+        }
+        else
+        {
+            if(leftArm)
+            {
+                slothAnimator.speed = 1f;
+
+            } else
+            {
+                slothAnimator.speed = 0f;
+            }
+        }
+
+
     }
+  
 
-    //left stick controls thrust, right direction based on the player orientation, think vehicle control in 3d person
-    void PlayerRelativeMovement()
-    {
-        //factor gravity
-        verticalVelocity += gravity * Time.deltaTime;
-
-        if (controller.isGrounded && jumpedThisFrame)
-        {
-            //calculate the jump velocity based on the desired jump height
-            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        //incremental rotation: right stick horizontal increases the rotation 
-        transform.Rotate(0, rightStick.x * Time.deltaTime * rotationSpeed, 0);
-
-        Vector3 speed = new Vector3(0, verticalVelocity, leftStick.y * movementSpeed);
-
-        //relative movement: up means move in the direction the player is facing
-        speed = transform.rotation * speed;
-
-        controller.Move(speed * Time.deltaTime);
-
-        //end of the frame reset the bool
-        jumpedThisFrame = false;
-    }
+    
 
 
-
-
-    //left stick movement, right stick rotation, independent from each other. Think Robotron, Binding of Isaac, Overcooked 
-    void TwinStickMovement()
-    {
-        float targetSpeed = movementSpeed;
-
-        //change speed based on sprint input 
-        if (sprinting)
-        {
-            targetSpeed = sprintSpeed;
-        }
-
-        //factor gravity
-        verticalVelocity += gravity * Time.deltaTime;
-
-        if (controller.isGrounded && jumpedThisFrame)
-        {
-            //calculate the jump velocity based on the desired jump height
-            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        //combining the left stick input and the vertical velocity
-        //absolute coordinates movement: up means +z in the world, left means -x
-        Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed);
-
-        //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
-        controller.Move(movement * Time.deltaTime);
-
-        //absolute rotation: controller rotates in the direction of the stick
-        //Keep the rotation if the stick is not being moved 
-        //magnitude is the lenght of the vector, small magnitude = stick in the dead zone 
-        if (rightStick.magnitude > 0.1f)
-        {
-            Vector3 lookDirection = new Vector3(rightStick.x, 0, rightStick.y);
-            transform.rotation = Quaternion.LookRotation(lookDirection);
-        }
-
-        //end of the frame reset the bool
-        jumpedThisFrame = false;
-    }
-
-
-
-
-    //simple FPS style with jump and dash: left stick movement/strafe right stick rotation/look
-    void FirstPersonMovement()
-    {
-        //incremental rotation: right stick horizontal increases the rotation 
-        transform.Rotate(0, rightStick.x * Time.deltaTime * rotationSpeed, 0);
-
-        //looking up and down: multiply the look range by the stick position (-1 to 1)
-        float targetLookAngle = -rightStick.y * upDownRange;
-
-
-        if (playerInput.camera != null)
-        {
-            //smoothing the up down look so it's not to sudden
-            float smoothedLookAngle = Mathf.SmoothDampAngle(playerInput.camera.transform.localRotation.eulerAngles.x, targetLookAngle, ref lookVelocity, lookSmoothing);
-
-            //apply to x axis of the camera
-            playerInput.camera.transform.localRotation = Quaternion.Euler(smoothedLookAngle, 0, 0);
-        }
-
-        float targetSpeed = movementSpeed;
-
-
-        if (sprinting)
-        {
-            targetSpeed = sprintSpeed;
-        }
-
-
-        // Movement
-        float forwardSpeed = leftStick.y * targetSpeed;
-        float sideSpeed = leftStick.x * targetSpeed;
-
-        //gravity/jump
-        verticalVelocity += gravity * Time.deltaTime;
-
-        if (controller.isGrounded && jumpedThisFrame)
-        {
-            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity); ;
-        }
-
-        Vector3 speed = new Vector3(sideSpeed, verticalVelocity, forwardSpeed);
-
-        speed = transform.rotation * speed;
-
-        controller.Move(speed * Time.deltaTime);
-
-        //end of the frame reset the bool
-        jumpedThisFrame = false;
-    }
 
 
     //it's probably useful for this script to know what team this player belongs (if any)
@@ -308,8 +181,15 @@ public class Player : MonoBehaviour
     //this is a less proper naming but more intuitive if you are used to just check an axis
     void OnLeftStickMove(InputValue value)
     {
-        leftStick = value.Get<Vector2>();
+        //leftStick = value.Get<Vector2>();
     }
+
+    void OnMoveLeftArm(InputValue value)
+    {
+        //
+    }
+
+    
 
     void OnRightStickMove(InputValue value)
     {
