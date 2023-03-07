@@ -23,11 +23,12 @@ public class Player : MonoBehaviour
     [Tooltip("The angle the player can look up and down")]
     public float upDownRange = 60.0f;
 
+    public bool isMovingLeft;
     //the analog values read from the controller
     public Vector2 leftStick = Vector2.zero;
     public Vector2 rightStick = Vector2.zero;
 
-    public bool leftHand, leftArm, rightHand, rightArm;
+    public bool leftLeg, leftArm, rightLeg, rightArm;
 
     //a complex component that facilitates the control of a character
     public CharacterController controller;
@@ -37,7 +38,7 @@ public class Player : MonoBehaviour
     public float animationSpeed = 1;
     public float animationSprintSpeed = 2;
 
-    private bool sprinting = false;
+    // private bool sprinting = false;
     private bool jumpedThisFrame = false;
     private float verticalVelocity = 0;
     //for FPS camera controls
@@ -45,10 +46,7 @@ public class Player : MonoBehaviour
     private float lookSmoothing = 0.3f;
 
     public Game game;
-
-    public Animator animator;
-
-
+    
     // Sloth Animation
     public Animator slothAnimator;
 
@@ -58,12 +56,7 @@ public class Player : MonoBehaviour
 
         //find the "brain" and notify it of the new player
         game = FindObjectOfType<Game>();
-
-
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+        
 
         if (playerInput == null)
             playerInput = GetComponent<PlayerInput>();
@@ -79,76 +72,63 @@ public class Player : MonoBehaviour
     void Update()
     {
         SlothMovement();
-
-        //basic example of controlling an animated character
-        /*if (animator != null && controller.velocity.magnitude > 0.1f)
+        if (isMovingLeft)
         {
-            if (controller.isGrounded)
-            {
-                //change the playing speed based on 
-                if (sprinting)
-                    animator.speed = animationSprintSpeed;
-                else
-                    animator.speed = animationSpeed;
-
-                animator.Play("Walk");
-            }
-            else
-            {
-                //if jumping freeze the walking animation at time 0
-                //I didn't have time to make a jumping animation
-                animator.Play("Walk", 0, 0);
-                animator.speed = 0;
-            }
+            slothAnimator.SetBool("MoveLeft", true);
         }
         else
         {
-            animator.speed = 1;
-            animator.Play("Idle");
-        }*/
+            slothAnimator.SetBool("MoveLeft", false);
+        }
     }
 
     void SlothMovement()
     {
         float targetSpeed = movementSpeed;
-        //combining the left stick input and the vertical velocity
-        //absolute coordinates movement: up means +z in the world, left means -x
-        Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed);
+        Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed) * slothAnimator.speed;
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         controller.Move(movement * Time.deltaTime);
-
+        
+        // use the left joystick to control the direction
         if (leftStick.magnitude > 0.1f)
         {
-            transform.Rotate(0, leftStick.x * Time.deltaTime * rotationSpeed, 0);
+            transform.Rotate(0, leftStick.x * Time.deltaTime * rotationSpeed, 0) ;
         }
-
         
-        if (leftStick.magnitude == 0f)
-        {
-            slothAnimator.speed = 0;
-        }
+        // if the left joystick is at its original position, stop the animation
+        if (leftStick.magnitude == 0f) slothAnimator.speed = 0;
         else
         {
-            if(leftArm)
+            // left joystick moving, the player tries to move
+            if (isMovingLeft)
             {
-                slothAnimator.speed = 1f;
-
-            } else
-            {
-                slothAnimator.speed = 0f;
+                if (leftArm && rightLeg)
+                {
+                    slothAnimator.speed = 1;
+                }
+                else
+                {
+                    slothAnimator.speed = 0;
+                }
             }
+            else
+            {
+                if (leftLeg && rightArm)
+                {
+                    slothAnimator.speed = 1;
+                }
+                else
+                {
+                    slothAnimator.speed = 0;
+                }
+            }
+            
         }
 
 
     }
-  
-
     
-
-
-
-
     //it's probably useful for this script to know what team this player belongs (if any)
     //in this case it's only used to change the color of the placeholder graphics
     public void ChangeColor(Color c)
@@ -169,51 +149,47 @@ public class Player : MonoBehaviour
 
     /*
      * Every time an Input Action fires, the Player Input Component will trigger functions 
-     * on the same game object that match the name of that Action, prefixed with “On”.
+     * on the same game object that match the name of that Action, prefixed with n
      */
 
-    //this is the proper way to name an input, after the action so it can be remapped for different devices
-    public void OnKick()
-    {
-        print("Kick action");
-    }
+    // this is the proper way to name an input, after the action so it can be remapped for different devices
 
     //this is a less proper naming but more intuitive if you are used to just check an axis
-    void OnLeftStickMove(InputValue value)
+    public void OnLeftStickMove(InputAction.CallbackContext context)
     {
-        //leftStick = value.Get<Vector2>();
+        leftStick = context.ReadValue<Vector2>();
     }
 
-    void OnMoveLeftArm(InputValue value)
+    public void OnRightStickMove(InputAction.CallbackContext context)
     {
-        //
+        rightStick = context.ReadValue<Vector2>();
     }
 
+    public void OnMoveLeftArm(InputAction.CallbackContext context)
+    {
+        if (context.started) leftArm = true;
+        if (context.canceled) leftArm = false;
+    }
+
+    public void OnMoveRightLeg(InputAction.CallbackContext context)
+    {
+        if (context.started) rightLeg = true;
+        if (context.canceled) rightLeg = false;
+    }
     
-
-    void OnRightStickMove(InputValue value)
+    public void OnMoveLeftLeg(InputAction.CallbackContext context)
     {
-        rightStick = value.Get<Vector2>();
+        if (context.started) leftLeg = true;
+        if (context.canceled) leftLeg = false;
     }
 
-
-    //button action called with value 
-    //check the control scheme to see the configuration needed to detect press and release
-    public void OnSprint(InputValue value)
+    public void OnMoveRightArm(InputAction.CallbackContext context)
     {
-        //horrible but that's one of the many ways to do it
-        if (value.Get<float>() >= 0.5f)
-        {
-            print("sprint pressed");
-            sprinting = true;
-        }
-        else
-        {
-            print("sprint released");
-            sprinting = false;
-        }
+        if (context.started) rightArm = true;
+        if (context.canceled) rightArm = false;
     }
-
+    
+    
 
     //just another way to use an input setting a temporary boolean 
     //that I can use in the update and that gets reset at the end of it
