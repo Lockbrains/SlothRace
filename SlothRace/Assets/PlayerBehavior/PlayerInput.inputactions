@@ -36,17 +36,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "34484007-b747-4c20-9961-3376944930d3",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "05e7e9c2-8f17-42b8-ac22-300533f5f1eb",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",

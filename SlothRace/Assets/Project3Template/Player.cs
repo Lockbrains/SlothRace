@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [Header("Input Data")]
+    [SerializeField] private int playerID;
+    
+    [Header("Player Properties")]
     [Tooltip("Normal speed")]
     public float movementSpeed = 10;
 
@@ -39,34 +44,30 @@ public class Player : MonoBehaviour
     public float animationSprintSpeed = 2;
 
     // private bool sprinting = false;
-    private bool jumpedThisFrame = false;
     private float verticalVelocity = 0;
-    //for FPS camera controls
-    private float lookVelocity = 0.0f;
-    private float lookSmoothing = 0.3f;
 
-    public Game game;
-    
+
+
     // Sloth Animation
     public Animator slothAnimator;
+
+    private void Awake()
+    {
+       
+    }
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
 
-        //find the "brain" and notify it of the new player
-        game = FindObjectOfType<Game>();
-        
-
         if (playerInput == null)
-            playerInput = GetComponent<PlayerInput>();
-
-
-        if (game != null)
         {
-            //pass a reference to this script
-            game.PlayerJoined(this);
+            playerInput = GetComponent<PlayerInput>();
         }
+        
+        playerID = playerInput.playerIndex;
+        if (playerID == 0) GameManager.S.player1 = this.gameObject;
+        else GameManager.S.player2 = this.gameObject;
     }
 
     void Update()
@@ -129,23 +130,6 @@ public class Player : MonoBehaviour
 
     }
     
-    //it's probably useful for this script to know what team this player belongs (if any)
-    //in this case it's only used to change the color of the placeholder graphics
-    public void ChangeColor(Color c)
-    {
-        //this depends on the player model, quick & dirty solution: get all the renderers 
-        //and change the color of their first material
-        SkinnedMeshRenderer[] smr = GetComponentsInChildren<SkinnedMeshRenderer>();
-
-        foreach (SkinnedMeshRenderer s in smr)
-            s.material.color = c;
-
-        Renderer[] mr = GetComponentsInChildren<Renderer>();
-
-        foreach (Renderer r in mr)
-            r.material.color = c;
-
-    }
 
     /*
      * Every time an Input Action fires, the Player Input Component will trigger functions 
@@ -158,6 +142,8 @@ public class Player : MonoBehaviour
     public void OnLeftStickMove(InputAction.CallbackContext context)
     {
         leftStick = context.ReadValue<Vector2>();
+        if (playerID == 0) GameManager.S.player1Started = true;
+        else GameManager.S.player2Started = true;
     }
 
     public void OnRightStickMove(InputAction.CallbackContext context)
@@ -189,14 +175,5 @@ public class Player : MonoBehaviour
         if (context.canceled) rightArm = false;
     }
     
-    
-
-    //just another way to use an input setting a temporary boolean 
-    //that I can use in the update and that gets reset at the end of it
-    public void OnJump()
-    {
-        jumpedThisFrame = true;
-    }
-
 
 }

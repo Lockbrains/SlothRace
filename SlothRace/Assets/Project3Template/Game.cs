@@ -62,17 +62,6 @@ public class Game : MonoBehaviour
         //give it a unique name
         p.gameObject.name = "Player" + (players.Count).ToString();
 
-
-        //assign a team
-        if (players.Count <= 2)
-        {
-            p.ChangeColor(A_COLOR);
-        }
-        else
-        {
-            p.ChangeColor(B_COLOR);
-        }
-
         print("Player " + p.gameObject.name + " joined the game");
 
         //note: I'm not managing the controller disconnection so things can get messy if
