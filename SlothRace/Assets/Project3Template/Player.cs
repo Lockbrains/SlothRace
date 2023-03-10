@@ -66,8 +66,18 @@ public class Player : MonoBehaviour
         }
         
         playerID = playerInput.playerIndex;
-        if (playerID == 0) GameManager.S.player1 = this.gameObject;
-        else GameManager.S.player2 = this.gameObject;
+        if (playerID == 0)
+        {
+            GameManager.S.player1 = this.gameObject;
+            GUIManager.S.player1Anim = slothAnimator;
+        }
+        else
+        {
+            GameManager.S.player2 = this.gameObject;
+            GUIManager.S.player2Anim = slothAnimator;
+        }
+        
+        
     }
 
     void Update()
@@ -81,12 +91,22 @@ public class Player : MonoBehaviour
         {
             slothAnimator.SetBool("MoveLeft", false);
         }
+
+        if (playerID == 0)
+        {
+            GUIManager.S.isMovingLeft1 = isMovingLeft;
+        }
+        else
+        {
+            GUIManager.S.isMovingLeft2 = isMovingLeft;
+        }
     }
 
     void SlothMovement()
     {
         float targetSpeed = movementSpeed;
         Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed) * slothAnimator.speed;
+        Debug.Log(movement.magnitude);
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         controller.Move(movement * Time.deltaTime);
@@ -104,6 +124,7 @@ public class Player : MonoBehaviour
             // left joystick moving, the player tries to move
             if (isMovingLeft)
             {
+                GUIManager.S.EnableLeft(playerID);
                 if (leftArm && rightLeg)
                 {
                     slothAnimator.speed = 1;
@@ -115,6 +136,7 @@ public class Player : MonoBehaviour
             }
             else
             {
+                GUIManager.S.DisableLeft(playerID);
                 if (leftLeg && rightArm)
                 {
                     slothAnimator.speed = 1;
@@ -153,26 +175,62 @@ public class Player : MonoBehaviour
 
     public void OnMoveLeftArm(InputAction.CallbackContext context)
     {
-        if (context.started) leftArm = true;
-        if (context.canceled) leftArm = false;
+        if (context.started)
+        {
+            leftArm = true;
+        }
+
+        if (context.canceled)
+        {
+            leftArm = false;
+        }
+        
+        GUIManager.S.ChangeLeftArmColor(isMovingLeft, leftArm, playerID);
     }
 
     public void OnMoveRightLeg(InputAction.CallbackContext context)
     {
-        if (context.started) rightLeg = true;
-        if (context.canceled) rightLeg = false;
+        if (context.started)
+        {
+            rightLeg = true;
+        }
+
+        if (context.canceled)
+        {
+            rightLeg = false;
+        }
+        GUIManager.S.ChangeRightLegColor(isMovingLeft, rightLeg, playerID);
     }
     
     public void OnMoveLeftLeg(InputAction.CallbackContext context)
     {
-        if (context.started) leftLeg = true;
-        if (context.canceled) leftLeg = false;
+        if (context.started)
+        {
+            leftLeg = true;
+        }
+
+        if (context.canceled)
+        {
+            leftLeg = false;
+        }
+        GUIManager.S.ChangeLeftLegColor(!isMovingLeft, leftLeg, playerID);
+
     }
 
     public void OnMoveRightArm(InputAction.CallbackContext context)
     {
-        if (context.started) rightArm = true;
-        if (context.canceled) rightArm = false;
+        if (context.started)
+        {
+            rightArm = true;
+        }
+
+        if (context.canceled)
+        {
+            rightArm = false;
+        }
+        
+        GUIManager.S.ChangeRightArmColor(!isMovingLeft, rightArm, playerID);
+
     }
     
 
