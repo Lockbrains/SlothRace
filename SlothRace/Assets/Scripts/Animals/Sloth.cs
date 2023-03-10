@@ -5,6 +5,7 @@ using UnityEngine;
 public class Sloth : MonoBehaviour
 {
     public bool isMovingLeft;
+    public bool isAttacking;
 
     [SerializeField] private Player _player;
     

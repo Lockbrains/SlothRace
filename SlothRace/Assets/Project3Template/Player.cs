@@ -6,50 +6,32 @@ public class Player : MonoBehaviour
 {
     [Header("Input Data")]
     [SerializeField] private int playerID;
-    
-    [Header("Player Properties")]
-    [Tooltip("Normal speed")]
+    [SerializeField] private Sloth _sloth;
+
+    [Header("Player Properties")] 
     public float movementSpeed = 10;
-
-    [Tooltip("Rotation speed if not instant")]
     public float rotationSpeed = 100;
-
-    [Tooltip("Sprint speed")]
-    public float sprintSpeed = 10.0f;
-
-    [Tooltip("Look/rotation sensitivity for first person movement")]
-    public float lookSensitivity = 5.0f;
-
-    [Tooltip("The height the player can jump")]
-    public float jumpHeight = 1.2f;
-    [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-    public float gravity = -15.0f;
-
-    [Tooltip("The angle the player can look up and down")]
-    public float upDownRange = 60.0f;
-
+  
+    [Header("Player Status")]
     public bool isMovingLeft;
-    //the analog values read from the controller
-    public Vector2 leftStick = Vector2.zero;
-    public Vector2 rightStick = Vector2.zero;
-
     public bool leftLeg, leftArm, rightLeg, rightArm;
 
+    //the analog values read from the controller
+    
+    [Header("Analog Value")]
+    public Vector2 leftStick = Vector2.zero;
+    public Vector2 rightStick = Vector2.zero;
+    
+    [Header("Controllers and Animation")]
     //a complex component that facilitates the control of a character
     public CharacterController controller;
-
-    public PlayerInput playerInput;
-
-    public float animationSpeed = 1;
-    public float animationSprintSpeed = 2;
-
-    // private bool sprinting = false;
-    private float verticalVelocity = 0;
-
-
-
     // Sloth Animation
     public Animator slothAnimator;
+    
+    public PlayerInput playerInput;
+    
+    // private bool sprinting = false;
+    private float verticalVelocity = 0;
 
     private void Awake()
     {
@@ -82,16 +64,20 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        SlothMovement();
-        if (isMovingLeft)
-        {
-            slothAnimator.SetBool("MoveLeft", true);
-        }
-        else
-        {
-            slothAnimator.SetBool("MoveLeft", false);
-        }
+        if (!_sloth.isAttacking) SlothMovement();
+        else SlothAttack();
+        SetAnimation();
+        SetPlayerStatusInHUD();
+    }
 
+    private void SetAnimation()
+    {
+        slothAnimator.SetBool("MoveLeft", isMovingLeft);
+        slothAnimator.SetBool("Attacking", _sloth.isAttacking);
+    }
+
+    private void SetPlayerStatusInHUD()
+    {
         if (playerID == 0)
         {
             GUIManager.S.isMovingLeft1 = isMovingLeft;
@@ -102,11 +88,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    void SlothAttack()
+    {
+        slothAnimator.speed = 1;
+    }
+    
     void SlothMovement()
     {
         float targetSpeed = movementSpeed;
         Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed) * slothAnimator.speed;
-        Debug.Log(movement.magnitude);
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         controller.Move(movement * Time.deltaTime);
@@ -231,6 +221,14 @@ public class Player : MonoBehaviour
         
         GUIManager.S.ChangeRightArmColor(!isMovingLeft, rightArm, playerID);
 
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            _sloth.isAttacking = true;
+        }
     }
     
 
