@@ -248,4 +248,9 @@ public class Player : MonoBehaviour
         }
         
     }
+
+    public void ResetPosition()
+    {
+        GameManager.S.SendPlayerToOrigin(playerID);
+    }
 }

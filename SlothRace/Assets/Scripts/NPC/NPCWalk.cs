@@ -29,4 +29,9 @@ public class NPCWalk : MonoBehaviour
             walkDirection *= -1;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+      
+    }
 }
