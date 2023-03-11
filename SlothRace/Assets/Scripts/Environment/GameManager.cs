@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 player2SpawnPoint;
 
     public int playerNum;
+    public bool gameStarted;
     
     private void Awake()
     {
@@ -48,6 +49,18 @@ public class GameManager : MonoBehaviour
             {
                 player2.transform.position = player2SpawnPoint;
             }
+        }
+    }
+
+    public void SendPlayerToOrigin(int playerID)
+    {
+        if (playerID == 0)
+        {
+            player1.transform.position = player1SpawnPoint;
+        }
+        else
+        {
+            player2.transform.position = player2SpawnPoint;
         }
     }
     
