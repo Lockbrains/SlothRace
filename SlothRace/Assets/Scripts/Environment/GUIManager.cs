@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,22 +8,29 @@ public class GUIManager : MonoBehaviour
 {
 
     public static GUIManager S;
+
+    [Header("UI GameObjects")] 
+    public GameObject img_titleScreen;
+    public GameObject img_waitingForPlayer2;
     
     [Header("Player 1 HUD")] 
-    public Text titlePlayer1Left;
-    public Text titlePlayer1Right;
-    public Text leftArm1, rightLeg1, rightArm1, leftLeg1;
+    public GameObject player1HUD;
+    public Image titlePlayer1Left;
+    public Image titlePlayer1Right;
+    public Image leftArm1, rightLeg1, rightArm1, leftLeg1;
     public Scrollbar leftScrollbar1, rightScrollbar1;
 
     [Header("Player 2 HUD")] 
-    public Text titlePlayer2Left;
-    public Text titlePlayer2Right;
-    public Text leftArm2, rightLeg2, rightArm2, leftLeg2;
+    public GameObject player2HUD;
+    public Image titlePlayer2Left;
+    public Image titlePlayer2Right;
+    public Image leftArm2, rightLeg2, rightArm2, leftLeg2;
     public Scrollbar leftScrollbar2, rightScrollbar2;
     
     [Header("UI Setting")] 
     [SerializeField] private Color enableColor;
     [SerializeField] private Color disableColor;
+    [SerializeField] private Color limbDisableColor;
     [SerializeField] private Color activeColor;
 
     [HideInInspector] public Animator player1Anim;
@@ -42,24 +50,29 @@ public class GUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DisableHUD();
         DisableLeft(0);
         DisableLeft(1);
         InitialColorAdjustment();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        CheckPlayerNum();
+        float TOLERANCE = 0.0001f;
         if (player1Anim != null)
         {
             if (isMovingLeft1)
             {
-                leftScrollbar1.size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                float size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                leftScrollbar1.size = size;
                 rightScrollbar1.size = 0;
             }
             else
             {
-                rightScrollbar1.size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                float size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                rightScrollbar1.size = size;
                 leftScrollbar1.size = 0;
             }
         }
@@ -68,27 +81,60 @@ public class GUIManager : MonoBehaviour
         {
             if (isMovingLeft2)
             {
-                leftScrollbar2.size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                float size = player2Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                leftScrollbar2.size = size;
                 rightScrollbar2.size = 0;
             }
             else
             {
-                rightScrollbar2.size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                float size = player2Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                rightScrollbar2.size = size;
                 leftScrollbar2.size = 0;
             }
         }
+
+        if (Mathf.Abs(leftScrollbar1.size - 1) < TOLERANCE) leftScrollbar1.size = 0;
+        if (Mathf.Abs(leftScrollbar2.size - 1) < TOLERANCE) leftScrollbar2.size = 0;
+        if (Mathf.Abs(rightScrollbar1.size - 1) < TOLERANCE) rightScrollbar1.size = 0;
+        if (Mathf.Abs(rightScrollbar2.size - 1) < TOLERANCE) rightScrollbar2.size = 0;
     }
 
+    void CheckPlayerNum()
+    {
+        if (GameManager.S.playerNum == 0)
+        {
+            img_titleScreen.SetActive(true);
+            img_waitingForPlayer2.SetActive(false);
+            DisableHUD();
+        } else if (GameManager.S.playerNum == 1)
+        {
+            img_titleScreen.SetActive(false);
+            img_waitingForPlayer2.SetActive(true);
+            DisableHUD();
+        }
+        else
+        {
+            img_titleScreen.SetActive(false);
+            img_waitingForPlayer2.SetActive(false);
+            player1HUD.SetActive(true);
+            player2HUD.SetActive(true);
+        }
+    }
+    void DisableHUD()
+    {
+        player1HUD.SetActive(false);
+        player2HUD.SetActive(false);
+    }
     void InitialColorAdjustment()
     {
-        leftArm1.color = disableColor;
+        leftArm1.color = limbDisableColor;
         rightArm1.color = enableColor;
         leftLeg1.color = enableColor;
-        rightLeg1.color = disableColor;
-        leftArm2.color = disableColor;
+        rightLeg1.color = limbDisableColor;
+        leftArm2.color = limbDisableColor;
         rightArm2.color = enableColor;
         leftLeg2.color = enableColor;
-        rightLeg2.color = disableColor;
+        rightLeg2.color = limbDisableColor;
     }
     public void EnableLeft(int playerIndex)
     {
@@ -96,15 +142,25 @@ public class GUIManager : MonoBehaviour
         {
             titlePlayer1Left.color = enableColor;
             titlePlayer1Right.color = disableColor;
-            rightScrollbar1.enabled = false;
-            leftScrollbar1.enabled = true;
+            rightScrollbar1.gameObject.SetActive(false);
+            leftScrollbar1.gameObject.SetActive(true);
+            leftArm1.gameObject.SetActive(true);
+            rightLeg1.gameObject.SetActive(true);
+            leftLeg1.gameObject.SetActive(false);
+            rightArm1.gameObject.SetActive(false);
+            leftScrollbar1.size = 0;
         }
         else
         {
             titlePlayer2Left.color = enableColor;
             titlePlayer2Right.color = disableColor;
-            rightScrollbar2.enabled = false;
-            leftScrollbar2.enabled = true;
+            rightScrollbar2.gameObject.SetActive(false);
+            leftScrollbar2.gameObject.SetActive(true);
+            leftArm2.gameObject.SetActive(true);
+            rightLeg2.gameObject.SetActive(true);
+            leftLeg2.gameObject.SetActive(false);
+            rightArm2.gameObject.SetActive(false);
+            leftScrollbar2.size = 0;
         }
     }
 
@@ -114,15 +170,25 @@ public class GUIManager : MonoBehaviour
         {
             titlePlayer1Left.color = disableColor;
             titlePlayer1Right.color = enableColor;
-            rightScrollbar1.enabled = true;
-            leftScrollbar1.enabled = false;
+            rightScrollbar1.gameObject.SetActive(true);
+            leftScrollbar1.gameObject.SetActive(false);
+            leftArm1.gameObject.SetActive(false);
+            rightLeg1.gameObject.SetActive(false);
+            leftLeg1.gameObject.SetActive(true);
+            rightArm1.gameObject.SetActive(true);
+            rightScrollbar1.size = 0;
         }
         else
         {
             titlePlayer2Left.color = disableColor;
             titlePlayer2Right.color = enableColor;
-            rightScrollbar2.enabled = true;
-            leftScrollbar2.enabled = false;
+            rightScrollbar2.gameObject.SetActive(true);
+            leftScrollbar2.gameObject.SetActive(false);
+            leftArm2.gameObject.SetActive(false);
+            rightLeg2.gameObject.SetActive(false);
+            leftLeg2.gameObject.SetActive(true);
+            rightArm2.gameObject.SetActive(true);
+            rightScrollbar2.size = 0;
         }
     }
 
@@ -143,11 +209,11 @@ public class GUIManager : MonoBehaviour
         {
             if (playerID == 0)
             {
-                leftArm1.color = disableColor;
+                leftArm1.color = limbDisableColor;
             }
             else
             {
-                leftArm2.color = disableColor;
+                leftArm2.color = limbDisableColor;
             }
         }
     }
@@ -169,11 +235,11 @@ public class GUIManager : MonoBehaviour
         {
             if (playerID == 0)
             {
-                rightArm1.color = disableColor;
+                rightArm1.color = limbDisableColor;
             }
             else
             {
-                rightArm2.color = disableColor;
+                rightArm2.color = limbDisableColor;
             }
         }
     }
@@ -194,11 +260,11 @@ public class GUIManager : MonoBehaviour
         {
             if (playerID == 0)
             {
-                leftLeg1.color = disableColor;
+                leftLeg1.color = limbDisableColor;
             }
             else
             {
-                leftLeg2.color = disableColor;
+                leftLeg2.color = limbDisableColor;
             }
         }
     }
@@ -219,11 +285,11 @@ public class GUIManager : MonoBehaviour
         {
             if (playerID == 0)
             {
-                rightLeg1.color = disableColor;
+                rightLeg1.color = limbDisableColor;
             }
             else
             {
-                rightLeg2.color = disableColor;
+                rightLeg2.color = limbDisableColor;
             }
         }
     }

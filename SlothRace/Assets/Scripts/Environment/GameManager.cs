@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     // Singleton pattern
     public static GameManager S;
     
-    
     // public variables
     public GameObject player1;
     public GameObject player2;
@@ -20,6 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 player1SpawnPoint;
     [SerializeField] private Vector3 player2SpawnPoint;
 
+    public int playerNum;
+    
     private void Awake()
     {
         if (S)

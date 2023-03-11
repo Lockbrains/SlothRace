@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
             GameManager.S.player2 = this.gameObject;
             GUIManager.S.player2Anim = slothAnimator;
         }
-        
-        
+
+        GameManager.S.playerNum++;
     }
 
     void Update()
@@ -169,6 +169,7 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             leftArm = true;
+            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
@@ -184,6 +185,7 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             rightLeg = true;
+            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
@@ -198,6 +200,7 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             leftLeg = true;
+            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
@@ -213,6 +216,7 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             rightArm = true;
+            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
