@@ -13,5 +13,6 @@ public class Sloth : MonoBehaviour
     void Update()
     {
         _player.isMovingLeft = isMovingLeft;
+        _player.isAttacking = isAttacking;
     }
 }

@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
   
     [Header("Player Status")]
     public bool isMovingLeft;
+    public bool isAttacking;
     public bool leftLeg, leftArm, rightLeg, rightArm;
 
     //the analog values read from the controller
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
     private void SetAnimation()
     {
         slothAnimator.SetBool("MoveLeft", isMovingLeft);
-        slothAnimator.SetBool("Attacking", _sloth.isAttacking);
+        slothAnimator.SetBool("Attacking", isAttacking);
     }
 
     private void SetPlayerStatusInHUD()
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
             GUIManager.S.isMovingLeft2 = isMovingLeft;
         }
     }
-
+    
     void SlothAttack()
     {
         slothAnimator.speed = 1;
@@ -227,7 +228,7 @@ public class Player : MonoBehaviour
     {
         if (context.started)
         {
-            _sloth.isAttacking = true;
+            isAttacking = true;
         }
     }
     
