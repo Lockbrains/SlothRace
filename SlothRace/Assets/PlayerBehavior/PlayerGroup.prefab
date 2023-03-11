@@ -173,7 +173,7 @@ MonoBehaviour:
     m_ActionId: 69dbfa53-4c9d-45d3-a6cb-0a2e1f1697b6
     m_ActionName: Player/Attack[/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
