@@ -32,6 +32,14 @@ public class NPCWalk : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-      
+        if(collision.transform.tag == "Player")
+        {
+            Debug.Log("Collided!");
+            Vector3 originPos = transform.position;
+            Vector3 destPos = collision.transform.position;
+            Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
+            collision.gameObject.GetComponent<HipCamera>().TurnOnCamera();
+            rigidbody.AddForce(25000 * (destPos-originPos).normalized);
+        }
     }
 }

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [Header("Input Data")]
     [SerializeField] private int playerID;
     [SerializeField] private Sloth _sloth;
+    [SerializeField] private GameObject _physicalSloth;
 
     [Header("Player Properties")] 
     public float movementSpeed = 10;
