@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
         curPos += movement * Time.deltaTime;
         transform.position = curPos;
         
-        Debug.Log(leftStick);
+        // Debug.Log(leftStick);
         // if the left joystick is at its original position, stop the animation
         if (leftStick.magnitude == 0f) slothAnimator.speed = 0;
         else
