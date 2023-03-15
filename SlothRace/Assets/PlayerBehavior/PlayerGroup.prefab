@@ -415,6 +415,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 69dbfa53-4c9d-45d3-a6cb-0a2e1f1697b6
     m_ActionName: Player/Attack[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2347120692595698283}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnRestart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 68eda65d-0513-438d-a091-221c4c7c469c
+    m_ActionName: Player/Restart[/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -3218,6 +3234,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &4464813438006463868
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3283475770544279924}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.22295357, y: 0.5654184, z: 0.13086689}
+  m_Center: {x: 0.004470358, y: 0.31631872, z: -0.012660459}
 --- !u!136 &8491403225314845545
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3355,19 +3384,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLimb: {fileID: 4588790857039645537}
   m_ConfigurableJoint: {fileID: 0}
---- !u!65 &4464813438006463868
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3283475770544279924}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.22295357, y: 0.5654184, z: 0.13086689}
-  m_Center: {x: 0.004470358, y: 0.31631872, z: -0.012660459}
 --- !u!1 &3329780426748019620 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -552831747908440785, guid: 3b672cd7ddecc7c4081d22ed2d87421f, type: 3}

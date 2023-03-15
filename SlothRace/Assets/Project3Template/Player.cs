@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -73,6 +74,11 @@ public class Player : MonoBehaviour
         }
         SetAnimation();
         SetPlayerStatusInHUD();
+    }
+
+    public int GetPlayerID()
+    {
+        return playerID;
     }
 
     private void SetAnimation()
@@ -241,6 +247,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        if(GameManager.S.gameState == GameManager.State.Restart)
+        {
+            SceneManager.LoadScene("FirstLevel");
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Car"))
@@ -255,4 +269,5 @@ public class Player : MonoBehaviour
     {
         GameManager.S.SendPlayerToOrigin(playerID);
     }
+
 }

@@ -46,6 +46,10 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private GameObject one_label;
     [SerializeField] private GameObject go_label;
     private bool hasStartedReverseCount;
+
+    [Header("Game Over")]
+    [SerializeField] private GameObject player1Wins;
+    [SerializeField] private GameObject player2Wins;
     
     private void Awake()
     {
@@ -148,6 +152,22 @@ public class GUIManager : MonoBehaviour
         reverseCount.SetActive(false);
     }
     
+    public void PlayerWins(int playerID)
+    {
+        if (playerID == 1)
+        {
+            DisableHUD();
+            player1Wins.SetActive(true);
+            player2Wins.SetActive(false);
+        }
+        else
+        {
+            DisableHUD();
+            player1Wins.SetActive(false);
+            player2Wins.SetActive(true);
+        }
+    } 
+
     private IEnumerator ReverseCount()
     {
         GameManager.S.gameState = GameManager.State.ReverseCount;
