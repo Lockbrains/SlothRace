@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
@@ -38,6 +39,19 @@ public class NPCWalk : MonoBehaviour
             Vector3 destPos = collision.transform.position;
             Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
             rigidbody.AddForce(25000 * (destPos-originPos).normalized);
+            Player player = collision.gameObject.GetComponent<HipCamera>().player;
+            RespawnPlayer(player);
         }
+    }
+
+    private void RespawnPlayer(Player gamePlayer)
+    {
+        StartCoroutine(WaitToRespawn(gamePlayer));
+    }
+
+    private IEnumerator WaitToRespawn(Player player)
+    {
+        yield return new WaitForSeconds(4.0f);
+        player.ResetPosition();
     }
 }
