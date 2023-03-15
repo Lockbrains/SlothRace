@@ -234,6 +234,11 @@ public class Player : MonoBehaviour
         {
             isAttacking = true;
         }
+        
+        if (context.canceled)
+        {
+            isAttacking = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
