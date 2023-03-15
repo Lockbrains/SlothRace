@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.30133346, g: 0.5402307, b: 0.8073409, a: 1}
+  m_IndirectSpecularColor: {r: 0.30156225, g: 0.5406549, b: 0.8076706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -930,7 +930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 2.5
+  walkingSpeed: 5
   directionNormalized: {x: 0, y: 0, z: -1}
 --- !u!136 &208604986
 CapsuleCollider:
@@ -2710,7 +2710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 3.5
+  walkingSpeed: 7
   directionNormalized: {x: 0, y: 0, z: -1}
 --- !u!136 &600806353
 CapsuleCollider:
@@ -3546,7 +3546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 1.2
+  walkingSpeed: 3.6
   directionNormalized: {x: 0, y: 0, z: 1}
 --- !u!1 &849030722
 GameObject:
@@ -5502,7 +5502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 0.8
+  walkingSpeed: 3.2
   directionNormalized: {x: 0, y: 0, z: -1}
 --- !u!136 &1408380422
 CapsuleCollider:
@@ -7061,7 +7061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 1.5
+  walkingSpeed: 4.5
   directionNormalized: {x: 0, y: 0, z: 1}
 --- !u!136 &1706126940
 CapsuleCollider:
@@ -7673,7 +7673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 1
+  walkingSpeed: 3
   directionNormalized: {x: 0, y: 0, z: 1}
 --- !u!136 &1773279951
 CapsuleCollider:
@@ -7903,7 +7903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 1.2
+  walkingSpeed: 3.6
   directionNormalized: {x: 0, y: 0, z: -1}
 --- !u!136 &1837927560
 CapsuleCollider:
