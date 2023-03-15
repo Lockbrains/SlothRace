@@ -7,7 +7,11 @@ public class GameManager : MonoBehaviour
 {
     // Singleton pattern
     public static GameManager S;
-    
+
+    public enum State
+    {
+        TitleScreen, PlayerJoin, ReverseCount, GameStart, Restart
+    }
     // public variables
     public GameObject player1;
     public GameObject player2;
@@ -20,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 player2SpawnPoint;
 
     public int playerNum;
-    public bool gameStarted;
+    public State gameState;
     
     private void Awake()
     {

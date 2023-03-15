@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,6 +38,15 @@ public class GUIManager : MonoBehaviour
     [HideInInspector] public Animator player2Anim;
 
     [HideInInspector] public bool isMovingLeft1, isMovingLeft2;
+
+    [Header("Reverse Count")] 
+    [SerializeField] private GameObject reverseCount;
+    [SerializeField] private GameObject three_label;
+    [SerializeField] private GameObject two_label;
+    [SerializeField] private GameObject one_label;
+    [SerializeField] private GameObject go_label;
+    private bool hasStartedReverseCount;
+    
     private void Awake()
     {
         if (S)
@@ -50,7 +60,9 @@ public class GUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hasStartedReverseCount = false;
         DisableHUD();
+        DisableReverseCount();
         DisableLeft(0);
         DisableLeft(1);
         InitialColorAdjustment();
@@ -99,31 +111,65 @@ public class GUIManager : MonoBehaviour
         if (Mathf.Abs(rightScrollbar2.size - 1) < TOLERANCE) rightScrollbar2.size = 0;
     }
 
-    void CheckPlayerNum()
+        
+    private void CheckPlayerNum()
     {
         if (GameManager.S.playerNum == 0)
         {
+            GameManager.S.gameState = GameManager.State.TitleScreen;
             img_titleScreen.SetActive(true);
             img_waitingForPlayer2.SetActive(false);
             DisableHUD();
         } else if (GameManager.S.playerNum == 1)
         {
+            GameManager.S.gameState = GameManager.State.PlayerJoin;
             img_titleScreen.SetActive(false);
             img_waitingForPlayer2.SetActive(true);
             DisableHUD();
         }
-        else
+        else 
         {
-            img_titleScreen.SetActive(false);
             img_waitingForPlayer2.SetActive(false);
-            player1HUD.SetActive(true);
-            player2HUD.SetActive(true);
+            if (!hasStartedReverseCount)
+            {
+                hasStartedReverseCount = true;
+                StartCoroutine(ReverseCount());
+            }
         }
     }
-    void DisableHUD()
+    private void DisableHUD()
     {
         player1HUD.SetActive(false);
         player2HUD.SetActive(false);
+    }
+
+    private void DisableReverseCount()
+    {
+        reverseCount.SetActive(false);
+    }
+    
+    private IEnumerator ReverseCount()
+    {
+        GameManager.S.gameState = GameManager.State.ReverseCount;
+        reverseCount.SetActive(true);
+        three_label.SetActive(true);
+        two_label.SetActive(false);
+        one_label.SetActive(false);
+        go_label.SetActive(false);
+        yield return new WaitForSeconds(4.0f);
+        three_label.SetActive(false);
+        two_label.SetActive(true);
+        yield return new WaitForSeconds(4.0f);
+        two_label.SetActive(false);
+        one_label.SetActive(true);
+        yield return new WaitForSeconds(6.0f);
+        one_label.SetActive(false);
+        go_label.SetActive(true);
+        yield return new WaitForSeconds(3.0f); 
+        GameManager.S.gameState = GameManager.State.GameStart;
+        player1HUD.SetActive(true);
+        player2HUD.SetActive(true);
+        DisableReverseCount();
     }
     void InitialColorAdjustment()
     {

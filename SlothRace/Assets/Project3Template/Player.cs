@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
+        //controller = GetComponent<CharacterController>();
 
         if (playerInput == null)
         {
@@ -62,12 +62,15 @@ public class Player : MonoBehaviour
         }
 
         GameManager.S.playerNum++;
+        slothAnimator.speed = 0;
     }
 
     void Update()
     {
-        if (!_sloth.isAttacking) SlothMovement();
-        else SlothAttack();
+        if (GameManager.S.gameState == GameManager.State.GameStart)
+        {
+            SlothMovement();
+        }
         SetAnimation();
         SetPlayerStatusInHUD();
     }
@@ -90,10 +93,6 @@ public class Player : MonoBehaviour
         }
     }
     
-    void SlothAttack()
-    {
-        slothAnimator.speed = 1;
-    }
     
     void SlothMovement()
     {
@@ -101,14 +100,11 @@ public class Player : MonoBehaviour
         Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed) * slothAnimator.speed;
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
-        controller.Move(movement * Time.deltaTime);
+        Vector3 curPos = transform.position;
+        curPos += movement * Time.deltaTime;
+        transform.position = curPos;
         
-        // use the left joystick to control the direction
-        if (leftStick.magnitude > 0.1f)
-        {
-            transform.Rotate(0, leftStick.x * Time.deltaTime * rotationSpeed, 0) ;
-        }
-        
+        Debug.Log(leftStick);
         // if the left joystick is at its original position, stop the animation
         if (leftStick.magnitude == 0f) slothAnimator.speed = 0;
         else
