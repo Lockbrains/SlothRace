@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.30156225, g: 0.5406549, b: 0.8076706, a: 1}
+  m_IndirectSpecularColor: {r: 0.30133346, g: 0.5402307, b: 0.8073409, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7100,70 +7100,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 152879057482378518, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 152879057482378518, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 696604201434494281, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 696604201434494281, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2294761106799884329, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2294761106799884329, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3115801941813609157, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3115801941813609157, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4992704291885319735, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4992704291885319735, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997619174511790935, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997619174511790935, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6381079198655681288, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6381079198655681288, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832120585441205137, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832120585441205137, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8096169571267320143, guid: f07fd420667497849988a3c742329b21, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -7250,22 +7186,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8096169571267320147, guid: f07fd420667497849988a3c742329b21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191073914606140635, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191073914606140635, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8845981060308342513, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8845981060308342513, guid: f07fd420667497849988a3c742329b21, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
