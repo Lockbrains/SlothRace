@@ -39,12 +39,14 @@ public class GUIManager : MonoBehaviour
 
     [HideInInspector] public bool isMovingLeft1, isMovingLeft2;
 
-    [Header("Reverse Count")] 
+    [Header("Countdown")] 
     [SerializeField] private GameObject reverseCount;
     [SerializeField] private GameObject three_label;
     [SerializeField] private GameObject two_label;
     [SerializeField] private GameObject one_label;
     [SerializeField] private GameObject go_label;
+    [SerializeField] private float shortTime;
+    [SerializeField] private float longTime;
     private bool hasStartedReverseCount;
 
     [Header("Game Over")]
@@ -176,16 +178,16 @@ public class GUIManager : MonoBehaviour
         two_label.SetActive(false);
         one_label.SetActive(false);
         go_label.SetActive(false);
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(shortTime);
         three_label.SetActive(false);
         two_label.SetActive(true);
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(shortTime);
         two_label.SetActive(false);
         one_label.SetActive(true);
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(longTime);
         one_label.SetActive(false);
         go_label.SetActive(true);
-        yield return new WaitForSeconds(3.0f); 
+        yield return new WaitForSeconds(shortTime); 
         GameManager.S.gameState = GameManager.State.GameStart;
         player1HUD.SetActive(true);
         player2HUD.SetActive(true);
