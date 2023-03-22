@@ -48,8 +48,12 @@ public class GUIManager : MonoBehaviour
     [HideInInspector] public bool isMovingLeft1, isMovingLeft2;
 
     [Header("Wait For Players")] 
-    [SerializeField] private GameObject panel;
-
+    [SerializeField] private GameObject twoPlayerMode;
+    [SerializeField] private GameObject threePlayerMode;
+    [SerializeField] private GameObject fourPlayerMode;
+    [SerializeField] private GameObject allSetIcon;
+    [HideInInspector] public bool allSet;
+    
     [Header("Countdown")] 
     [SerializeField] private GameObject reverseCount;
     [SerializeField] private GameObject three_label;
@@ -79,7 +83,7 @@ public class GUIManager : MonoBehaviour
     void Start()
     {
         hasStartedCountdown = false;
-        DisableReverseCount();
+        DisableCountdown();
         DisableLeft(0);
         DisableLeft(1);
         InitialColorAdjustment();
@@ -118,6 +122,7 @@ public class GUIManager : MonoBehaviour
                 break;
             case GameManager.State.WaitForPlayers:
                 ShowHUD(waitForPlayerPage);
+                allSetIcon.SetActive(allSet);
                 break;
             case GameManager.State.Countdown:
                 ShowHUD(countdownPage);
@@ -193,13 +198,13 @@ public class GUIManager : MonoBehaviour
         
     private void CheckPlayerNum()
     {
-        if (GameManager.S.playerNum == 0)
+        if (GameManager.S.maxPlayerCount == 0)
         {
             GameManager.S.gameState = GameManager.State.TitleScreen;
             img_titleScreen.SetActive(true);
             img_waitingForPlayer2.SetActive(false);
             DisableHUD();
-        } else if (GameManager.S.playerNum == 1)
+        } else if (GameManager.S.maxPlayerCount == 1)
         {
             GameManager.S.gameState = GameManager.State.WaitForPlayers;
             img_titleScreen.SetActive(false);
@@ -212,7 +217,7 @@ public class GUIManager : MonoBehaviour
             if (!hasStartedCountdown)
             {
                 hasStartedCountdown = true;
-                StartCoroutine(ReverseCount());
+                StartCoroutine(Countdown());
             }
         }
     }
@@ -222,7 +227,7 @@ public class GUIManager : MonoBehaviour
         player2HUD.SetActive(false);
     }
 
-    private void DisableReverseCount()
+    private void DisableCountdown()
     {
         reverseCount.SetActive(false);
     }
@@ -243,7 +248,7 @@ public class GUIManager : MonoBehaviour
         }
     } 
 
-    private IEnumerator ReverseCount()
+    private IEnumerator Countdown()
     {
         GameManager.S.gameState = GameManager.State.Countdown;
         reverseCount.SetActive(true);
@@ -264,7 +269,7 @@ public class GUIManager : MonoBehaviour
         GameManager.S.gameState = GameManager.State.GameStart;
         player1HUD.SetActive(true);
         player2HUD.SetActive(true);
-        DisableReverseCount();
+        DisableCountdown();
     }
     void InitialColorAdjustment()
     {
@@ -304,7 +309,6 @@ public class GUIManager : MonoBehaviour
             leftScrollbar2.size = 0;
         }
     }
-
     public void DisableLeft(int playerIndex)
     {
         if (playerIndex == 0)
@@ -434,6 +438,31 @@ public class GUIManager : MonoBehaviour
             }
         }
     }
-    
+
+    public void OnLevelSelectButtonClick(int playerNum)
+    {
+        GameManager.S.maxPlayerCount = playerNum;
+        GameManager.S.gameState = GameManager.State.WaitForPlayers;
+        switch (playerNum)
+        {
+            case 2:
+                twoPlayerMode.SetActive(true);
+                threePlayerMode.SetActive(false);
+                fourPlayerMode.SetActive(false);
+                break;
+            case 3:
+                twoPlayerMode.SetActive(false);
+                threePlayerMode.SetActive(true);
+                fourPlayerMode.SetActive(false);
+                break;
+            case 4:
+                twoPlayerMode.SetActive(false);
+                threePlayerMode.SetActive(false);
+                fourPlayerMode.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
     
 }

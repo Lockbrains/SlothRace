@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
             GUIManager.S.player2Anim = slothAnimator;
         }
 
-        GameManager.S.playerNum++;
+        GameManager.S.maxPlayerCount++;
         slothAnimator.speed = 0;
     }
 
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
     //this is a less proper naming but more intuitive if you are used to just check an axis
     public void OnLeftStickMove(InputAction.CallbackContext context)
     {
-        if (GameManager.S.playerNum == 2)
+        if (GameManager.S.maxPlayerCount == 2)
         {
             leftStick = context.ReadValue<Vector2>();
         }
