@@ -7,10 +7,11 @@ public class GameManager : MonoBehaviour
 {
     // Singleton pattern
     public static GameManager S;
+    public GameObject playerInputManager;
 
     public enum State
     {
-        TitleScreen, PlayerJoin, ReverseCount, GameStart, Restart
+        TitleScreen, LevelSelection, WaitForPlayers, Countdown, GameStart, GameEnd
     }
     // public variables
     public GameObject player1;

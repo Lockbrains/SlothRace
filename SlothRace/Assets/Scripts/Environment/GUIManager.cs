@@ -4,13 +4,23 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GUIManager : MonoBehaviour
 {
 
     public static GUIManager S;
+    private GameManager.State _state;
+    
+    [Header("State UI")] 
+    [SerializeField] private GameObject titlePage;
+    [SerializeField] private GameObject levelSelectionPage;
+    [SerializeField] private GameObject waitForPlayerPage;
+    [SerializeField] private GameObject countdownPage;
+    [SerializeField] private GameObject inGameHUD;
+    [SerializeField] private GameObject leaderboardPage;
 
-    [Header("UI GameObjects")] 
+    [Header("UI GameObjects")]
     public GameObject img_titleScreen;
     public GameObject img_waitingForPlayer2;
     
@@ -33,11 +43,12 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private Color disableColor;
     [SerializeField] private Color limbDisableColor;
     [SerializeField] private Color activeColor;
-
     [HideInInspector] public Animator player1Anim;
     [HideInInspector] public Animator player2Anim;
-
     [HideInInspector] public bool isMovingLeft1, isMovingLeft2;
+
+    [Header("Wait For Players")] 
+    [SerializeField] private GameObject panel;
 
     [Header("Countdown")] 
     [SerializeField] private GameObject reverseCount;
@@ -47,11 +58,12 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private GameObject go_label;
     [SerializeField] private float shortTime;
     [SerializeField] private float longTime;
-    private bool hasStartedReverseCount;
+    private bool hasStartedCountdown;
 
     [Header("Game Over")]
     [SerializeField] private GameObject player1Wins;
     [SerializeField] private GameObject player2Wins;
+    
     
     private void Awake()
     {
@@ -66,8 +78,7 @@ public class GUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hasStartedReverseCount = false;
-        DisableHUD();
+        hasStartedCountdown = false;
         DisableReverseCount();
         DisableLeft(0);
         DisableLeft(1);
@@ -77,46 +88,108 @@ public class GUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckPlayerNum();
-        float TOLERANCE = 0.0001f;
-        if (player1Anim != null)
-        {
-            if (isMovingLeft1)
-            {
-                float size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                leftScrollbar1.size = size;
-                rightScrollbar1.size = 0;
-            }
-            else
-            {
-                float size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                rightScrollbar1.size = size;
-                leftScrollbar1.size = 0;
-            }
-        }
-
-        if (player2Anim != null)
-        {
-            if (isMovingLeft2)
-            {
-                float size = player2Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                leftScrollbar2.size = size;
-                rightScrollbar2.size = 0;
-            }
-            else
-            {
-                float size = player2Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                rightScrollbar2.size = size;
-                leftScrollbar2.size = 0;
-            }
-        }
-
-        if (Mathf.Abs(leftScrollbar1.size - 1) < TOLERANCE) leftScrollbar1.size = 0;
-        if (Mathf.Abs(leftScrollbar2.size - 1) < TOLERANCE) leftScrollbar2.size = 0;
-        if (Mathf.Abs(rightScrollbar1.size - 1) < TOLERANCE) rightScrollbar1.size = 0;
-        if (Mathf.Abs(rightScrollbar2.size - 1) < TOLERANCE) rightScrollbar2.size = 0;
+        UpdateHUD();
+        UpdateListenToInput();
+        UpdatePlayerScrollBar();
     }
 
+    private void ShowHUD(GameObject HUD)
+    {
+        titlePage.SetActive(false);
+        levelSelectionPage.SetActive(false);
+        waitForPlayerPage.SetActive(false);
+        countdownPage.SetActive(false);
+        inGameHUD.SetActive(false);
+        leaderboardPage.SetActive(false);
+        
+        HUD.SetActive(true);
+    }
+    
+    private void UpdateHUD()
+    {
+        _state = GameManager.S.gameState;
+        switch (_state)
+        {   
+            case GameManager.State.TitleScreen:
+                ShowHUD(titlePage);
+                break;
+            case GameManager.State.LevelSelection:
+                ShowHUD(levelSelectionPage);
+                break;
+            case GameManager.State.WaitForPlayers:
+                ShowHUD(waitForPlayerPage);
+                break;
+            case GameManager.State.Countdown:
+                ShowHUD(countdownPage);
+                break;
+            case GameManager.State.GameStart:
+                ShowHUD(inGameHUD);
+                break;
+            case GameManager.State.GameEnd:
+                ShowHUD(leaderboardPage);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UpdateListenToInput()
+    {
+        switch (_state)
+        {
+            case GameManager.State.TitleScreen:
+                if (Input.anyKey)
+                {
+                    GameManager.S.gameState = GameManager.State.LevelSelection;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    private void UpdatePlayerScrollBar()
+    {
+        if (GameManager.S.gameState == GameManager.State.GameStart)
+        {
+            float TOLERANCE = 0.0001f;
+            if (player1Anim != null)
+            {
+                if (isMovingLeft1)
+                {
+                    float size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                    leftScrollbar1.size = size;
+                    rightScrollbar1.size = 0;
+                }
+                else
+                {
+                    float size = player1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                    rightScrollbar1.size = size;
+                    leftScrollbar1.size = 0;
+                }
+            }
+
+            if (player2Anim != null)
+            {
+                if (isMovingLeft2)
+                {
+                    float size = player2Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                    leftScrollbar2.size = size;
+                    rightScrollbar2.size = 0;
+                }
+                else
+                {
+                    float size = player2Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                    rightScrollbar2.size = size;
+                    leftScrollbar2.size = 0;
+                }
+            }
+
+            if (Mathf.Abs(leftScrollbar1.size - 1) < TOLERANCE) leftScrollbar1.size = 0;
+            if (Mathf.Abs(leftScrollbar2.size - 1) < TOLERANCE) leftScrollbar2.size = 0;
+            if (Mathf.Abs(rightScrollbar1.size - 1) < TOLERANCE) rightScrollbar1.size = 0;
+            if (Mathf.Abs(rightScrollbar2.size - 1) < TOLERANCE) rightScrollbar2.size = 0;
+        }
+    }
         
     private void CheckPlayerNum()
     {
@@ -128,7 +201,7 @@ public class GUIManager : MonoBehaviour
             DisableHUD();
         } else if (GameManager.S.playerNum == 1)
         {
-            GameManager.S.gameState = GameManager.State.PlayerJoin;
+            GameManager.S.gameState = GameManager.State.WaitForPlayers;
             img_titleScreen.SetActive(false);
             img_waitingForPlayer2.SetActive(true);
             DisableHUD();
@@ -136,9 +209,9 @@ public class GUIManager : MonoBehaviour
         else 
         {
             img_waitingForPlayer2.SetActive(false);
-            if (!hasStartedReverseCount)
+            if (!hasStartedCountdown)
             {
-                hasStartedReverseCount = true;
+                hasStartedCountdown = true;
                 StartCoroutine(ReverseCount());
             }
         }
@@ -172,7 +245,7 @@ public class GUIManager : MonoBehaviour
 
     private IEnumerator ReverseCount()
     {
-        GameManager.S.gameState = GameManager.State.ReverseCount;
+        GameManager.S.gameState = GameManager.State.Countdown;
         reverseCount.SetActive(true);
         three_label.SetActive(true);
         two_label.SetActive(false);

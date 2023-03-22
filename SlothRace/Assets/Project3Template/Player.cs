@@ -249,7 +249,7 @@ public class Player : MonoBehaviour
 
     public void OnRestart(InputAction.CallbackContext context)
     {
-        if(GameManager.S.gameState == GameManager.State.Restart)
+        if(GameManager.S.gameState == GameManager.State.GameEnd)
         {
             SceneManager.LoadScene("FirstLevel");
         }
