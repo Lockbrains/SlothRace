@@ -123,6 +123,7 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.WaitForPlayers:
                 ShowHUD(waitForPlayerPage);
                 allSetIcon.SetActive(allSet);
+                CheckPlayerNum();
                 break;
             case GameManager.State.Countdown:
                 ShowHUD(countdownPage);
@@ -198,29 +199,17 @@ public class GUIManager : MonoBehaviour
         
     private void CheckPlayerNum()
     {
-        if (GameManager.S.maxPlayerCount == 0)
+        if (GameManager.S.joinedPlayer == GameManager.S.maxPlayerCount)
         {
-            GameManager.S.gameState = GameManager.State.TitleScreen;
-            img_titleScreen.SetActive(true);
-            img_waitingForPlayer2.SetActive(false);
-            DisableHUD();
-        } else if (GameManager.S.maxPlayerCount == 1)
-        {
-            GameManager.S.gameState = GameManager.State.WaitForPlayers;
-            img_titleScreen.SetActive(false);
-            img_waitingForPlayer2.SetActive(true);
-            DisableHUD();
-        }
-        else 
-        {
-            img_waitingForPlayer2.SetActive(false);
             if (!hasStartedCountdown)
             {
+                GameManager.S.gameState = GameManager.State.Countdown;
                 hasStartedCountdown = true;
                 StartCoroutine(Countdown());
             }
         }
     }
+    
     private void DisableHUD()
     {
         player1HUD.SetActive(false);
@@ -251,6 +240,7 @@ public class GUIManager : MonoBehaviour
     private IEnumerator Countdown()
     {
         GameManager.S.gameState = GameManager.State.Countdown;
+        countdownPage.SetActive(true);
         reverseCount.SetActive(true);
         three_label.SetActive(true);
         two_label.SetActive(false);

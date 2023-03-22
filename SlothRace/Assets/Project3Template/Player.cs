@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
             GUIManager.S.player2Anim = slothAnimator;
         }
 
-        GameManager.S.maxPlayerCount++;
+        GameManager.S.joinedPlayer++;
         slothAnimator.speed = 0;
     }
 
