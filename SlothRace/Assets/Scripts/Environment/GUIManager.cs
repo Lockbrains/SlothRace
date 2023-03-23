@@ -53,6 +53,7 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private GameObject fourPlayerMode;
     [SerializeField] private GameObject allSetIcon;
     [HideInInspector] public bool allSet;
+    private WaitForPlayer _waitModule;
     
     [Header("Countdown")] 
     [SerializeField] private GameObject reverseCount;
@@ -437,18 +438,21 @@ public class GUIManager : MonoBehaviour
         {
             case 2:
                 twoPlayerMode.SetActive(true);
+                _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
                 threePlayerMode.SetActive(false);
                 fourPlayerMode.SetActive(false);
                 break;
             case 3:
                 twoPlayerMode.SetActive(false);
                 threePlayerMode.SetActive(true);
+                _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
                 fourPlayerMode.SetActive(false);
                 break;
             case 4:
                 twoPlayerMode.SetActive(false);
                 threePlayerMode.SetActive(false);
                 fourPlayerMode.SetActive(true);
+                _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
                 break;
             default:
                 break;
