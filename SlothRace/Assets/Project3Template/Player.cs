@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public Animator slothAnimator;
     
     public PlayerInput playerInput;
+
+    public GameObject slothCamera;
     
     // private bool sprinting = false;
     private float verticalVelocity = 0;
@@ -167,7 +169,10 @@ public class Player : MonoBehaviour
 
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
-        rightStick = context.ReadValue<Vector2>();
+        float inputValue = context.ReadValue<Vector2>().x;
+        float rotation = inputValue * rotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
+
+        slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation * Time.deltaTime, 0f);
     }
 
     public void OnMoveLeftArm(InputAction.CallbackContext context)
@@ -268,6 +273,15 @@ public class Player : MonoBehaviour
     public void ResetPosition()
     {
         GameManager.S.SendPlayerToOrigin(playerID);
+        GameObject ragdoll = transform.Find("PhysicalSloth").gameObject;
+        GameObject hips = ragdoll.transform.Find("mixamorig:Hips").gameObject;
+        Debug.Log("hips:" + hips);
+        hips.GetComponent<ResetPosition>().resetPosition();
+        Transform[] allJoints = hips.GetComponentsInChildren<Transform>();
+        foreach (Transform child in allJoints)
+        {
+            child.gameObject.GetComponent<ResetPosition>().resetPosition();
+        }
     }
 
 }
