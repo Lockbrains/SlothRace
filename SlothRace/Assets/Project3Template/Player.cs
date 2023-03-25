@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
 
     [Header("Player Properties")] 
     public float movementSpeed = 10;
-    public float rotationSpeed = 100;
+    public float camRotationSpeed = 100;
+    public float playerRotationSpeed = 2;
   
     [Header("Player Status")]
     public bool isMovingLeft;
@@ -34,6 +35,8 @@ public class Player : MonoBehaviour
     public PlayerInput playerInput;
 
     public GameObject slothCamera;
+
+    public GameObject player;
     
     // private bool sprinting = false;
     private float verticalVelocity = 0;
@@ -163,6 +166,13 @@ public class Player : MonoBehaviour
         {
             leftStick = context.ReadValue<Vector2>();
         }
+
+        float inputValue = context.ReadValue<Vector2>().x;
+        float rotation = inputValue * playerRotationSpeed + player.transform.rotation.eulerAngles.y;
+        Vector3 playerEulerAngles = player.transform.rotation.eulerAngles;
+        playerEulerAngles.y = rotation;
+        player.transform.rotation = Quaternion.Euler(playerEulerAngles);
+
         if (playerID == 0) GameManager.S.player1Started = true;
         else GameManager.S.player2Started = true;
     }
@@ -170,9 +180,9 @@ public class Player : MonoBehaviour
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
         float inputValue = context.ReadValue<Vector2>().x;
-        float rotation = inputValue * rotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
+        float rotation = inputValue * camRotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
 
-        slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation * Time.deltaTime, 0f);
+        slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation, 0f);
     }
 
     public void OnMoveLeftArm(InputAction.CallbackContext context)
