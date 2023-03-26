@@ -29,7 +29,6 @@ namespace DualSenseSample.Inputs
         private void OnEnable()
         {
             InputSystem.onDeviceChange += OnDeviceChange;
-            Debug.Log("Dualsense Controller connected.");
         }
 
         private void OnDisable()
@@ -48,12 +47,15 @@ namespace DualSenseSample.Inputs
             {
                 case InputDeviceChange.Added:
                     NotifyConnection(device as DualSenseGamepadHID);
+                    Debug.Log("Dualsense Controller connected.");
                     break;
                 case InputDeviceChange.Reconnected:
                     NotifyConnection(device as DualSenseGamepadHID);
+                    Debug.Log("Dualsense Controller reconnected.");
                     break;
                 case InputDeviceChange.Disconnected:
                     NotifyDisconnection();
+                    Debug.Log("Dualsense Controller disconnected.");
                     break;
             }
         }
@@ -65,7 +67,6 @@ namespace DualSenseSample.Inputs
                 if (listener != null)
                 {
                     listener.OnConnect(dualSense);
-                    Debug.Log("One Added:" + listener);
                 }
             }
         }

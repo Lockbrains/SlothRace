@@ -44,9 +44,11 @@ public class Player : MonoBehaviour
     
     private DualSenseTriggerState leftTriggerState;
     private DualSenseTriggerState rightTriggerState;
+    private DualSenseRumble _rumble;
 
     [SerializeField] private AbstractDualSenseBehaviour listener;
     public DualSenseGamepadHID DualSense;
+    [HideInInspector] public bool hasDualSense;
 
     #region Unity Basics
 
@@ -73,8 +75,7 @@ public class Player : MonoBehaviour
     {
         GameManager.S.dualSenseMonitor.listeners[playerID] = listener;
         GameManager.S.dualSenseMonitor.gameObject.SetActive(true);
-        //controller = GetComponent<CharacterController>();
-        DualSense = listener.DualSense;
+        hasDualSense = false;
 
         if (playerInput == null)
         {
@@ -114,6 +115,11 @@ public class Player : MonoBehaviour
 
     private void CheckDSController()
     {
+        leftTriggerState.Continuous.StartPosition = 0;
+        leftTriggerState.Continuous.Force = 255;
+        rightTriggerState.Continuous.StartPosition = 0;
+        rightTriggerState.Continuous.Force = 255;
+        
         var state = new DualSenseGamepadState
         {
             LeftTrigger = leftTriggerState,
@@ -162,8 +168,7 @@ public class Player : MonoBehaviour
         Vector3 curPos = transform.position;
         curPos += movement * Time.deltaTime;
         transform.position = curPos;
-        
-        // Debug.Log(leftStick);
+
         // if the left joystick is at its original position, stop the animation
         if (leftStick.magnitude == 0f)
         {
@@ -175,10 +180,6 @@ public class Player : MonoBehaviour
             // left joystick moving, the player tries to move
             if (isMovingLeft)
             {
-                leftTriggerState.Continuous.StartPosition = (byte)255;
-                leftTriggerState.Continuous.Force = (byte)255;
-                rightTriggerState.Continuous.StartPosition = (byte)0;
-                rightTriggerState.Continuous.Force = (byte)255;
                 GUIManager.S.EnableLeft(playerID);
                 _isSwitchingToRight = true;
                 if (_isSwitchingToLeft)
@@ -190,22 +191,18 @@ public class Player : MonoBehaviour
                 {
                     slothAnimator.speed = 1;
                     float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                    Gamepad.current.SetMotorSpeeds(0.01f, 1f);
+                    //Gamepad.current.SetMotorSpeeds(0.01f, 1f);
                 }
                 else
                 {
                     slothAnimator.speed = 0;
-                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+                    //Gamepad.current.SetMotorSpeeds(0f, 0f);
                 }
             }
             else
             {
                 GUIManager.S.DisableLeft(playerID);
                 _isSwitchingToLeft = true;
-                rightTriggerState.Continuous.StartPosition = (byte)255;
-                rightTriggerState.Continuous.Force = (byte)255;
-                leftTriggerState.Continuous.StartPosition = (byte)0;
-                leftTriggerState.Continuous.Force = (byte)255;
                 if (_isSwitchingToRight)
                 {
                     GUIManager.S.RefreshHUDColor(playerID, true);
@@ -215,12 +212,12 @@ public class Player : MonoBehaviour
                 {
                     slothAnimator.speed = 1;
                     float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                    Gamepad.current.SetMotorSpeeds(1f, 0.01f);
+                    //Gamepad.current.SetMotorSpeeds(1f, 0.01f);
                 }
                 else
                 {
                     slothAnimator.speed = 0;
-                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+                    //Gamepad.current.SetMotorSpeeds(0f, 0f);
                 }
             }
             
