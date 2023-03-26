@@ -73,8 +73,13 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        playerID = playerInput.playerIndex;
+        GUIManager.S.PlayerJoin(playerID);
+        GameManager.S.joinedPlayer++;
+        
         GameManager.S.dualSenseMonitor.listeners[playerID] = listener;
-        GameManager.S.dualSenseMonitor.gameObject.SetActive(true);
+        if(GameManager.S.joinedPlayer == GameManager.S.maxPlayerCount)
+            GameManager.S.dualSenseMonitor.gameObject.SetActive(true);
         hasDualSense = false;
 
         if (playerInput == null)
@@ -82,8 +87,7 @@ public class Player : MonoBehaviour
             playerInput = GetComponent<PlayerInput>();
         }
         
-        playerID = playerInput.playerIndex;
-        GUIManager.S.PlayerJoin(playerID);
+        
         switch (playerID)
         {
             case 0:
@@ -105,8 +109,7 @@ public class Player : MonoBehaviour
             default:
                 break;
         }
-
-        GameManager.S.joinedPlayer++;
+        
         slothAnimator.speed = 0;
         _isReadyToGame = false;
         _isSwitchingToRight = false;
