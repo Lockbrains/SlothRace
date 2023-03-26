@@ -8,6 +8,7 @@ public class PlayerHUD : MonoBehaviour
     [Header("UI Objects")] 
     [SerializeField] private Image rank;
     [SerializeField] private Image leftArm, rightLeg, rightArm, leftLeg;
+    [SerializeField] private Text t_leftArm, t_rightLeg, t_rightArm, t_leftLeg;
     [SerializeField] private Scrollbar progress;
     [SerializeField] private GameObject leftPress, rightPress;
     [SerializeField] private Image item;
@@ -18,6 +19,10 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Color disableColor;
     [SerializeField] private Color limbDisableColor;
     [SerializeField] private Color activeColor;
+
+    [Header("Font Colors")] 
+    [SerializeField] private Color lightFontColor;
+    [SerializeField] private Color darkFontColor;
     
     // Start is called before the first frame update
     void Start()
@@ -28,7 +33,10 @@ public class PlayerHUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (leftArm != null) t_leftArm.color = (leftArm.color == enableColor) ? darkFontColor : lightFontColor;
+        if (rightArm != null) t_rightArm.color = (rightArm.color == enableColor) ? darkFontColor : lightFontColor;
+        if (leftLeg != null) t_leftLeg.color = (leftLeg.color == enableColor) ? darkFontColor : lightFontColor;
+        if (rightLeg != null) t_rightLeg.color = (rightLeg.color == enableColor) ? darkFontColor : lightFontColor;
     }
 
     public void MoveLeft(bool isMoving)
@@ -68,22 +76,12 @@ public class PlayerHUD : MonoBehaviour
     {
         leftPress.SetActive(true);
         rightPress.SetActive(false);
-        leftArm.color = enableColor;
-        rightLeg.color = enableColor;
-        leftLeg.color = disableColor;
-        rightArm.color = disableColor;
-        progress.size = 0;
     }
 
     public void Right()
     {
         leftPress.SetActive(false);
         rightPress.SetActive(true);
-        leftArm.color = disableColor;
-        rightLeg.color = disableColor;
-        leftLeg.color = enableColor;
-        rightArm.color = enableColor;
-        progress.size = 0;
     }
 
     public void ChangeLeftArmColor(bool enabled, bool active)

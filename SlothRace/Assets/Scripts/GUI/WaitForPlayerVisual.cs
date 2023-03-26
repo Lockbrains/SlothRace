@@ -31,7 +31,6 @@ public class WaitForPlayerVisual : MonoBehaviour
     void Update()
     {
         UpdateWithStatus();
-        Debug.Log(1);
     }
 
     private void UpdateWithStatus()
@@ -40,15 +39,12 @@ public class WaitForPlayerVisual : MonoBehaviour
         {
             case PlayerJoinStatus.NotJoined:
                 visual.sprite = waitForJoinSprite;
-                Debug.Log("visual should be changed to wait for join.");
                 break;
             case PlayerJoinStatus.NotPrepared:
                 visual.sprite = joinedSprite;
-                Debug.Log("visual should be changed to wait for norprepared.");
                 break;
             case PlayerJoinStatus.Prepared:
                 visual.sprite = readySprite;
-                Debug.Log("visual should be changed to wait for prepared.");
                 break;
             default:
                 break;

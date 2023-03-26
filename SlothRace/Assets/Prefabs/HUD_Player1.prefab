@@ -647,6 +647,10 @@ MonoBehaviour:
   rightLeg: {fileID: 3473879312267646791}
   rightArm: {fileID: 5234263173861263121}
   leftLeg: {fileID: 5204103481561106502}
+  t_leftArm: {fileID: 2864414190346751385}
+  t_rightLeg: {fileID: 3175348876920249661}
+  t_rightArm: {fileID: 7793438833976806517}
+  t_leftLeg: {fileID: 2165187721791428298}
   progress: {fileID: 8696876281843891463}
   leftPress: {fileID: 8681850055531723643}
   rightPress: {fileID: 5743240842097990309}
@@ -655,6 +659,8 @@ MonoBehaviour:
   disableColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
   limbDisableColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
   activeColor: {r: 1, g: 0, b: 0.3019608, a: 1}
+  lightFontColor: {r: 1, g: 1, b: 1, a: 1}
+  darkFontColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
 --- !u!1 &3368746272275298600
 GameObject:
   m_ObjectHideFlags: 0
