@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [Header("Player Properties")] 
     public float movementSpeed = 10;
     public float rotationSpeed = 100;
+    private bool _isSwitchingToLeft, _isSwitchingToRight;
   
     [Header("Player Status")]
     public bool isMovingLeft;
@@ -78,6 +79,8 @@ public class Player : MonoBehaviour
         GameManager.S.joinedPlayer++;
         slothAnimator.speed = 0;
         _isReadyToGame = false;
+        _isSwitchingToRight = false;
+        _isSwitchingToLeft = false;
     }
 
     void Update()
@@ -126,6 +129,12 @@ public class Player : MonoBehaviour
             if (isMovingLeft)
             {
                 GUIManager.S.EnableLeft(playerID);
+                _isSwitchingToRight = true;
+                if (_isSwitchingToLeft)
+                {
+                    GUIManager.S.RefreshHUDColor(playerID, false);
+                    _isSwitchingToLeft = false;
+                }
                 if (leftArm && rightLeg)
                 {
                     slothAnimator.speed = 1;
@@ -138,6 +147,12 @@ public class Player : MonoBehaviour
             else
             {
                 GUIManager.S.DisableLeft(playerID);
+                _isSwitchingToLeft = true;
+                if (_isSwitchingToRight)
+                {
+                    GUIManager.S.RefreshHUDColor(playerID, true);
+                    _isSwitchingToRight = false;
+                }
                 if (leftLeg && rightArm)
                 {
                     slothAnimator.speed = 1;

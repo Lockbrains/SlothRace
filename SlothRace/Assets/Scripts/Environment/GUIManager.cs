@@ -249,8 +249,13 @@ public class GUIManager : MonoBehaviour
     {
         foreach (var t in _playerHUDs)
         {
-            t.InitialColorAdjustment();
+            t.InitialColorAdjustment(true);
         }
+    }
+
+    public void RefreshHUDColor(int playerID, bool isLeft)
+    {
+        _playerHUDs[playerID].InitialColorAdjustment(isLeft);
     }
     public void EnableLeft(int playerID)
     {

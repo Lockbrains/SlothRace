@@ -65,12 +65,23 @@ public class PlayerHUD : MonoBehaviour
         
     }
 
-    public void InitialColorAdjustment()
+    public void InitialColorAdjustment(bool left)
     {
-        leftArm.color = limbDisableColor;
-        rightArm.color = enableColor;
-        leftLeg.color = enableColor;
-        rightLeg.color = limbDisableColor;
+        if (left)
+        {
+            leftArm.color = limbDisableColor;
+            rightArm.color = enableColor;
+            leftLeg.color = enableColor;
+            rightLeg.color = limbDisableColor;
+        }
+        else
+        {
+            leftArm.color = enableColor;
+            rightArm.color = limbDisableColor;
+            leftLeg.color = limbDisableColor;
+            rightLeg.color = enableColor;
+        }
+        
     }
     public void Left()
     {
