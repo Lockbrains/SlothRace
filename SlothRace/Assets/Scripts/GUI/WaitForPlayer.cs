@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class WaitForPlayer : MonoBehaviour
 {
     [SerializeField] private WaitForPlayerVisual[] playerVisuals;
-    [SerializeField] private int testNum;
     void Start()
     {
         
@@ -14,7 +13,6 @@ public class WaitForPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(testNum);
     }
 
     public void Join(int playerID)
