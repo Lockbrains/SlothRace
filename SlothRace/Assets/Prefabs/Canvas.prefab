@@ -930,7 +930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5707850588693791731
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1080,6 +1080,7 @@ MonoBehaviour:
   playerVisuals:
   - {fileID: 4523184637050314047}
   - {fileID: 8233341975184093573}
+  testNum: 2
 --- !u!1 &6632163471326730665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,6 +1576,7 @@ MonoBehaviour:
   - {fileID: 2117031881640547242}
   - {fileID: 2022681468194542291}
   - {fileID: 7883325824076520372}
+  testNum: 0
 --- !u!1 &8096169571267320143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1728,8 @@ MonoBehaviour:
   activeColor: {r: 1, g: 0.2509804, b: 0.43529415, a: 1}
   player1Anim: {fileID: 0}
   player2Anim: {fileID: 0}
+  player3Anim: {fileID: 0}
+  player4Anim: {fileID: 0}
   isMovingLeft1: 0
   isMovingLeft2: 0
   twoPlayerMode: {fileID: 4195665235510137457}
@@ -1881,7 +1885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1952,6 +1956,7 @@ MonoBehaviour:
   - {fileID: 7963807957642583634}
   - {fileID: 4369468005955495803}
   - {fileID: 6564631335721121460}
+  testNum: 0
 --- !u!1 &8833610742733239799
 GameObject:
   m_ObjectHideFlags: 0

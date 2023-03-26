@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public int maxPlayerCount;
     // joinedPlayer: the number of players that have joined the game
     public int joinedPlayer;
-    
+    public int readyPlayer;
     public State gameState;
     
     private void Awake()

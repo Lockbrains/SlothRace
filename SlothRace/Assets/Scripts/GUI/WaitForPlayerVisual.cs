@@ -59,4 +59,9 @@ public class WaitForPlayerVisual : MonoBehaviour
     {
         status = PlayerJoinStatus.NotPrepared;
     }
+
+    public void Ready()
+    {
+        status = PlayerJoinStatus.Prepared;
+    }
 }

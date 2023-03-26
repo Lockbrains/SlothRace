@@ -99,18 +99,6 @@ public class GUIManager : MonoBehaviour
         UpdateListenToInput();
         UpdatePlayerScrollBar();
     }
-
-    private void ShowHUD(GameObject HUD)
-    {
-        titlePage.SetActive(false);
-        levelSelectionPage.SetActive(false);
-        waitForPlayerPage.SetActive(false);
-        countdownPage.SetActive(false);
-        inGameHUD.SetActive(false);
-        leaderboardPage.SetActive(false);
-        
-        HUD.SetActive(true);
-    }
     
     private void UpdateHUD()
     {
@@ -118,24 +106,54 @@ public class GUIManager : MonoBehaviour
         switch (_state)
         {   
             case GameManager.State.TitleScreen:
-                ShowHUD(titlePage);
+                titlePage.SetActive(true);
+                levelSelectionPage.SetActive(false);
+                waitForPlayerPage.SetActive(false);
+                countdownPage.SetActive(false);
+                inGameHUD.SetActive(false);
+                leaderboardPage.SetActive(false);
                 break;
             case GameManager.State.LevelSelection:
-                ShowHUD(levelSelectionPage);
+                titlePage.SetActive(false);
+                levelSelectionPage.SetActive(true);
+                waitForPlayerPage.SetActive(false);
+                countdownPage.SetActive(false);
+                inGameHUD.SetActive(false);
+                leaderboardPage.SetActive(false);
                 break;
             case GameManager.State.WaitForPlayers:
-                ShowHUD(waitForPlayerPage);
+                titlePage.SetActive(false);
+                levelSelectionPage.SetActive(false);
+                waitForPlayerPage.SetActive(true);
+                countdownPage.SetActive(false);
+                inGameHUD.SetActive(false);
+                leaderboardPage.SetActive(false);
                 allSetIcon.SetActive(allSet);
                 CheckPlayerNum();
                 break;
             case GameManager.State.Countdown:
-                ShowHUD(countdownPage);
+                titlePage.SetActive(false);
+                levelSelectionPage.SetActive(false);
+                waitForPlayerPage.SetActive(false);
+                countdownPage.SetActive(true);
+                inGameHUD.SetActive(false);
+                leaderboardPage.SetActive(false);
                 break;
             case GameManager.State.GameStart:
-                ShowHUD(inGameHUD);
+                titlePage.SetActive(false);
+                levelSelectionPage.SetActive(false);
+                waitForPlayerPage.SetActive(false);
+                countdownPage.SetActive(false);
+                inGameHUD.SetActive(true);
+                leaderboardPage.SetActive(false);
                 break;
             case GameManager.State.GameEnd:
-                ShowHUD(leaderboardPage);
+                titlePage.SetActive(false);
+                levelSelectionPage.SetActive(false);
+                waitForPlayerPage.SetActive(false);
+                countdownPage.SetActive(false);
+                inGameHUD.SetActive(false);
+                leaderboardPage.SetActive(true);
                 break;
             default:
                 break;
@@ -202,7 +220,7 @@ public class GUIManager : MonoBehaviour
         
     private void CheckPlayerNum()
     {
-        if (GameManager.S.joinedPlayer == GameManager.S.maxPlayerCount)
+        if (GameManager.S.readyPlayer == GameManager.S.maxPlayerCount)
         {
             if (!hasStartedCountdown)
             {
@@ -464,6 +482,11 @@ public class GUIManager : MonoBehaviour
     public void PlayerJoin(int playerID)
     {
         _waitModule.Join(playerID);
+    }
+
+    public void PlayerReady(int playerID)
+    {
+        _waitModule.Ready(playerID);
     }
     
 }

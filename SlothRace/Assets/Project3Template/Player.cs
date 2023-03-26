@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int playerID;
     [SerializeField] private Sloth _sloth;
     [SerializeField] private GameObject _physicalSloth;
+    private bool _isReadyToGame;
 
     [Header("Player Properties")] 
     public float movementSpeed = 10;
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour
 
         GameManager.S.joinedPlayer++;
         slothAnimator.speed = 0;
+        _isReadyToGame = false;
     }
 
     void Update()
@@ -280,6 +282,26 @@ public class Player : MonoBehaviour
     public void ResetPosition()
     {
         GameManager.S.SendPlayerToOrigin(playerID);
+    }
+
+    public void OnGetReady(InputAction.CallbackContext context)
+    {
+        if (GameManager.S.gameState == GameManager.State.WaitForPlayers)
+        {
+            if (!_isReadyToGame)
+            {
+                GameManager.S.readyPlayer++;
+                GUIManager.S.PlayerReady(playerID);
+                _isReadyToGame = true;
+            }
+            else
+            {
+                GameManager.S.readyPlayer--;
+                GUIManager.S.PlayerJoin(playerID);
+                _isReadyToGame = false;
+            }
+            
+        } 
     }
 
 }
