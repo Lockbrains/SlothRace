@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 7923208057674303276}
   - component: {fileID: 7923208057674303267}
   - component: {fileID: 2347120692595698283}
+  - component: {fileID: 4900917591255796802}
   m_Layer: 0
   m_Name: PlayerGroup
   m_TagString: Player
@@ -528,6 +529,20 @@ MonoBehaviour:
   controller: {fileID: 7752154170341239055}
   slothAnimator: {fileID: 445072051930053406}
   playerInput: {fileID: 7923208057674303267}
+  listener: {fileID: 4900917591255796802}
+--- !u!114 &4900917591255796802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7923208057674303277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73db0f00738faa746a9a5a365a4c8f41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2347120692595698283}
 --- !u!1001 &2035053162322788041
 PrefabInstance:
   m_ObjectHideFlags: 0

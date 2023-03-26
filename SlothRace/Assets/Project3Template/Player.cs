@@ -1,7 +1,11 @@
 using System;
+using DualSenseSample.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 using UnityEngine.SceneManagement;
+using UniSense;
+using DualSenseGamepadHID = UniSense.DualSenseGamepadHID;
 
 public class Player : MonoBehaviour
 {
@@ -37,15 +41,40 @@ public class Player : MonoBehaviour
     
     // private bool sprinting = false;
     private float verticalVelocity = 0;
+    
+    private DualSenseTriggerState leftTriggerState;
+    private DualSenseTriggerState rightTriggerState;
+
+    [SerializeField] private AbstractDualSenseBehaviour listener;
+    public DualSenseGamepadHID DualSense;
+
+    #region Unity Basics
 
     private void Awake()
     {
-       
+        leftTriggerState = new DualSenseTriggerState
+        {
+            EffectType = DualSenseTriggerEffectType.ContinuousResistance,
+            EffectEx = new DualSenseEffectExProperties(),
+            Section = new DualSenseSectionResistanceProperties(),
+            Continuous = new DualSenseContinuousResistanceProperties()
+        };
+
+        rightTriggerState = new DualSenseTriggerState
+        {
+            EffectType = DualSenseTriggerEffectType.ContinuousResistance,
+            EffectEx = new DualSenseEffectExProperties(),
+            Section = new DualSenseSectionResistanceProperties(),
+            Continuous = new DualSenseContinuousResistanceProperties()
+        };
     }
 
     private void Start()
     {
+        GameManager.S.dualSenseMonitor.listeners[playerID] = listener;
+        GameManager.S.dualSenseMonitor.gameObject.SetActive(true);
         //controller = GetComponent<CharacterController>();
+        DualSense = listener.DualSense;
 
         if (playerInput == null)
         {
@@ -83,8 +112,19 @@ public class Player : MonoBehaviour
         _isSwitchingToLeft = false;
     }
 
+    private void CheckDSController()
+    {
+        var state = new DualSenseGamepadState
+        {
+            LeftTrigger = leftTriggerState,
+            RightTrigger = rightTriggerState
+        };
+        DualSense?.SetGamepadState(state);
+    }
     void Update()
     {
+        CheckDSController();
+        
         if (GameManager.S.gameState == GameManager.State.GameStart)
         {
             SlothMovement();
@@ -92,6 +132,9 @@ public class Player : MonoBehaviour
         SetAnimation();
         SetPlayerStatusInHUD();
     }
+
+    #endregion
+    
 
     public int GetPlayerID()
     {
@@ -122,12 +165,20 @@ public class Player : MonoBehaviour
         
         // Debug.Log(leftStick);
         // if the left joystick is at its original position, stop the animation
-        if (leftStick.magnitude == 0f) slothAnimator.speed = 0;
+        if (leftStick.magnitude == 0f)
+        {
+            slothAnimator.speed = 0;
+            //Gamepad.current.SetMotorSpeeds(0f, 0f);
+        }
         else
         {
             // left joystick moving, the player tries to move
             if (isMovingLeft)
             {
+                leftTriggerState.Continuous.StartPosition = (byte)255;
+                leftTriggerState.Continuous.Force = (byte)255;
+                rightTriggerState.Continuous.StartPosition = (byte)0;
+                rightTriggerState.Continuous.Force = (byte)255;
                 GUIManager.S.EnableLeft(playerID);
                 _isSwitchingToRight = true;
                 if (_isSwitchingToLeft)
@@ -138,16 +189,23 @@ public class Player : MonoBehaviour
                 if (leftArm && rightLeg)
                 {
                     slothAnimator.speed = 1;
+                    float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                    Gamepad.current.SetMotorSpeeds(0.01f, 1f);
                 }
                 else
                 {
                     slothAnimator.speed = 0;
+                    Gamepad.current.SetMotorSpeeds(0f, 0f);
                 }
             }
             else
             {
                 GUIManager.S.DisableLeft(playerID);
                 _isSwitchingToLeft = true;
+                rightTriggerState.Continuous.StartPosition = (byte)255;
+                rightTriggerState.Continuous.Force = (byte)255;
+                leftTriggerState.Continuous.StartPosition = (byte)0;
+                leftTriggerState.Continuous.Force = (byte)255;
                 if (_isSwitchingToRight)
                 {
                     GUIManager.S.RefreshHUDColor(playerID, true);
@@ -156,10 +214,13 @@ public class Player : MonoBehaviour
                 if (leftLeg && rightArm)
                 {
                     slothAnimator.speed = 1;
+                    float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                    Gamepad.current.SetMotorSpeeds(1f, 0.01f);
                 }
                 else
                 {
                     slothAnimator.speed = 0;
+                    Gamepad.current.SetMotorSpeeds(0f, 0f);
                 }
             }
             
