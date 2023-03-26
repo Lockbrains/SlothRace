@@ -18,31 +18,44 @@ public class WaitForPlayerVisual : MonoBehaviour
     [SerializeField] private Sprite joinedSprite;
 
     [Header("Status")]
-    public PlayerJoinStatus status;
+    [SerializeField] private PlayerJoinStatus status;
     public int playerID;
     public bool isPrepared;
 
     // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        visual.enabled = playerID >= GameManager.S.maxPlayerCount;
+        status = PlayerJoinStatus.NotJoined;
     }
 
-    void UpdateWithStatus()
+    private void Update()
+    {
+        UpdateWithStatus();
+    }
+
+    private void UpdateWithStatus()
     {
         switch(status)
         {
             case PlayerJoinStatus.NotJoined:
                 visual.sprite = waitForJoinSprite;
+                Debug.Log("visual should be changed to wait for join.");
                 break;
             case PlayerJoinStatus.NotPrepared:
                 visual.sprite = joinedSprite;
+                Debug.Log("visual should be changed to wait for norprepared.");
                 break;
             case PlayerJoinStatus.Prepared:
                 visual.sprite = readySprite;
+                Debug.Log("visual should be changed to wait for prepared.");
                 break;
             default:
                 break;
         }
+    }
+
+    public void Join()
+    {
+        status = PlayerJoinStatus.NotPrepared;
     }
 }

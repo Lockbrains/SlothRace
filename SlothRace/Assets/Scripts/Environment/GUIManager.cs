@@ -45,6 +45,8 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private Color activeColor;
     [HideInInspector] public Animator player1Anim;
     [HideInInspector] public Animator player2Anim;
+    [HideInInspector] public Animator player3Anim;
+    [HideInInspector] public Animator player4Anim;
     [HideInInspector] public bool isMovingLeft1, isMovingLeft2;
 
     [Header("Wait For Players")] 
@@ -457,6 +459,11 @@ public class GUIManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void PlayerJoin(int playerID)
+    {
+        _waitModule.Join(playerID);
     }
     
 }

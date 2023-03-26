@@ -12,4 +12,11 @@ public class WaitForPlayer : MonoBehaviour
     {
         
     }
+
+    public void Join(int playerID)
+    {
+        if (playerID >= playerVisuals.Length) return;
+        Debug.Log("Player " + playerID + " is in.");
+        playerVisuals[playerID].Join();
+    }
 }

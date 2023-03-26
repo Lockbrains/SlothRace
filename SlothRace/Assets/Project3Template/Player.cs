@@ -51,15 +51,27 @@ public class Player : MonoBehaviour
         }
         
         playerID = playerInput.playerIndex;
-        if (playerID == 0)
+        GUIManager.S.PlayerJoin(playerID);
+        switch (playerID)
         {
-            GameManager.S.player1 = this.gameObject;
-            GUIManager.S.player1Anim = slothAnimator;
-        }
-        else
-        {
-            GameManager.S.player2 = this.gameObject;
-            GUIManager.S.player2Anim = slothAnimator;
+            case 0:
+                GameManager.S.player1 = this.gameObject;
+                GUIManager.S.player1Anim = slothAnimator;
+                break;
+            case 1:
+                GameManager.S.player2 = this.gameObject;
+                GUIManager.S.player2Anim = slothAnimator;
+                break;
+            case 2:
+                GameManager.S.player3 = this.gameObject;
+                GUIManager.S.player3Anim = slothAnimator;
+                break;
+            case 3:
+                GameManager.S.player4 = this.gameObject;
+                GUIManager.S.player4Anim = slothAnimator;
+                break;
+            default:
+                break;
         }
 
         GameManager.S.joinedPlayer++;
