@@ -103,14 +103,7 @@ public class Player : MonoBehaviour
 
     private void SetPlayerStatusInHUD()
     {
-        if (playerID == 0)
-        {
-            GUIManager.S.isMovingLeft1 = isMovingLeft;
-        }
-        else
-        {
-            GUIManager.S.isMovingLeft2 = isMovingLeft;
-        }
+        GUIManager.S.MoveLeft(playerID, isMovingLeft);
     }
     
     
