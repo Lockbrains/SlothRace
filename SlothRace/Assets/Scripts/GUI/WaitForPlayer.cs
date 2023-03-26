@@ -10,7 +10,7 @@ public class WaitForPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(2);
     }
 
     public void Join(int playerID)

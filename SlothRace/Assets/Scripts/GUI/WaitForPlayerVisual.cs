@@ -23,14 +23,15 @@ public class WaitForPlayerVisual : MonoBehaviour
     public bool isPrepared;
 
     // Update is called once per frame
-    private void Start()
+    void Start()
     {
         status = PlayerJoinStatus.NotJoined;
     }
 
-    private void Update()
+    void Update()
     {
         UpdateWithStatus();
+        Debug.Log(1);
     }
 
     private void UpdateWithStatus()
