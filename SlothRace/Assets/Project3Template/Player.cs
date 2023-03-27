@@ -1,11 +1,9 @@
 using System;
-using DualSenseSample.Inputs;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.DualShock;
 using UnityEngine.SceneManagement;
-using UniSense;
-using DualSenseGamepadHID = UniSense.DualSenseGamepadHID;
 
 public class Player : MonoBehaviour
 {
@@ -13,17 +11,25 @@ public class Player : MonoBehaviour
     [SerializeField] private int playerID;
     [SerializeField] private Sloth _sloth;
     [SerializeField] private GameObject _physicalSloth;
-    private bool _isReadyToGame;
 
     [Header("Player Properties")] 
-    public float movementSpeed = 10;
-    public float rotationSpeed = 100;
-    private bool _isSwitchingToLeft, _isSwitchingToRight;
-  
+    public float movementSpeed = 0.4f;
+    public float maxMovementSpeed = 2;
+    public float camRotationSpeed = 100;
+    public float playerRotationSpeed = 2;
+    public float speedBoostTime = 4f;
+
+    public float animatorSpeed = 1;
+    public float maxAnimatorSpeed = 2;
+
     [Header("Player Status")]
     public bool isMovingLeft;
     public bool isAttacking;
     public bool leftLeg, leftArm, rightLeg, rightArm;
+    public bool speedBoost;
+
+    [Header("Player Abilities")]
+    public Stack<string> playerAbilities = new Stack<string>();
 
     //the analog values read from the controller
     
@@ -38,102 +44,46 @@ public class Player : MonoBehaviour
     public Animator slothAnimator;
     
     public PlayerInput playerInput;
+
+    public GameObject slothCamera;
+
+    public GameObject player;
     
     // private bool sprinting = false;
     private float verticalVelocity = 0;
-    
-    private DualSenseTriggerState leftTriggerState;
-    private DualSenseTriggerState rightTriggerState;
-    private DualSenseRumble _rumble;
-
-    [SerializeField] private AbstractDualSenseBehaviour listener;
-    public DualSenseGamepadHID DualSense;
-    [HideInInspector] public bool hasDualSense;
-
-    #region Unity Basics
 
     private void Awake()
     {
-        leftTriggerState = new DualSenseTriggerState
-        {
-            EffectType = DualSenseTriggerEffectType.ContinuousResistance,
-            EffectEx = new DualSenseEffectExProperties(),
-            Section = new DualSenseSectionResistanceProperties(),
-            Continuous = new DualSenseContinuousResistanceProperties()
-        };
-
-        rightTriggerState = new DualSenseTriggerState
-        {
-            EffectType = DualSenseTriggerEffectType.ContinuousResistance,
-            EffectEx = new DualSenseEffectExProperties(),
-            Section = new DualSenseSectionResistanceProperties(),
-            Continuous = new DualSenseContinuousResistanceProperties()
-        };
+       
     }
 
     private void Start()
     {
-        playerID = playerInput.playerIndex;
-        GUIManager.S.PlayerJoin(playerID);
-        GameManager.S.joinedPlayer++;
-        
-        GameManager.S.dualSenseMonitor.listeners[playerID] = listener;
-        if(GameManager.S.joinedPlayer == GameManager.S.maxPlayerCount)
-            GameManager.S.dualSenseMonitor.gameObject.SetActive(true);
-        hasDualSense = false;
+        //controller = GetComponent<CharacterController>();
 
         if (playerInput == null)
         {
             playerInput = GetComponent<PlayerInput>();
         }
         
-        
-        switch (playerID)
+        playerID = playerInput.playerIndex;
+        if (playerID == 0)
         {
-            case 0:
-                GameManager.S.player1 = this.gameObject;
-                GUIManager.S.player1Anim = slothAnimator;
-                break;
-            case 1:
-                GameManager.S.player2 = this.gameObject;
-                GUIManager.S.player2Anim = slothAnimator;
-                break;
-            case 2:
-                GameManager.S.player3 = this.gameObject;
-                GUIManager.S.player3Anim = slothAnimator;
-                break;
-            case 3:
-                GameManager.S.player4 = this.gameObject;
-                GUIManager.S.player4Anim = slothAnimator;
-                break;
-            default:
-                break;
+            GameManager.S.player1 = this.gameObject;
+            GUIManager.S.player1Anim = slothAnimator;
         }
-        
+        else
+        {
+            GameManager.S.player2 = this.gameObject;
+            GUIManager.S.player2Anim = slothAnimator;
+        }
+
+        GameManager.S.joinedPlayer++;
         slothAnimator.speed = 0;
-        _isReadyToGame = false;
-        _isSwitchingToRight = false;
-        _isSwitchingToLeft = false;
     }
 
-    private void CheckDSController()
-    {
-        leftTriggerState.Continuous.StartPosition = 0;
-        leftTriggerState.Continuous.Force = 255;
-        rightTriggerState.Continuous.StartPosition = 0;
-        rightTriggerState.Continuous.Force = 255;
-        
-        var state = new DualSenseGamepadState
-        {
-            LeftTrigger = leftTriggerState,
-            RightTrigger = rightTriggerState
-        };
-        DualSense?.SetGamepadState(state);
-    }
     void Update()
     {
-        CheckDSController();
-        
         if (GameManager.S.gameState == GameManager.State.GameStart)
         {
             SlothMovement();
@@ -141,9 +91,6 @@ public class Player : MonoBehaviour
         SetAnimation();
         SetPlayerStatusInHUD();
     }
-
-    #endregion
-    
 
     public int GetPlayerID()
     {
@@ -158,7 +105,14 @@ public class Player : MonoBehaviour
 
     private void SetPlayerStatusInHUD()
     {
-        GUIManager.S.MoveLeft(playerID, isMovingLeft);
+        if (playerID == 0)
+        {
+            GUIManager.S.isMovingLeft1 = isMovingLeft;
+        }
+        else
+        {
+            GUIManager.S.isMovingLeft2 = isMovingLeft;
+        }
     }
     
     
@@ -171,56 +125,35 @@ public class Player : MonoBehaviour
         Vector3 curPos = transform.position;
         curPos += movement * Time.deltaTime;
         transform.position = curPos;
-
+        
+        // Debug.Log(leftStick);
         // if the left joystick is at its original position, stop the animation
-        if (leftStick.magnitude == 0f)
-        {
-            slothAnimator.speed = 0;
-            //Gamepad.current.SetMotorSpeeds(0f, 0f);
-        }
+        if (leftStick.magnitude == 0f) slothAnimator.speed = 0;
         else
         {
             // left joystick moving, the player tries to move
             if (isMovingLeft)
             {
                 GUIManager.S.EnableLeft(playerID);
-                _isSwitchingToRight = true;
-                if (_isSwitchingToLeft)
-                {
-                    GUIManager.S.RefreshHUDColor(playerID, false);
-                    _isSwitchingToLeft = false;
-                }
                 if (leftArm && rightLeg)
                 {
-                    slothAnimator.speed = 1;
-                    float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                    //Gamepad.current.SetMotorSpeeds(0.01f, 1f);
+                    slothAnimator.speed = animatorSpeed;
                 }
                 else
                 {
                     slothAnimator.speed = 0;
-                    //Gamepad.current.SetMotorSpeeds(0f, 0f);
                 }
             }
             else
             {
                 GUIManager.S.DisableLeft(playerID);
-                _isSwitchingToLeft = true;
-                if (_isSwitchingToRight)
-                {
-                    GUIManager.S.RefreshHUDColor(playerID, true);
-                    _isSwitchingToRight = false;
-                }
                 if (leftLeg && rightArm)
                 {
-                    slothAnimator.speed = 1;
-                    float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                    //Gamepad.current.SetMotorSpeeds(1f, 0.01f);
+                    slothAnimator.speed = animatorSpeed;
                 }
                 else
                 {
                     slothAnimator.speed = 0;
-                    //Gamepad.current.SetMotorSpeeds(0f, 0f);
                 }
             }
             
@@ -240,18 +173,27 @@ public class Player : MonoBehaviour
     //this is a less proper naming but more intuitive if you are used to just check an axis
     public void OnLeftStickMove(InputAction.CallbackContext context)
     {
-        if (GameManager.S.gameState == GameManager.State.GameStart)
+        if (GameManager.S.maxPlayerCount == 2)
         {
             leftStick = context.ReadValue<Vector2>();
         }
-        
+
+        float inputValue = context.ReadValue<Vector2>().x;
+        float rotation = inputValue * playerRotationSpeed + player.transform.rotation.eulerAngles.y;
+        Vector3 playerEulerAngles = player.transform.rotation.eulerAngles;
+        playerEulerAngles.y = rotation;
+        player.transform.rotation = Quaternion.Euler(playerEulerAngles);
+
         if (playerID == 0) GameManager.S.player1Started = true;
         else GameManager.S.player2Started = true;
     }
 
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
-        rightStick = context.ReadValue<Vector2>();
+        float inputValue = context.ReadValue<Vector2>().x;
+        float rotation = inputValue * camRotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
+
+        slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation, 0f);
     }
 
     public void OnMoveLeftArm(InputAction.CallbackContext context)
@@ -325,10 +267,44 @@ public class Player : MonoBehaviour
             isAttacking = true;
         }
         
-        if (context.canceled)
+        else if (context.canceled)
         {
             isAttacking = false;
         }
+    }
+
+    public void OnSpeedBoost(InputAction.CallbackContext context)
+    {
+        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek() == "SpeedBoost")
+        {
+            StartCoroutine(StartSpeedBoost(speedBoostTime));
+            playerAbilities.Pop();
+        }
+    }
+
+    private IEnumerator StartSpeedBoost(float waitTime)
+    {
+        SpeedBoost();
+        yield return new WaitForSeconds(waitTime);
+        ResetSpeed();
+        
+    }
+
+    private void SpeedBoost()
+    {
+        animatorSpeed = maxAnimatorSpeed;
+        Debug.Log("speeding");
+        movementSpeed = maxMovementSpeed;
+        speedBoost = true;
+    }
+
+    private void ResetSpeed()
+    {
+        animatorSpeed = 1;
+        slothAnimator.speed = 1;
+        movementSpeed = 0.4f;
+        speedBoost = false;
+        Debug.Log("slow down");
     }
 
     public void OnRestart(InputAction.CallbackContext context)
@@ -352,26 +328,15 @@ public class Player : MonoBehaviour
     public void ResetPosition()
     {
         GameManager.S.SendPlayerToOrigin(playerID);
-    }
-
-    public void OnGetReady(InputAction.CallbackContext context)
-    {
-        if (GameManager.S.gameState == GameManager.State.WaitForPlayers)
+        GameObject ragdoll = transform.Find("PhysicalSloth").gameObject;
+        GameObject hips = ragdoll.transform.Find("mixamorig:Hips").gameObject;
+        Debug.Log("hips:" + hips);
+        hips.GetComponent<ResetPosition>().resetPosition();
+        Transform[] allJoints = hips.GetComponentsInChildren<Transform>();
+        foreach (Transform child in allJoints)
         {
-            if (!_isReadyToGame)
-            {
-                GameManager.S.readyPlayer++;
-                GUIManager.S.PlayerReady(playerID);
-                _isReadyToGame = true;
-            }
-            else
-            {
-                GameManager.S.readyPlayer--;
-                GUIManager.S.PlayerJoin(playerID);
-                _isReadyToGame = false;
-            }
-            
-        } 
+            child.gameObject.GetComponent<ResetPosition>().resetPosition();
+        }
     }
 
 }

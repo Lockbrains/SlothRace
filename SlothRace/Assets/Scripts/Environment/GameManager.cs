@@ -131,5 +131,4 @@ public class GameManager : MonoBehaviour
             player2.transform.position = player2SpawnPoint;
         }
     }
-
 }
