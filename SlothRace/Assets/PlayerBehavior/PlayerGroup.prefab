@@ -5473,6 +5473,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 003782c5-4483-4b23-8a8b-92a3a6dd707d
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2347120692595698283}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnSpeedBoost
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8eb2ed08-1f33-42b7-8060-67f9518c67da
+    m_ActionName: Player/SpeedBoost[/SwitchProControllerHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -5494,14 +5510,19 @@ MonoBehaviour:
   _sloth: {fileID: 390356730890239861}
   _physicalSloth: {fileID: 6441048306623344769}
   movementSpeed: 0.4
+  maxMovementSpeed: 1
   camRotationSpeed: 10
   playerRotationSpeed: 1
+  animatorSpeed: 1
+  maxAnimatorSpeed: 2
   isMovingLeft: 0
   isAttacking: 0
   leftLeg: 0
   leftArm: 0
   rightLeg: 0
   rightArm: 0
+  speedBoost: 0
+  playerAbilities: []
   leftStick: {x: 0, y: 0}
   rightStick: {x: 0, y: 0}
   controller: {fileID: 177365139752192420}

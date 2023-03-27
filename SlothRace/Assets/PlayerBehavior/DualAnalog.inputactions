@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SpeedBoost",
+                    "type": "Button",
+                    "id": "8eb2ed08-1f33-42b7-8060-67f9518c67da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -313,10 +322,10 @@
                 {
                     "name": "",
                     "id": "fe33ba81-a867-4dd3-9ebb-ff63283e6664",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Joystick",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -329,6 +338,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca6d4ff9-a14e-44b8-8e44-45634c25885e",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Joystick",
+                    "action": "SpeedBoost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

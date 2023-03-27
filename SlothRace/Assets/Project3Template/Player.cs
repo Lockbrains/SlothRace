@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,14 +13,23 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _physicalSloth;
 
     [Header("Player Properties")] 
-    public float movementSpeed = 10;
+    public float movementSpeed = 0.4f;
+    public float maxMovementSpeed = 2;
     public float camRotationSpeed = 100;
     public float playerRotationSpeed = 2;
-  
+    public float speedBoostTime = 4f;
+
+    public float animatorSpeed = 1;
+    public float maxAnimatorSpeed = 2;
+
     [Header("Player Status")]
     public bool isMovingLeft;
     public bool isAttacking;
     public bool leftLeg, leftArm, rightLeg, rightArm;
+    public bool speedBoost;
+
+    [Header("Player Abilities")]
+    public Stack<string> playerAbilities = new Stack<string>();
 
     //the analog values read from the controller
     
@@ -126,7 +137,7 @@ public class Player : MonoBehaviour
                 GUIManager.S.EnableLeft(playerID);
                 if (leftArm && rightLeg)
                 {
-                    slothAnimator.speed = 1;
+                    slothAnimator.speed = animatorSpeed;
                 }
                 else
                 {
@@ -138,7 +149,7 @@ public class Player : MonoBehaviour
                 GUIManager.S.DisableLeft(playerID);
                 if (leftLeg && rightArm)
                 {
-                    slothAnimator.speed = 1;
+                    slothAnimator.speed = animatorSpeed;
                 }
                 else
                 {
@@ -256,10 +267,44 @@ public class Player : MonoBehaviour
             isAttacking = true;
         }
         
-        if (context.canceled)
+        else if (context.canceled)
         {
             isAttacking = false;
         }
+    }
+
+    public void OnSpeedBoost(InputAction.CallbackContext context)
+    {
+        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek() == "SpeedBoost")
+        {
+            StartCoroutine(StartSpeedBoost(speedBoostTime));
+            playerAbilities.Pop();
+        }
+    }
+
+    private IEnumerator StartSpeedBoost(float waitTime)
+    {
+        SpeedBoost();
+        yield return new WaitForSeconds(waitTime);
+        ResetSpeed();
+        
+    }
+
+    private void SpeedBoost()
+    {
+        animatorSpeed = maxAnimatorSpeed;
+        Debug.Log("speeding");
+        movementSpeed = maxMovementSpeed;
+        speedBoost = true;
+    }
+
+    private void ResetSpeed()
+    {
+        animatorSpeed = 1;
+        slothAnimator.speed = 1;
+        movementSpeed = 0.4f;
+        speedBoost = false;
+        Debug.Log("slow down");
     }
 
     public void OnRestart(InputAction.CallbackContext context)
