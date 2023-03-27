@@ -78,9 +78,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SpeedBoost",
+                    "name": "GetReady",
                     "type": "Button",
-                    "id": "8eb2ed08-1f33-42b7-8060-67f9518c67da",
+                    "id": "406b7a5f-e25a-4b18-a01d-c888f33081d3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -322,10 +322,10 @@
                 {
                     "name": "",
                     "id": "fe33ba81-a867-4dd3-9ebb-ff63283e6664",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Joystick",
+                    "groups": "Gamepad",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -343,12 +343,23 @@
                 },
                 {
                     "name": "",
-                    "id": "ca6d4ff9-a14e-44b8-8e44-45634c25885e",
+                    "id": "e3bfb675-8f1d-4445-9dc4-c9cd8e656bcb",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Joystick",
-                    "action": "SpeedBoost",
+                    "groups": "",
+                    "action": "GetReady",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3dae4cd2-36fe-40c1-b2bc-dee67ec42203",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GetReady",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -40,9 +40,8 @@ public class NPCWalk : MonoBehaviour
             Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
             rigidbody.AddForce(25000 * (destPos-originPos).normalized);
             Player player = collision.gameObject.GetComponent<HipCamera>().player;
-            RespawnPlayer(player);
-            //GUIManager.S.PlayerWins(player.GetPlayerID());
-            //GameManager.S.gameState = GameManager.State.GameEnd;
+            GUIManager.S.PlayerWins(player.GetPlayerID());
+            GameManager.S.gameState = GameManager.State.GameEnd;
         }
     }
 
