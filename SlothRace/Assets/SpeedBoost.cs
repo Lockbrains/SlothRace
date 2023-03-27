@@ -16,9 +16,11 @@ public class SpeedBoost : MonoBehaviour
             {
                 player.playerAbilities.Push("SpeedBoost");
                 Debug.Log("push speedboost to stack");
+            } else {
+                Debug.Log("you reached the limit of max number of abilities");
             }
 
             Destroy(this.gameObject);
         }
     }
-}
+} 
