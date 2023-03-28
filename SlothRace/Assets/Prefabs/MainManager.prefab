@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6156082140994258387}
-  - component: {fileID: 6156082140994258389}
-  - component: {fileID: 6156082140994258386}
+  - component: {fileID: 2347945009118748679}
+  - component: {fileID: 4736208578775268831}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6156082140994258389
+--- !u!114 &2347945009118748679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: 2
+  m_MaxPlayerCount: 4
   m_AllowJoining: 1
   m_JoinBehavior: 1
   m_PlayerJoinedEvent:
@@ -73,6 +73,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Join
         m_Flags: 0
+      - m_Name: 
+        m_Id: 45bee46a-dcf1-42a3-b40c-bdf0b1cc8ec3
+        m_Path: <Keyboard>/e
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 1987121657767916006, guid: a7a73b27de336704eb79b7b58b7b8de8, type: 3}
   m_PlayerPrefab: {fileID: 7923208057674303277, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
@@ -85,7 +93,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &6156082140994258386
+--- !u!114 &4736208578775268831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,9 +105,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85f394c59844454bb7c7a5a11cc7421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInputManager: {fileID: 6156082140994258384}
   player1: {fileID: 0}
   player2: {fileID: 0}
+  player3: {fileID: 0}
+  player4: {fileID: 0}
   player1Started: 0
   player2Started: 0
   player1SpawnPoint: {x: -1.5, y: 0, z: 0}
   player2SpawnPoint: {x: 0.7, y: 0, z: 0}
+  maxPlayerCount: 0
+  joinedPlayer: 0
+  gameState: 0
