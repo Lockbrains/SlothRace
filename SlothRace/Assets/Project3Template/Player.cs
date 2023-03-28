@@ -153,10 +153,22 @@ public class Player : MonoBehaviour
         }
         SetAnimation();
         SetPlayerStatusInHUD();
+        SetPlayerCamera();
     }
 
     #endregion
     
+    private void SetPlayerCamera()
+    {
+        if (GameManager.S.gameState != GameManager.State.Countdown || GameManager.S.gameState != GameManager.State.GameStart)
+        {
+            slothCamera.gameObject.SetActive(false);
+        }
+        else
+        {
+            slothCamera.gameObject.SetActive(true);
+        }
+    }
 
     public int GetPlayerID()
     {
