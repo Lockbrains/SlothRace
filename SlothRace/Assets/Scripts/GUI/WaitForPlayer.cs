@@ -20,6 +20,7 @@ public class WaitForPlayer : MonoBehaviour
         if (playerID >= playerVisuals.Length) return;
         //Debug.Log("Player " + playerID + " is in.");
         playerVisuals[playerID].Join();
+        playerVisuals[playerID].gameObject.SetActive(true);
     }
 
     public void Ready(int playerID)

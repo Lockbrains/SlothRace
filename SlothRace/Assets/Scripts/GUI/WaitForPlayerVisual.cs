@@ -8,13 +8,12 @@ public class WaitForPlayerVisual : MonoBehaviour
     
     public enum PlayerJoinStatus
     {
-        NotJoined, NotPrepared, Prepared
+        NotPrepared, Prepared
     }
 
     [Header("Contents")]
     [SerializeField] private Image visual;
     [SerializeField] private Sprite readySprite;
-    [SerializeField] private Sprite waitForJoinSprite;
     [SerializeField] private Sprite joinedSprite;
 
     [Header("Status")]
@@ -25,7 +24,7 @@ public class WaitForPlayerVisual : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        status = PlayerJoinStatus.NotJoined;
+        status = PlayerJoinStatus.NotPrepared;
     }
 
     void Update()
@@ -37,9 +36,6 @@ public class WaitForPlayerVisual : MonoBehaviour
     {
         switch(status)
         {
-            case PlayerJoinStatus.NotJoined:
-                visual.sprite = waitForJoinSprite;
-                break;
             case PlayerJoinStatus.NotPrepared:
                 visual.sprite = joinedSprite;
                 break;
