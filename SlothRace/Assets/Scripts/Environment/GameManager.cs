@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DualSenseSample.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     // Singleton pattern
     public static GameManager S;
     public GameObject playerInputManager;
-
+    public DualSenseMonitor dualSenseMonitor;
     private PlayerInputManager _inputManager;
     
     public enum State
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
     public int maxPlayerCount;
     // joinedPlayer: the number of players that have joined the game
     public int joinedPlayer;
-    
+    public int readyPlayer;
     public State gameState;
     
     private void Awake()
@@ -113,4 +114,5 @@ public class GameManager : MonoBehaviour
             player2.transform.position = player2SpawnPoint;
         }
     }
+
 }
