@@ -11,7 +11,6 @@ public class ResetPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("awake");
         rb = GetComponent<Rigidbody>();
         originalLocalPosition = transform.localPosition;
         originalLocalRotation = transform.localRotation;
