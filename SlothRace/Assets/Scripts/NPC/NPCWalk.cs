@@ -13,6 +13,8 @@ public class NPCWalk : MonoBehaviour
     public Vector3 directionNormalized;
 
     private int walkDirection = 1;
+
+    private bool getHit = false;
     // Update is called once per frame
     void Update()
     {
@@ -40,8 +42,9 @@ public class NPCWalk : MonoBehaviour
             Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
             rigidbody.AddForce(25000 * (destPos-originPos).normalized);
             Player player = collision.gameObject.GetComponent<HipCamera>().player;
-            GUIManager.S.PlayerWins(player.GetPlayerID());
-            GameManager.S.gameState = GameManager.State.GameEnd;
+            if (!getHit) RespawnPlayer(player);
+            //GUIManager.S.PlayerWins(player.GetPlayerID());
+            //GameManager.S.gameState = GameManager.State.GameEnd;
         }
     }
 
@@ -52,7 +55,9 @@ public class NPCWalk : MonoBehaviour
 
     private IEnumerator WaitToRespawn(Player player)
     {
+        getHit = true;
         yield return new WaitForSeconds(4.0f);
         player.ResetPosition();
+        getHit = false;
     }
 }
