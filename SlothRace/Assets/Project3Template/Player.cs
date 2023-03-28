@@ -153,7 +153,7 @@ public class Player : MonoBehaviour
         }
         SetAnimation();
         SetPlayerStatusInHUD();
-        SetPlayerCamera();
+        //SetPlayerCamera();
     }
 
     #endregion
