@@ -517,19 +517,28 @@ MonoBehaviour:
   _sloth: {fileID: 390356730890239861}
   _physicalSloth: {fileID: 6441048306623344769}
   movementSpeed: 0.4
-  rotationSpeed: 10
+  maxMovementSpeed: 2
+  camRotationSpeed: 100
+  playerRotationSpeed: 2
+  speedBoostTime: 4
+  animatorSpeed: 1
+  maxAnimatorSpeed: 2
   isMovingLeft: 0
   isAttacking: 0
   leftLeg: 0
   leftArm: 0
   rightLeg: 0
   rightArm: 0
+  speedBoost: 0
   leftStick: {x: 0, y: 0}
   rightStick: {x: 0, y: 0}
   controller: {fileID: 7752154170341239055}
   slothAnimator: {fileID: 445072051930053406}
   playerInput: {fileID: 7923208057674303267}
+  slothCamera: {fileID: 1457272051291143181}
+  player: {fileID: 7923208057674303277}
   listener: {fileID: 4900917591255796802}
+  hasDualSense: 0
 --- !u!114 &4900917591255796802
 MonoBehaviour:
   m_ObjectHideFlags: 0

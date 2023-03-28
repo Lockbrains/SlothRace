@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using DualSenseSample.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,18 +17,28 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _physicalSloth;
     private bool _isReadyToGame;
 
-    [Header("Player Properties")] 
-    public float movementSpeed = 10;
-    public float rotationSpeed = 100;
+    [Header("Player Properties")]
+    public float movementSpeed = 0.4f;
+    public float maxMovementSpeed = 2;
+    public float camRotationSpeed = 100;
+    public float playerRotationSpeed = 2;
+    public float speedBoostTime = 4f;
+
+    public float animatorSpeed = 1;
+    public float maxAnimatorSpeed = 2;
     private bool _isSwitchingToLeft, _isSwitchingToRight;
   
     [Header("Player Status")]
     public bool isMovingLeft;
     public bool isAttacking;
     public bool leftLeg, leftArm, rightLeg, rightArm;
+    public bool speedBoost;
+
+    [Header("Player Abilities")]
+    public Stack<string> playerAbilities = new Stack<string>();
 
     //the analog values read from the controller
-    
+
     [Header("Analog Value")]
     public Vector2 leftStick = Vector2.zero;
     public Vector2 rightStick = Vector2.zero;
@@ -36,9 +48,10 @@ public class Player : MonoBehaviour
     public CharacterController controller;
     // Sloth Animation
     public Animator slothAnimator;
-    
     public PlayerInput playerInput;
-    
+    public GameObject slothCamera;
+    public GameObject player;
+
     // private bool sprinting = false;
     private float verticalVelocity = 0;
     
@@ -240,18 +253,27 @@ public class Player : MonoBehaviour
     //this is a less proper naming but more intuitive if you are used to just check an axis
     public void OnLeftStickMove(InputAction.CallbackContext context)
     {
-        if (GameManager.S.gameState == GameManager.State.GameStart)
+        if (GameManager.S.maxPlayerCount == 2)
         {
             leftStick = context.ReadValue<Vector2>();
         }
-        
+
+        float inputValue = context.ReadValue<Vector2>().x;
+        float rotation = inputValue * playerRotationSpeed + player.transform.rotation.eulerAngles.y;
+        Vector3 playerEulerAngles = player.transform.rotation.eulerAngles;
+        playerEulerAngles.y = rotation;
+        player.transform.rotation = Quaternion.Euler(playerEulerAngles);
+
         if (playerID == 0) GameManager.S.player1Started = true;
         else GameManager.S.player2Started = true;
     }
 
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
-        rightStick = context.ReadValue<Vector2>();
+        float inputValue = context.ReadValue<Vector2>().x;
+        float rotation = inputValue * camRotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
+
+        slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation, 0f);
     }
 
     public void OnMoveLeftArm(InputAction.CallbackContext context)
@@ -349,10 +371,55 @@ public class Player : MonoBehaviour
         
     }
 
+    private void SpeedBoost()
+    {
+        animatorSpeed = maxAnimatorSpeed;
+        Debug.Log("speeding");
+        movementSpeed = maxMovementSpeed;
+        speedBoost = true;
+    }
+
+    private void ResetSpeed()
+    {
+        animatorSpeed = 1;
+        slothAnimator.speed = 1;
+        movementSpeed = 0.4f;
+        speedBoost = false;
+        Debug.Log("slow down");
+    }
+
+    private IEnumerator StartSpeedBoost(float waitTime)
+    {
+        SpeedBoost();
+        yield return new WaitForSeconds(waitTime);
+        ResetSpeed();
+
+    }
+
+
     public void ResetPosition()
     {
         GameManager.S.SendPlayerToOrigin(playerID);
+        GameObject ragdoll = transform.Find("PhysicalSloth").gameObject;
+        GameObject hips = ragdoll.transform.Find("mixamorig:Hips").gameObject;
+        Debug.Log("hips:" + hips);
+        hips.GetComponent<ResetPosition>().resetPosition();
+        Transform[] allJoints = hips.GetComponentsInChildren<Transform>();
+        foreach (Transform child in allJoints)
+        {
+            child.gameObject.GetComponent<ResetPosition>().resetPosition();
+        }
     }
+
+    public void OnSpeedBoost(InputAction.CallbackContext context)
+    {
+        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek() == "SpeedBoost")
+        {
+            StartCoroutine(StartSpeedBoost(speedBoostTime));
+            playerAbilities.Pop();
+        }
+    }
+
 
     public void OnGetReady(InputAction.CallbackContext context)
     {
