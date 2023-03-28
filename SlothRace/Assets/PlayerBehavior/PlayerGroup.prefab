@@ -536,7 +536,7 @@ MonoBehaviour:
   slothAnimator: {fileID: 445072051930053406}
   playerInput: {fileID: 7923208057674303267}
   slothCamera: {fileID: 1457272051291143181}
-  player: {fileID: 0}
+  player: {fileID: 7923208057674303277}
   listener: {fileID: 4900917591255796802}
   hasDualSense: 0
 --- !u!114 &4900917591255796802
