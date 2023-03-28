@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,12 @@ public class PlayerHUD : MonoBehaviour
     [Header("Font Colors")] 
     [SerializeField] private Color lightFontColor;
     [SerializeField] private Color darkFontColor;
+
+    [Header("Limb Highlights")] 
+    [SerializeField] private GameObject leftArmGO;
+    [SerializeField] private GameObject rightArmGO;
+    [SerializeField] private GameObject leftLegGO;
+    [SerializeField] private GameObject rightLegGO;
     
     // Start is called before the first frame update
     void Start()
@@ -97,21 +104,26 @@ public class PlayerHUD : MonoBehaviour
 
     public void ChangeLeftArmColor(bool enabled, bool active)
     {
+        leftArmGO.SetActive(active);
         if (enabled)
         {
             leftArm.color = active ? activeColor : enableColor;
+            
         }
         else
         {
             leftArm.color = limbDisableColor;
+            
         }
     }
     
     public void ChangeRightArmColor(bool enabled, bool active)
     {
+        rightArmGO.SetActive(active);
         if (enabled)
         {
             rightArm.color = active ? activeColor : enableColor;
+            
         }
         else
         {
@@ -121,9 +133,11 @@ public class PlayerHUD : MonoBehaviour
     
     public void ChangeLeftLegColor(bool enabled, bool active)
     {
+        leftLegGO.SetActive(active);
         if (enabled)
         {
             leftLeg.color = active ? activeColor : enableColor;
+            
         }
         else
         {
@@ -133,9 +147,11 @@ public class PlayerHUD : MonoBehaviour
     
     public void ChangeRightLegColor(bool enabled, bool active)
     {
+        rightLegGO.SetActive(active);
         if (enabled)
         {
             rightLeg.color = active ? activeColor : enableColor;
+            
         }
         else
         {
