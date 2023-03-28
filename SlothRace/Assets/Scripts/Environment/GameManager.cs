@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     [Header("Spawn Positions")] 
     [SerializeField] private Vector3 player1SpawnPoint;
     [SerializeField] private Vector3 player2SpawnPoint;
+    [SerializeField] private Vector3 player3SpawnPoint;
+    [SerializeField] private Vector3 player4SpawnPoint;
 
     [Header("Player Join Status")]
     // maxPlayerCount: how many players can we have for the current level
@@ -39,6 +41,11 @@ public class GameManager : MonoBehaviour
     public int joinedPlayer;
     public int readyPlayer;
     public State gameState;
+
+    [Header("Player Rank")] 
+    private float[] distance3p = new float[3];
+    private float[] distance4p = new float[4];
+    public float[] distances;
     
     private void Awake()
     {
@@ -113,6 +120,18 @@ public class GameManager : MonoBehaviour
         {
             player2.transform.position = player2SpawnPoint;
         }
+    }
+
+    public void SetDistanceArray()
+    {
+        if (maxPlayerCount == 3)
+        {
+            distances = distance3p;
+        } else if (maxPlayerCount == 4)
+        {
+            distances = distance4p;
+        }
+        else return;
     }
 
 }
