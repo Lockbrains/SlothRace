@@ -18,12 +18,12 @@ public class Player : MonoBehaviour
     private bool _isReadyToGame;
 
     [Header("Player Properties")]
-    public float originalmoveSpeed = 0.4f;
+    public float originalMoveSpeed = 0.4f;
     public float movementSpeed;
     public float camRotationSpeed = 100;
     public float playerRotationSpeed = 2;
 
-    public float originalanimatorSpeed = 1;
+    public float originalAnimatorSpeed = 1;
     public float animatorSpeed;
 
     private bool _isSwitchingToLeft, _isSwitchingToRight;
@@ -136,8 +136,8 @@ public class Player : MonoBehaviour
         _isSwitchingToLeft = false;
 
         // set movement speed and animation speed to default values
-        movementSpeed = originalanimatorSpeed;
-        animatorSpeed = originalanimatorSpeed;
+        movementSpeed = originalMoveSpeed;
+        animatorSpeed = originalAnimatorSpeed;
     }
 
     private void CheckDSController()
@@ -445,9 +445,9 @@ public class Player : MonoBehaviour
 
     private void ResetSpeed()
     {
-        animatorSpeed = originalanimatorSpeed;
+        animatorSpeed = originalAnimatorSpeed;
         //slothAnimator.speed = originalanimatorSpeed;
-        movementSpeed = originalmoveSpeed;
+        movementSpeed = originalMoveSpeed;
         speedBoost = false;
         Debug.Log("slow down");
     }
