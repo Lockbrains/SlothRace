@@ -17,7 +17,7 @@ public class PlayerHUD : MonoBehaviour
     
     [Header("UI Settings")]
     [SerializeField] private Color enableColor;
-    [SerializeField] private Color disableColor;
+    [SerializeField] private Color itemDisableColor;
     [SerializeField] private Color limbDisableColor;
     [SerializeField] private Color activeColor;
 
@@ -30,11 +30,13 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private GameObject rightArmGO;
     [SerializeField] private GameObject leftLegGO;
     [SerializeField] private GameObject rightLegGO;
+
+    public bool isItemAvailable;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        isItemAvailable = false;
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class PlayerHUD : MonoBehaviour
         if (rightArm != null) t_rightArm.color = (rightArm.color == enableColor) ? darkFontColor : lightFontColor;
         if (leftLeg != null) t_leftLeg.color = (leftLeg.color == enableColor) ? darkFontColor : lightFontColor;
         if (rightLeg != null) t_rightLeg.color = (rightLeg.color == enableColor) ? darkFontColor : lightFontColor;
+        if (item != null) item.color = isItemAvailable ? Color.white : itemDisableColor;
     }
 
     public void MoveLeft(bool isMoving)

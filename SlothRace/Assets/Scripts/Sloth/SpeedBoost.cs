@@ -17,6 +17,8 @@ public class SpeedBoost : MonoBehaviour
             if (player.playerAbilities.Count == 0)
             {
                 player.playerAbilities.Push(this.gameObject);
+                player.hasItem = true;
+                player.TellGUIManagerIHaveAnItem();
                 Debug.Log("push speedboost to stack");
             }
             else
@@ -25,6 +27,7 @@ public class SpeedBoost : MonoBehaviour
             }
 
             this.gameObject.SetActive(false);
+            //Destroy(this.gameObject, 1f);
         }
     }
 }

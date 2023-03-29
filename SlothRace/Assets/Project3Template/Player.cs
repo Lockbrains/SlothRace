@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 
     [Header("Player Abilities")]
     public Stack<GameObject> playerAbilities = new Stack<GameObject>();
+    public bool hasItem;
 
     //the analog values read from the controller
 
@@ -178,7 +179,16 @@ public class Player : MonoBehaviour
     {
         GUIManager.S.MoveLeft(playerID, isMovingLeft);
     }
-    
+
+    public void TellGUIManagerIHaveAnItem()
+    {
+        GUIManager.S.SetItemAvailability(playerID, true);
+    }
+
+    public void TellGUIManagerIHaveUsedTheItem()
+    {
+        GUIManager.S.SetItemAvailability(playerID, false);
+    }
     
     void SlothMovement()
     {
@@ -398,6 +408,12 @@ public class Player : MonoBehaviour
         
     }
 
+    public void Win()
+    {
+        GameManager.S.gameState = GameManager.State.GameEnd;
+        GUIManager.S.PlayerWins(playerID);
+    }
+
     private void SpeedBoost(SpeedBoostData speedData)
     {
         animatorSpeed = speedData.animationSpeed;
@@ -441,11 +457,12 @@ public class Player : MonoBehaviour
     {
         if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
         {
+            hasItem = false;
             GameObject speedItem = playerAbilities.Pop();
             SpeedBoost speed = speedItem.GetComponent<SpeedBoost>();
             SpeedBoostData speedData = speed.speedData;
             StartCoroutine(StartSpeedBoost(speedData));
-            
+            TellGUIManagerIHaveUsedTheItem();
         }
     }
 

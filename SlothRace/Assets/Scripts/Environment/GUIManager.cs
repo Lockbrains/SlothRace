@@ -253,6 +253,11 @@ public class GUIManager : MonoBehaviour
         }
     }
 
+    public void SetItemAvailability(int playerID, bool available)
+    {
+        _playerHUDs[playerID].isItemAvailable = available;
+    }
+    
     public void RefreshHUDColor(int playerID, bool isLeft)
     {
         _playerHUDs[playerID].InitialColorAdjustment(isLeft);
