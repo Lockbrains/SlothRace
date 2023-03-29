@@ -157,24 +157,22 @@ public class GameManager : MonoBehaviour
         float p1Distance = Vector3.Distance(player1Pos, finishPosition);
         float p2Distance = Vector3.Distance(player2Pos, finishPosition);
 
-        //Debug.Log("p1: " + p1Distance);
-        //Debug.Log("p2: " + p2Distance);
-
         if (p1Distance > p2Distance)
         {
+            // player 2 is in the lead 
             GUIManager.S.ChangePlayerRank(rankNumbers[0], 1);
             player2.GetComponent<Player>().rank = 1;
-            Debug.Log("p1: " + player1.GetComponent<Player>().rank);
-            Debug.Log("p2: " + player2.GetComponent<Player>().rank);
-            // set second
+
+            // player 1 is second
             GUIManager.S.ChangePlayerRank(rankNumbers[1], 0);
             player1.GetComponent<Player>().rank = 2;
         } else
         {
+            // player 1 is in the lead
             GUIManager.S.ChangePlayerRank(rankNumbers[0], 0);
             player1.GetComponent<Player>().rank = 1;
 
-            //set second place
+            // player 2 is second
             GUIManager.S.ChangePlayerRank(rankNumbers[1], 1);
             player2.GetComponent<Player>().rank = 2;
 
