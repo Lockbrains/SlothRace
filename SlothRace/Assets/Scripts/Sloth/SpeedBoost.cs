@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpeedBoost : MonoBehaviour
 {
+    public SpeedBoostData speedData;
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -14,7 +16,7 @@ public class SpeedBoost : MonoBehaviour
             // add speed boost to player only if stack == 0
             if (player.playerAbilities.Count == 0)
             {
-                player.playerAbilities.Push("SpeedBoost");
+                player.playerAbilities.Push(this.gameObject);
                 Debug.Log("push speedboost to stack");
             }
             else
@@ -22,7 +24,7 @@ public class SpeedBoost : MonoBehaviour
                 Debug.Log("you reached the limit of max number of abilities");
             }
 
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 }

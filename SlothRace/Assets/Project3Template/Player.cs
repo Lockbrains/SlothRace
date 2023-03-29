@@ -18,14 +18,14 @@ public class Player : MonoBehaviour
     private bool _isReadyToGame;
 
     [Header("Player Properties")]
-    public float movementSpeed = 0.4f;
-    public float maxMovementSpeed = 2;
+    public float originalmoveSpeed = 0.4f;
+    public float movementSpeed;
     public float camRotationSpeed = 100;
     public float playerRotationSpeed = 2;
-    public float speedBoostTime = 4f;
 
-    public float animatorSpeed = 1;
-    public float maxAnimatorSpeed = 2;
+    public float originalanimatorSpeed = 1;
+    public float animatorSpeed;
+
     private bool _isSwitchingToLeft, _isSwitchingToRight;
   
     [Header("Player Status")]
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     public bool speedBoost;
 
     [Header("Player Abilities")]
-    public Stack<string> playerAbilities = new Stack<string>();
+    public Stack<GameObject> playerAbilities = new Stack<GameObject>();
 
     //the analog values read from the controller
 
@@ -54,10 +54,6 @@ public class Player : MonoBehaviour
 
     // private bool sprinting = false;
     private float verticalVelocity = 0;
-
-
-    // lerp time variables
-    private float startTime;
 
     private DualSenseTriggerState leftTriggerState;
     private DualSenseTriggerState rightTriggerState;
@@ -90,7 +86,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        startTime = Time.deltaTime;
         playerID = playerInput.playerIndex;
         GUIManager.S.PlayerJoin(playerID);
         GameManager.S.joinedPlayer++;
@@ -132,6 +127,10 @@ public class Player : MonoBehaviour
         _isReadyToGame = false;
         _isSwitchingToRight = false;
         _isSwitchingToLeft = false;
+
+        // set movement speed and animation speed to default values
+        movementSpeed = originalanimatorSpeed;
+        animatorSpeed = originalanimatorSpeed;
     }
 
     private void CheckDSController()
@@ -222,7 +221,7 @@ public class Player : MonoBehaviour
                 }
                 if (leftArm && rightLeg)
                 {
-                    slothAnimator.speed = 1;
+                    slothAnimator.speed = animatorSpeed;
                     float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
                     //Gamepad.current.SetMotorSpeeds(0.01f, 1f);
                 }
@@ -243,7 +242,7 @@ public class Player : MonoBehaviour
                 }
                 if (leftLeg && rightArm)
                 {
-                    slothAnimator.speed = 1;
+                    slothAnimator.speed = animatorSpeed;
                     float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
                     //Gamepad.current.SetMotorSpeeds(1f, 0.01f);
                 }
@@ -293,8 +292,6 @@ public class Player : MonoBehaviour
 
         Debug.Log(rotation);
         slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation, 0f);
-
-        float t = (Time.deltaTime - startTime) / 2f;
 
         if (context.canceled)
         {
@@ -425,27 +422,27 @@ public class Player : MonoBehaviour
         
     }
 
-    private void SpeedBoost()
+    private void SpeedBoost(SpeedBoostData speedData)
     {
-        animatorSpeed = maxAnimatorSpeed;
+        animatorSpeed = speedData.animationSpeed;
         Debug.Log("speeding");
-        movementSpeed = maxMovementSpeed;
+        movementSpeed = speedData.movementSpeed;
         speedBoost = true;
     }
 
     private void ResetSpeed()
     {
-        animatorSpeed = 1;
-        slothAnimator.speed = 1;
-        movementSpeed = 0.4f;
+        animatorSpeed = originalanimatorSpeed;
+        //slothAnimator.speed = originalanimatorSpeed;
+        movementSpeed = originalmoveSpeed;
         speedBoost = false;
         Debug.Log("slow down");
     }
 
-    private IEnumerator StartSpeedBoost(float waitTime)
+    private IEnumerator StartSpeedBoost(SpeedBoostData speedData)
     {
-        SpeedBoost();
-        yield return new WaitForSeconds(waitTime);
+        SpeedBoost(speedData);
+        yield return new WaitForSeconds(speedData.duration);
         ResetSpeed();
 
     }
@@ -467,10 +464,13 @@ public class Player : MonoBehaviour
 
     public void OnSpeedBoost(InputAction.CallbackContext context)
     {
-        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek() == "SpeedBoost")
+        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
         {
-            StartCoroutine(StartSpeedBoost(speedBoostTime));
-            playerAbilities.Pop();
+            GameObject speedItem = playerAbilities.Pop();
+            SpeedBoost speed = speedItem.GetComponent<SpeedBoost>();
+            SpeedBoostData speedData = speed.speedData;
+            StartCoroutine(StartSpeedBoost(speedData));
+            
         }
     }
 

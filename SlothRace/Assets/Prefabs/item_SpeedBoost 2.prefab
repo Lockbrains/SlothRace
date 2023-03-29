@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4990444927999708371}
   - component: {fileID: -1944313183287290983}
   m_Layer: 0
-  m_Name: item_SpeedBoost
+  m_Name: item_SpeedBoost 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,4 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2a8d36b3daa2e469e80331a890ee9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedData: {fileID: 11400000, guid: 74c83f7b798244aa981df0b5f4c1e23f, type: 2}
+  speedData: {fileID: 11400000, guid: c2f0a4db7c6ae4a4fbec1ac5e4a04f7e, type: 2}
