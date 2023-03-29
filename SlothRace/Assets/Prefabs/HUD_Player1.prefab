@@ -418,7 +418,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9975696b7b6164ed39f119a5cc5ebf28, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5a712af44cccd334a8dfbb7cc01d9029, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -733,7 +733,7 @@ MonoBehaviour:
   rightPress: {fileID: 5743240842097990309}
   item: {fileID: 5032665236767772947}
   enableColor: {r: 1, g: 1, b: 1, a: 1}
-  disableColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
+  itemDisableColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
   limbDisableColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
   activeColor: {r: 1, g: 0, b: 0.3019608, a: 1}
   lightFontColor: {r: 1, g: 1, b: 1, a: 1}
@@ -742,6 +742,7 @@ MonoBehaviour:
   rightArmGO: {fileID: 4057194020045241152}
   leftLegGO: {fileID: 2482521059997469640}
   rightLegGO: {fileID: 7338945699128025540}
+  _player: {fileID: 0}
 --- !u!1 &3368746272275298600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.5}
+  m_AnchoredPosition: {x: 0, y: 3.5000038}
   m_SizeDelta: {x: 0, y: -7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5852643876556608921

@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 
     [Header("Player Abilities")]
     public Stack<string> playerAbilities = new Stack<string>();
+    public bool itemReady;
 
     //the analog values read from the controller
 
