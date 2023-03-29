@@ -161,4 +161,9 @@ public class PlayerHUD : MonoBehaviour
             rightLeg.color = limbDisableColor;
         }
     }
+
+    public void ChangePlayerRank(Sprite rankImg)
+    {
+        rank.sprite = rankImg;
+    }
 }

@@ -5,6 +5,7 @@ using DualSenseSample.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,10 +43,15 @@ public class GameManager : MonoBehaviour
     public int readyPlayer;
     public State gameState;
 
-    [Header("Player Rank")] 
+    [Header("Player Rank")]
+    private float[] distance2p = new float[2];
     private float[] distance3p = new float[3];
     private float[] distance4p = new float[4];
     public float[] distances;
+
+    public Sprite[] rankNumbers = new Sprite[4];
+    public GameObject finishLine;
+    public Vector3 finishPosition;
     
     private void Awake()
     {
@@ -60,6 +66,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _inputManager = playerInputManager.GetComponent<PlayerInputManager>();
+        finishPosition = finishLine.transform.position;
     }
 
     // Update is called once per frame
@@ -68,6 +75,10 @@ public class GameManager : MonoBehaviour
         EnableAndDisableJoin();
         ResetPlayer();
         CheckPlayerNum();
+        if (gameState == State.GameStart)
+        {
+            GetPlayersRank();
+        }
     }
 
     private void ResetPlayer()
@@ -133,5 +144,39 @@ public class GameManager : MonoBehaviour
         }
         else return;
     }
+
+    public void GetPlayersRank()
+    {
+        Transform player1model = player1.transform.GetChild(0).transform.GetChild(3);
+        Transform player2model = player2.transform.GetChild(0).transform.GetChild(3);
+
+        Vector3 player1Pos = player1model.position;
+        Vector3 player2Pos = player2model.position;
+
+        // compare positions to final destinations
+        float p1Distance = Vector3.Distance(player1Pos, finishPosition);
+        float p2Distance = Vector3.Distance(player2Pos, finishPosition);
+
+        if (p1Distance > p2Distance)
+        {
+            GUIManager.S.ChangePlayerRank(rankNumbers[0], 0);
+            player2.GetComponent<Player>().rank = 1;
+
+            // set second
+            GUIManager.S.ChangePlayerRank(rankNumbers[1], 1);
+            player1.GetComponent<Player>().rank = 2;
+        } else
+        {
+            GUIManager.S.ChangePlayerRank(rankNumbers[0], 0);
+            player1.GetComponent<Player>().rank = 1;
+
+            //set second place
+            GUIManager.S.ChangePlayerRank(rankNumbers[1], 1);
+            player2.GetComponent<Player>().rank = 2;
+
+
+        }
+    }
+
 
 }

@@ -337,5 +337,10 @@ public class GUIManager : MonoBehaviour
     {
         _waitModule.Ready(playerID);
     }
-    
+
+    public void ChangePlayerRank(Sprite rank, int playerID)
+    {
+        _playerHUDs[playerID].ChangePlayerRank(rank);
+    }
+        
 }

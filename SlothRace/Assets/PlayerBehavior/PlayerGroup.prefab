@@ -582,22 +582,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2347120692595698283}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 69dbfa53-4c9d-45d3-a6cb-0a2e1f1697b6
-    m_ActionName: Player/Attack[/XInputControllerWindows/buttonSouth]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2347120692595698283}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: OnRestart
         m_Mode: 0
         m_Arguments:
@@ -710,13 +694,12 @@ MonoBehaviour:
   playerID: 0
   _sloth: {fileID: 390356730890239861}
   _physicalSloth: {fileID: 6441048306623344769}
+  originalmoveSpeed: 0.4
   movementSpeed: 0.4
-  maxMovementSpeed: 2
-  camRotationSpeed: 1
+  camRotationSpeed: 1.5
   playerRotationSpeed: 1
-  speedBoostTime: 4
+  originalanimatorSpeed: 1
   animatorSpeed: 1
-  maxAnimatorSpeed: 2
   isMovingLeft: 0
   isAttacking: 0
   leftLeg: 0
@@ -724,6 +707,7 @@ MonoBehaviour:
   rightLeg: 0
   rightArm: 0
   speedBoost: 0
+  hasItem: 0
   leftStick: {x: 0, y: 0}
   rightStick: {x: 0, y: 0}
   controller: {fileID: 738262305072145322}
@@ -731,6 +715,7 @@ MonoBehaviour:
   playerInput: {fileID: 7923208057674303267}
   slothCamera: {fileID: 1457272051291143181}
   player: {fileID: 6441048306623344769}
+  camPosition: {fileID: 2470347686834898049}
   listener: {fileID: 4900917591255796802}
   hasDualSense: 0
 --- !u!114 &4900917591255796802
@@ -3741,7 +3726,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000029802322, y: 0.39892846, z: -0.000000115484}
+  m_ConnectedAnchor: {x: 0.00000010430813, y: 0.39892817, z: -0.000000048428774}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -4696,7 +4681,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000017881393, y: 0.31401038, z: -0.00000032782555}
+  m_ConnectedAnchor: {x: -0.00000008940697, y: 0.31401017, z: -0.000000230968}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -6126,7 +6111,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000004172325, y: 0.5743106, z: -0.00000023469329}
+  m_ConnectedAnchor: {x: 0.00000025331974, y: 0.57431054, z: 0.000000024214387}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0

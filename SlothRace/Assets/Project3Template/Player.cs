@@ -52,6 +52,12 @@ public class Player : MonoBehaviour
     public PlayerInput playerInput;
     public GameObject slothCamera;
     public GameObject player;
+    public GameObject camPosition;
+
+    [Header("Rank")]
+    public int rank;
+
+ 
 
     // private bool sprinting = false;
     private float verticalVelocity = 0;
@@ -274,10 +280,22 @@ public class Player : MonoBehaviour
         }
 
         float inputValue = context.ReadValue<Vector2>().x;
+
+        // player rotation
         float rotation = inputValue * playerRotationSpeed + player.transform.rotation.eulerAngles.y;
         Vector3 playerEulerAngles = player.transform.rotation.eulerAngles;
         playerEulerAngles.y = rotation;
         player.transform.rotation = Quaternion.Euler(playerEulerAngles);
+
+        // update camera rotation so its directly behind player
+        float camYRotation = inputValue * playerRotationSpeed + camPosition.transform.rotation.eulerAngles.y;
+        float camXRotation = camPosition.transform.rotation.eulerAngles.x;
+        float camZRotation = camPosition.transform.rotation.eulerAngles.z;
+
+        //float offset = camYRotation - player.transform.rotation.eulerAngles.y;
+
+        camPosition.transform.rotation = Quaternion.Euler(camXRotation, camYRotation, camZRotation);
+       
 
         if (playerID == 0) GameManager.S.player1Started = true;
         else GameManager.S.player2Started = true;
@@ -287,37 +305,41 @@ public class Player : MonoBehaviour
     {
         rightStick = context.ReadValue<Vector2>();
         float inputValue = context.ReadValue<Vector2>().x;
-        float rotation = inputValue * camRotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
 
-        Debug.Log(rotation);
-        slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation, 0f);
+        float start = camPosition.transform.rotation.eulerAngles.y;
 
-        if (context.canceled)
+        float rotation = inputValue * camRotationSpeed + camPosition.transform.rotation.eulerAngles.y;
+
+        camPosition.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+
+        /*if (context.canceled)
         {
-            StartCoroutine(CameraSmoothSnap(rotation));
+            StartCoroutine(CameraSmoothSnap(rotation, start));
         }
 
         if (context.started)
         {
             StopCoroutine("CameraSmoothSnap");
-        }
+        }*/
     }
 
-    private IEnumerator CameraSmoothSnap(float rotation)
+    private IEnumerator CameraSmoothSnap(float rotation, float start)
     {
         float timePassed = 0;
         float lerpValue;
+
         while (timePassed < 1f)
         {
-            if (rotation > 180)
+            if (rotation > start - 180 && rotation < start)
             {
-                lerpValue = Mathf.Lerp(rotation, 360, timePassed);
-                slothCamera.transform.rotation = Quaternion.Euler(21.35f, lerpValue, 0f);
+                
+                lerpValue = Mathf.Lerp(rotation, 360 + start, timePassed);
+                camPosition.transform.rotation = Quaternion.Euler(0f, lerpValue, 0f);
             }
             else
             {
-                lerpValue = Mathf.Lerp(rotation, 0, timePassed);
-                slothCamera.transform.rotation = Quaternion.Euler(21.35f, lerpValue, 0f);
+                lerpValue = Mathf.Lerp(rotation, start, timePassed);
+                camPosition.transform.rotation = Quaternion.Euler(0f, lerpValue, 0f);
             }
             timePassed += Time.deltaTime;
             yield return null;
