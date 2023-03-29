@@ -9,7 +9,7 @@ public class GameOverDetector : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
-            Player player = other.gameObject.GetComponent<Player>();
+            Player player = other.gameObject.GetComponent<HipCamera>().player;
             player.Win();
         }
     }

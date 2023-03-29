@@ -394,7 +394,7 @@ public class Player : MonoBehaviour
     {
         if(GameManager.S.gameState == GameManager.State.GameEnd)
         {
-            SceneManager.LoadScene("FirstLevel");
+            SceneManager.LoadScene("Alpha Test");
         }
     }
 
