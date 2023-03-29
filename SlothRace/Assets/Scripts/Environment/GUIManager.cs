@@ -293,30 +293,33 @@ public class GUIManager : MonoBehaviour
 
     public void OnLevelSelectButtonClick(int playerNum)
     {
-        GameManager.S.maxPlayerCount = playerNum;
-        GameManager.S.gameState = GameManager.State.WaitForPlayers;
-        switch (playerNum)
+        if (GameManager.S.gameState == GameManager.State.LevelSelection)
         {
-            case 2:
-                twoPlayerMode.SetActive(true);
-                _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
-                threePlayerMode.SetActive(false);
-                fourPlayerMode.SetActive(false);
-                break;
-            case 3:
-                twoPlayerMode.SetActive(false);
-                threePlayerMode.SetActive(true);
-                _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
-                fourPlayerMode.SetActive(false);
-                break;
-            case 4:
-                twoPlayerMode.SetActive(false);
-                threePlayerMode.SetActive(false);
-                fourPlayerMode.SetActive(true);
-                _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
-                break;
-            default:
-                break;
+            GameManager.S.maxPlayerCount = playerNum;
+            GameManager.S.gameState = GameManager.State.WaitForPlayers;
+            switch (playerNum)
+            {
+                case 2:
+                    twoPlayerMode.SetActive(true);
+                    _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
+                    threePlayerMode.SetActive(false);
+                    fourPlayerMode.SetActive(false);
+                    break;
+                case 3:
+                    twoPlayerMode.SetActive(false);
+                    threePlayerMode.SetActive(true);
+                    _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
+                    fourPlayerMode.SetActive(false);
+                    break;
+                case 4:
+                    twoPlayerMode.SetActive(false);
+                    threePlayerMode.SetActive(false);
+                    fourPlayerMode.SetActive(true);
+                    _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

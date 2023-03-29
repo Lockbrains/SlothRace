@@ -489,6 +489,10 @@ MonoBehaviour:
   activeColor: {r: 0, g: 0, b: 0, a: 0}
   lightFontColor: {r: 0, g: 0, b: 0, a: 0}
   darkFontColor: {r: 0, g: 0, b: 0, a: 0}
+  leftArmGO: {fileID: 0}
+  rightArmGO: {fileID: 0}
+  leftLegGO: {fileID: 0}
+  rightLegGO: {fileID: 0}
 --- !u!1 &1550563167359444180
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +641,10 @@ MonoBehaviour:
   activeColor: {r: 0, g: 0, b: 0, a: 0}
   lightFontColor: {r: 0, g: 0, b: 0, a: 0}
   darkFontColor: {r: 0, g: 0, b: 0, a: 0}
+  leftArmGO: {fileID: 0}
+  rightArmGO: {fileID: 0}
+  leftLegGO: {fileID: 0}
+  rightLegGO: {fileID: 0}
 --- !u!1 &2098339188149852595
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,8 +1433,8 @@ MonoBehaviour:
   two_label: {fileID: 8123584768638817333}
   one_label: {fileID: 873490771708937782}
   go_label: {fileID: 706403282821191967}
-  shortTime: 0
-  longTime: 0
+  shortTime: 1
+  longTime: 1
   player1Wins: {fileID: 865487701774408439}
   player2Wins: {fileID: 2098339188149852595}
 --- !u!1 &8123584768638817333

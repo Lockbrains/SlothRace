@@ -60,15 +60,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Attack",
-                    "type": "Button",
-                    "id": "69dbfa53-4c9d-45d3-a6cb-0a2e1f1697b6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Restart",
                     "type": "Button",
                     "id": "68eda65d-0513-438d-a091-221c4c7c469c",
@@ -325,17 +316,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "MoveRightLeg",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fe33ba81-a867-4dd3-9ebb-ff63283e6664",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

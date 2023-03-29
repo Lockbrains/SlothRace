@@ -162,17 +162,6 @@ public class Player : MonoBehaviour
 
     #endregion
     
-    private void SetPlayerCamera()
-    {
-        if (GameManager.S.gameState != GameManager.State.Countdown || GameManager.S.gameState != GameManager.State.GameStart)
-        {
-            slothCamera.gameObject.SetActive(false);
-        }
-        else
-        {
-            slothCamera.gameObject.SetActive(true);
-        }
-    }
 
     public int GetPlayerID()
     {
@@ -391,19 +380,6 @@ public class Player : MonoBehaviour
 
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            isAttacking = true;
-        }
-        
-        if (context.canceled)
-        {
-            isAttacking = false;
-        }
-    }
-
     public void OnRestart(InputAction.CallbackContext context)
     {
         if(GameManager.S.gameState == GameManager.State.GameEnd)
@@ -425,7 +401,6 @@ public class Player : MonoBehaviour
     private void SpeedBoost(SpeedBoostData speedData)
     {
         animatorSpeed = speedData.animationSpeed;
-        Debug.Log("speeding");
         movementSpeed = speedData.movementSpeed;
         speedBoost = true;
     }
@@ -492,7 +467,7 @@ public class Player : MonoBehaviour
                 _isReadyToGame = false;
             }
             
-        } 
+        }
     }
 
 }
