@@ -54,7 +54,11 @@ public class Player : MonoBehaviour
 
     // private bool sprinting = false;
     private float verticalVelocity = 0;
-    
+
+
+    // lerp time variables
+    private float startTime;
+
     private DualSenseTriggerState leftTriggerState;
     private DualSenseTriggerState rightTriggerState;
     private DualSenseRumble _rumble;
@@ -86,6 +90,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        startTime = Time.deltaTime;
         playerID = playerInput.playerIndex;
         GUIManager.S.PlayerJoin(playerID);
         GameManager.S.joinedPlayer++;
@@ -282,10 +287,47 @@ public class Player : MonoBehaviour
 
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
+        rightStick = context.ReadValue<Vector2>();
         float inputValue = context.ReadValue<Vector2>().x;
         float rotation = inputValue * camRotationSpeed + slothCamera.transform.rotation.eulerAngles.y;
 
+        Debug.Log(rotation);
         slothCamera.transform.rotation = Quaternion.Euler(21.35f, rotation, 0f);
+
+        float t = (Time.deltaTime - startTime) / 2f;
+
+        if (context.canceled)
+        {
+            StartCoroutine(CameraSmoothSnap(rotation));
+        }
+
+        if (context.started)
+        {
+            StopCoroutine("CameraSmoothSnap");
+        }
+    }
+
+    private IEnumerator CameraSmoothSnap(float rotation)
+    {
+        float timePassed = 0;
+        float lerpValue;
+        while (timePassed < 1f)
+        {
+            if (rotation > 180)
+            {
+                lerpValue = Mathf.Lerp(rotation, 360, timePassed);
+                slothCamera.transform.rotation = Quaternion.Euler(21.35f, lerpValue, 0f);
+            }
+            else
+            {
+                lerpValue = Mathf.Lerp(rotation, 0, timePassed);
+                slothCamera.transform.rotation = Quaternion.Euler(21.35f, lerpValue, 0f);
+            }
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+
+        lerpValue = 0;
     }
 
     public void OnMoveLeftArm(InputAction.CallbackContext context)
