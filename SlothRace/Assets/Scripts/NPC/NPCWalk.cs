@@ -40,7 +40,7 @@ public class NPCWalk : MonoBehaviour
             Vector3 originPos = transform.position;
             Vector3 destPos = collision.transform.position;
             Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
-            rigidbody.AddForce(25000 * (destPos-originPos).normalized);
+            rigidbody.AddForce(walkingSpeed * 1000 * (destPos-originPos).normalized);
             Player player = collision.gameObject.GetComponent<HipCamera>().player;
             //if (!getHit) RespawnPlayer(player);
             //GUIManager.S.PlayerWins(player.GetPlayerID());
