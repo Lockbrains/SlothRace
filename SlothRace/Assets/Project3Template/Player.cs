@@ -224,7 +224,7 @@ public class Player : MonoBehaviour
                     GUIManager.S.RefreshHUDColor(playerID, false);
                     _isSwitchingToLeft = false;
                 }
-                if (leftArm && rightLeg)
+                if (leftArm && rightLeg && !rightArm && !leftLeg)
                 {
                     slothAnimator.speed = animatorSpeed;
                     float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
