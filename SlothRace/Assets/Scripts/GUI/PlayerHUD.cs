@@ -42,10 +42,54 @@ public class PlayerHUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (leftArm != null) t_leftArm.color = (leftArm.color == enableColor) ? darkFontColor : lightFontColor;
-        if (rightArm != null) t_rightArm.color = (rightArm.color == enableColor) ? darkFontColor : lightFontColor;
-        if (leftLeg != null) t_leftLeg.color = (leftLeg.color == enableColor) ? darkFontColor : lightFontColor;
-        if (rightLeg != null) t_rightLeg.color = (rightLeg.color == enableColor) ? darkFontColor : lightFontColor;
+        if (leftArm != null)
+        {
+            if (leftArm.color == limbDisableColor)
+            {
+                t_leftArm.color = Color.clear;
+            }
+            else
+            {
+                t_leftArm.color = (leftArm.color == enableColor) ? darkFontColor : lightFontColor;
+            }
+        }
+
+        if (rightArm != null)
+        {
+            if (rightArm.color == limbDisableColor)
+            {
+                t_rightArm.color = Color.clear;
+            }
+            else
+            {
+                t_rightArm.color = (rightArm.color == enableColor) ? darkFontColor : lightFontColor;
+            }
+        }
+
+        if (leftLeg != null)
+        {
+            if (leftLeg.color == limbDisableColor)
+            {
+                t_leftLeg.color = Color.clear;
+            }
+            else
+            {
+                t_leftLeg.color = (leftLeg.color == enableColor) ? darkFontColor : lightFontColor;
+            }
+        }
+
+        if (rightLeg != null)
+        {
+            if (rightLeg.color == limbDisableColor)
+            {
+                t_rightLeg.color = Color.clear;
+            }
+            else
+            {
+                t_rightLeg.color = (rightLeg.color == enableColor) ? darkFontColor : lightFontColor;
+            }
+        }
+        
         if (item != null) item.color = isItemAvailable ? Color.white : itemDisableColor;
     }
 

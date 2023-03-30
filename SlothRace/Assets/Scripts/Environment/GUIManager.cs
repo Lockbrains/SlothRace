@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class GUIManager : MonoBehaviour
 {
 
+    #region Variables
     public static GUIManager S;
     private GameManager.State _state;
     
@@ -59,8 +60,9 @@ public class GUIManager : MonoBehaviour
     [Header("Game Over")]
     [SerializeField] private GameObject player1Wins;
     [SerializeField] private GameObject player2Wins;
+    #endregion
     
-    
+    #region Unity Basics
     private void Awake()
     {
         if (S)
@@ -71,8 +73,7 @@ public class GUIManager : MonoBehaviour
         S = this;
     }
     
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         hasStartedCountdown = false;
         DisableCountdown();
@@ -81,14 +82,14 @@ public class GUIManager : MonoBehaviour
         InitialColorAdjustment();
     }
     
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         UpdateHUD();
         UpdateListenToInput();
         UpdatePlayerScrollBar();
     }
     
+    #region Update Helpers
     private void UpdateHUD()
     {
         _state = GameManager.S.gameState;
@@ -148,7 +149,6 @@ public class GUIManager : MonoBehaviour
                 break;
         }
     }
-
     private void UpdateListenToInput()
     {
         switch (_state)
@@ -175,7 +175,46 @@ public class GUIManager : MonoBehaviour
             if(len >=4) _playerHUDs[3].UpdateProgress(player4Anim);
         }
     }
-        
+    #endregion
+    #endregion
+
+    #region LevelSelection, Codes for Ad Board
+    public void OnLevelSelectButtonClick(int playerNum)
+    {
+        if (GameManager.S.gameState == GameManager.State.LevelSelection)
+        {
+            GameManager.S.maxPlayerCount = playerNum;
+            GameManager.S.gameState = GameManager.State.WaitForPlayers;
+            switch (playerNum)
+            {
+                case 2:
+                    twoPlayerMode.SetActive(true);
+                    _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
+                    threePlayerMode.SetActive(false);
+                    fourPlayerMode.SetActive(false);
+                    break;
+                case 3:
+                    twoPlayerMode.SetActive(false);
+                    threePlayerMode.SetActive(true);
+                    _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
+                    fourPlayerMode.SetActive(false);
+                    break;
+                case 4:
+                    twoPlayerMode.SetActive(false);
+                    threePlayerMode.SetActive(false);
+                    fourPlayerMode.SetActive(true);
+                    _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+
+    #endregion
+    
+    #region WaitForPlayer, Codes for Join UI
     private void CheckPlayerNum()
     {
         if (GameManager.S.readyPlayer == GameManager.S.maxPlayerCount)
@@ -189,35 +228,28 @@ public class GUIManager : MonoBehaviour
         }
     }
     
-    private void DisableHUD()
+    public void PlayerJoin(int playerID)
     {
-        foreach (PlayerHUD playerHUD in _playerHUDs)
-        {
-            playerHUD.gameObject.SetActive(false);
-        }
+        _waitModule.Join(playerID);
     }
 
+    public void PlayerReady(int playerID)
+    {
+        _waitModule.Ready(playerID);
+    }
+
+    public void ChangePlayerRank(Sprite rank, int playerID)
+    {
+        _playerHUDs[playerID].ChangePlayerRank(rank);
+    }
+    
+    #endregion
+
+    #region Countdown, Codes for countdown
     private void DisableCountdown()
     {
         reverseCount.SetActive(false);
     }
-    
-    //todo: to be updated into PlayerHUD
-    public void PlayerWins(int playerID)
-    {
-        if (playerID == 1)
-        {
-            DisableHUD();
-            player1Wins.SetActive(true);
-            player2Wins.SetActive(false);
-        }
-        else
-        {
-            DisableHUD();
-            player1Wins.SetActive(false);
-            player2Wins.SetActive(true);
-        }
-    } 
 
     private IEnumerator Countdown()
     {
@@ -245,6 +277,17 @@ public class GUIManager : MonoBehaviour
         }
         DisableCountdown();
     }
+    #endregion
+    
+    #region GameStart, Codes for Player HUD
+    private void DisableHUD()
+    {
+        foreach (PlayerHUD playerHUD in _playerHUDs)
+        {
+            playerHUD.gameObject.SetActive(false);
+        }
+    }
+    
     void InitialColorAdjustment()
     {
         foreach (var t in _playerHUDs)
@@ -296,51 +339,24 @@ public class GUIManager : MonoBehaviour
         _playerHUDs[playerID].ChangeRightLegColor(enabled, active);
     }
 
-    public void OnLevelSelectButtonClick(int playerNum)
+    #endregion
+
+    #region GameEnd, Codes for Leaderboard UI
+    public void PlayerWins(int playerID)
     {
-        if (GameManager.S.gameState == GameManager.State.LevelSelection)
+        if (playerID == 1)
         {
-            GameManager.S.maxPlayerCount = playerNum;
-            GameManager.S.gameState = GameManager.State.WaitForPlayers;
-            switch (playerNum)
-            {
-                case 2:
-                    twoPlayerMode.SetActive(true);
-                    _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
-                    threePlayerMode.SetActive(false);
-                    fourPlayerMode.SetActive(false);
-                    break;
-                case 3:
-                    twoPlayerMode.SetActive(false);
-                    threePlayerMode.SetActive(true);
-                    _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
-                    fourPlayerMode.SetActive(false);
-                    break;
-                case 4:
-                    twoPlayerMode.SetActive(false);
-                    threePlayerMode.SetActive(false);
-                    fourPlayerMode.SetActive(true);
-                    _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
-                    break;
-                default:
-                    break;
-            }
+            DisableHUD();
+            player1Wins.SetActive(true);
+            player2Wins.SetActive(false);
+        }
+        else
+        {
+            DisableHUD();
+            player1Wins.SetActive(false);
+            player2Wins.SetActive(true);
         }
     }
-
-    public void PlayerJoin(int playerID)
-    {
-        _waitModule.Join(playerID);
-    }
-
-    public void PlayerReady(int playerID)
-    {
-        _waitModule.Ready(playerID);
-    }
-
-    public void ChangePlayerRank(Sprite rank, int playerID)
-    {
-        _playerHUDs[playerID].ChangePlayerRank(rank);
-    }
-        
+    #endregion
+    
 }

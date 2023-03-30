@@ -9,13 +9,16 @@ using UnityEngine.Video;
 public class NPCWalk : MonoBehaviour
 {
 
+    #region Variables
     public float walkingSpeed;
     public Vector3 directionNormalized;
 
     private int walkDirection = 1;
 
     private bool getHit = false;
-    // Update is called once per frame
+    #endregion
+    
+    #region Unity Basics
     void Update()
     {
         Vector3 currentPos = transform.position;
@@ -27,7 +30,7 @@ public class NPCWalk : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "NPCTrigger")
+        if (other.transform.CompareTag("NPCTrigger"))
         {
             walkDirection *= -1;
         }
@@ -35,12 +38,12 @@ public class NPCWalk : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.tag == "Player")
+        if(collision.transform.CompareTag("Player"))
         {
             Vector3 originPos = transform.position;
             Vector3 destPos = collision.transform.position;
-            Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
-            rigidbody.AddForce(walkingSpeed * 1000 * (destPos-originPos).normalized);
+            Rigidbody component = collision.gameObject.GetComponent<Rigidbody>();
+            component.AddForce(walkingSpeed * 1000 * (destPos-originPos).normalized);
             Player player = collision.gameObject.GetComponent<HipCamera>().player;
             //if (!getHit) RespawnPlayer(player);
             //GUIManager.S.PlayerWins(player.GetPlayerID());
@@ -48,6 +51,8 @@ public class NPCWalk : MonoBehaviour
         }
     }
 
+    #endregion
+    
     private void RespawnPlayer(Player gamePlayer)
     {
         StartCoroutine(WaitToRespawn(gamePlayer));

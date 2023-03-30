@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class WaitForPlayerVisual : MonoBehaviour
 {
-    
     public enum PlayerJoinStatus
     {
         NotPrepared, Prepared

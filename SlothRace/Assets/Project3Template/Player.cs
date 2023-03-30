@@ -1,16 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DualSenseSample.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.DualShock;
 using UnityEngine.SceneManagement;
 using UniSense;
 using DualSenseGamepadHID = UniSense.DualSenseGamepadHID;
 
 public class Player : MonoBehaviour
 {
+    #region Variables
     [Header("Input Data")]
     [SerializeField] private int playerID;
     [SerializeField] private Sloth _sloth;
@@ -69,6 +68,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AbstractDualSenseBehaviour listener;
     public DualSenseGamepadHID DualSense;
     [HideInInspector] public bool hasDualSense;
+    #endregion
 
     #region Unity Basics
 
@@ -164,53 +164,27 @@ public class Player : MonoBehaviour
         }
         SetAnimation();
         SetPlayerStatusInHUD();
-        //SetPlayerCamera();
     }
 
     #endregion
     
-
-    public int GetPlayerID()
-    {
-        return playerID;
-    }
-
-    private void SetAnimation()
-    {
-        slothAnimator.SetBool("MoveLeft", isMovingLeft);
-        slothAnimator.SetBool("Attacking", isAttacking);
-    }
-
-    private void SetPlayerStatusInHUD()
-    {
-        GUIManager.S.MoveLeft(playerID, isMovingLeft);
-    }
-
-    public void TellGUIManagerIHaveAnItem()
-    {
-        GUIManager.S.SetItemAvailability(playerID, true);
-    }
-
-    public void TellGUIManagerIHaveUsedTheItem()
-    {
-        GUIManager.S.SetItemAvailability(playerID, false);
-    }
-    
+    #region Control
     void SlothMovement()
     {
+        /*
         float targetSpeed = movementSpeed;
-        Vector3 movement = new Vector3(leftStick.x * targetSpeed, verticalVelocity, leftStick.y * targetSpeed) * slothAnimator.speed;
+        Vector3 movement = new Vector3().normalized * (targetSpeed * slothAnimator.speed);
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         Vector3 curPos = transform.position;
         curPos += movement * Time.deltaTime;
         transform.position = curPos;
-
+    */
+        
         // if the left joystick is at its original position, stop the animation
         if (leftStick.magnitude == 0f)
         {
-            slothAnimator.speed = 0;
-            //Gamepad.current.SetMotorSpeeds(0f, 0f);
+            //slothAnimator.speed = 0;
         }
         else
         {
@@ -263,15 +237,6 @@ public class Player : MonoBehaviour
 
     }
     
-
-    /*
-     * Every time an Input Action fires, the Player Input Component will trigger functions 
-     * on the same game object that match the name of that Action, prefixed with n
-     */
-
-    // this is the proper way to name an input, after the action so it can be remapped for different devices
-
-    //this is a less proper naming but more intuitive if you are used to just check an axis
     public void OnLeftStickMove(InputAction.CallbackContext context)
     {
         if (GameManager.S.maxPlayerCount == 2)
@@ -282,45 +247,33 @@ public class Player : MonoBehaviour
         float inputValue = context.ReadValue<Vector2>().x;
 
         // player rotation
-        float rotation = inputValue * playerRotationSpeed + player.transform.rotation.eulerAngles.y;
-        Vector3 playerEulerAngles = player.transform.rotation.eulerAngles;
+        var rotation1 = player.transform.rotation;
+        float rotation = inputValue * playerRotationSpeed + rotation1.eulerAngles.y;
+        Vector3 playerEulerAngles = rotation1.eulerAngles;
         playerEulerAngles.y = rotation;
-        player.transform.rotation = Quaternion.Euler(playerEulerAngles);
+        rotation1 = Quaternion.Euler(playerEulerAngles);
+        player.transform.rotation = rotation1;
 
         // update camera rotation so its directly behind player
-        float camYRotation = inputValue * playerRotationSpeed + camPosition.transform.rotation.eulerAngles.y;
-        float camXRotation = camPosition.transform.rotation.eulerAngles.x;
-        float camZRotation = camPosition.transform.rotation.eulerAngles.z;
+        var rotation2 = camPosition.transform.rotation;
+        float camYRotation = inputValue * playerRotationSpeed + rotation2.eulerAngles.y;
+        float camXRotation = rotation2.eulerAngles.x;
+        float camZRotation = rotation2.eulerAngles.z;
 
-        //float offset = camYRotation - player.transform.rotation.eulerAngles.y;
+        rotation2 = Quaternion.Euler(camXRotation, camYRotation, camZRotation);
+        camPosition.transform.rotation = rotation2;
 
-        camPosition.transform.rotation = Quaternion.Euler(camXRotation, camYRotation, camZRotation);
-       
-
-        if (playerID == 0) GameManager.S.player1Started = true;
-        else GameManager.S.player2Started = true;
     }
 
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
         rightStick = context.ReadValue<Vector2>();
         float inputValue = context.ReadValue<Vector2>().x;
-
-        float start = camPosition.transform.rotation.eulerAngles.y;
-
-        float rotation = inputValue * camRotationSpeed + camPosition.transform.rotation.eulerAngles.y;
-
-        camPosition.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-
-        /*if (context.canceled)
-        {
-            StartCoroutine(CameraSmoothSnap(rotation, start));
-        }
-
-        if (context.started)
-        {
-            StopCoroutine("CameraSmoothSnap");
-        }*/
+        var rotation1 = camPosition.transform.rotation;
+        float start = rotation1.eulerAngles.y;
+        float rotation = inputValue * camRotationSpeed + rotation1.eulerAngles.y;
+        rotation1 = Quaternion.Euler(0f, rotation, 0f);
+        camPosition.transform.rotation = rotation1;
     }
 
     private IEnumerator CameraSmoothSnap(float rotation, float start)
@@ -362,6 +315,8 @@ public class Player : MonoBehaviour
         }
         
         GUIManager.S.ChangeLeftArmColor(isMovingLeft, leftArm, playerID);
+        if (playerID == 0) GameManager.S.player1Started = true;
+        else GameManager.S.player2Started = true;
     }
 
     public void OnMoveRightLeg(InputAction.CallbackContext context)
@@ -377,6 +332,8 @@ public class Player : MonoBehaviour
             rightLeg = false;
         }
         GUIManager.S.ChangeRightLegColor(isMovingLeft, rightLeg, playerID);
+        if (playerID == 0) GameManager.S.player1Started = true;
+        else GameManager.S.player2Started = true;
     }
     
     public void OnMoveLeftLeg(InputAction.CallbackContext context)
@@ -392,6 +349,8 @@ public class Player : MonoBehaviour
             leftLeg = false;
         }
         GUIManager.S.ChangeLeftLegColor(!isMovingLeft, leftLeg, playerID);
+        if (playerID == 0) GameManager.S.player1Started = true;
+        else GameManager.S.player2Started = true;
 
     }
 
@@ -409,6 +368,8 @@ public class Player : MonoBehaviour
         }
         
         GUIManager.S.ChangeRightArmColor(!isMovingLeft, rightArm, playerID);
+        if (playerID == 0) GameManager.S.player1Started = true;
+        else GameManager.S.player2Started = true;
 
     }
 
@@ -419,23 +380,66 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("Alpha Test");
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
+    
+    public void OnSpeedBoost(InputAction.CallbackContext context)
     {
-        if (collision.transform.CompareTag("Car"))
+        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
         {
-            Debug.Log("Collided!");
-            GameManager.S.SendPlayerToOrigin(playerID);
+            hasItem = false;
+            GameObject speedItem = playerAbilities.Pop();
+            SpeedBoost speed = speedItem.GetComponent<SpeedBoost>();
+            SpeedBoostData speedData = speed.speedData;
+            StartCoroutine(StartSpeedBoost(speedData));
+            TellGUIManagerIHaveUsedTheItem();
         }
-        
     }
-
-    public void Win()
+    
+    public void OnGetReady(InputAction.CallbackContext context)
     {
-        GameManager.S.gameState = GameManager.State.GameEnd;
-        GUIManager.S.PlayerWins(playerID);
+        if (GameManager.S.gameState == GameManager.State.WaitForPlayers)
+        {
+            if (!_isReadyToGame)
+            {
+                GameManager.S.readyPlayer++;
+                GUIManager.S.PlayerReady(playerID);
+                _isReadyToGame = true;
+            }
+            else
+            {
+                GameManager.S.readyPlayer--;
+                GUIManager.S.PlayerJoin(playerID);
+                _isReadyToGame = false;
+            }
+            
+        }
     }
 
+    #endregion
+    
+    #region GUI & Animation
+    private void SetAnimation()
+    {
+        slothAnimator.SetBool("MoveLeft", isMovingLeft);
+        slothAnimator.SetBool("Attacking", isAttacking);
+    }
+
+    private void SetPlayerStatusInHUD()
+    {
+        GUIManager.S.MoveLeft(playerID, isMovingLeft);
+    }
+
+    public void TellGUIManagerIHaveAnItem()
+    {
+        GUIManager.S.SetItemAvailability(playerID, true);
+    }
+
+    public void TellGUIManagerIHaveUsedTheItem()
+    {
+        GUIManager.S.SetItemAvailability(playerID, false);
+    }
+    #endregion
+    
+    #region Player Items
     private void SpeedBoost(SpeedBoostData speedData)
     {
         animatorSpeed = speedData.animationSpeed;
@@ -474,39 +478,19 @@ public class Player : MonoBehaviour
             child.gameObject.GetComponent<ResetPosition>().resetPosition();
         }
     }
-
-    public void OnSpeedBoost(InputAction.CallbackContext context)
+    #endregion
+    
+    #region Public Interface
+    public int GetPlayerID()
     {
-        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
-        {
-            hasItem = false;
-            GameObject speedItem = playerAbilities.Pop();
-            SpeedBoost speed = speedItem.GetComponent<SpeedBoost>();
-            SpeedBoostData speedData = speed.speedData;
-            StartCoroutine(StartSpeedBoost(speedData));
-            TellGUIManagerIHaveUsedTheItem();
-        }
+        return playerID;
     }
 
-
-    public void OnGetReady(InputAction.CallbackContext context)
+    public void Win()
     {
-        if (GameManager.S.gameState == GameManager.State.WaitForPlayers)
-        {
-            if (!_isReadyToGame)
-            {
-                GameManager.S.readyPlayer++;
-                GUIManager.S.PlayerReady(playerID);
-                _isReadyToGame = true;
-            }
-            else
-            {
-                GameManager.S.readyPlayer--;
-                GUIManager.S.PlayerJoin(playerID);
-                _isReadyToGame = false;
-            }
-            
-        }
+        GameManager.S.gameState = GameManager.State.GameEnd;
+        GUIManager.S.PlayerWins(playerID);
     }
-
+    
+    #endregion
 }

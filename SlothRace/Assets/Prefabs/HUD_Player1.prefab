@@ -734,7 +734,7 @@ MonoBehaviour:
   item: {fileID: 5032665236767772947}
   enableColor: {r: 1, g: 1, b: 1, a: 1}
   itemDisableColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
-  limbDisableColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
+  limbDisableColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 0}
   activeColor: {r: 1, g: 0, b: 0.3019608, a: 1}
   lightFontColor: {r: 1, g: 1, b: 1, a: 1}
   darkFontColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
