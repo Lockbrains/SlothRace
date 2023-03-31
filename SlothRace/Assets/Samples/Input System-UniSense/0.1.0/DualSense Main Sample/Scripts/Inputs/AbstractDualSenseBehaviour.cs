@@ -18,22 +18,19 @@ namespace DualSenseSample.Inputs
         /// </summary>
         public DualSenseGamepadHID DualSense { get; protected set; }
 
-        public Player player;
 
         internal virtual void OnConnect(DualSenseGamepadHID dualSense)
         {
-            if (!player.hasDualSense)
             {
-                player.DualSense = dualSense;
-                player.hasDualSense = true;
+                DualSense = dualSense;
+    
                 Debug.Log("Dualsense Added Again.");
             }
         }
 
         internal virtual void OnDisconnect()
         {
-            player.DualSense = null;
-            player.hasDualSense = false;
+            DualSense = null;
         }
     }
 }

@@ -235,7 +235,6 @@ GameObject:
   - component: {fileID: 7923208057674303276}
   - component: {fileID: 7923208057674303267}
   - component: {fileID: 2347120692595698283}
-  - component: {fileID: 4900917591255796802}
   - component: {fileID: 738262305072145322}
   m_Layer: 0
   m_Name: PlayerGroup
@@ -522,21 +521,6 @@ MonoBehaviour:
   player: {fileID: 6441048306623344769}
   camPosition: {fileID: 2470347686834898049}
   rank: 0
-  listener: {fileID: 4900917591255796802}
-  hasDualSense: 0
---- !u!114 &4900917591255796802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7923208057674303277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73db0f00738faa746a9a5a365a4c8f41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 2347120692595698283}
 --- !u!143 &738262305072145322
 CharacterController:
   m_ObjectHideFlags: 0

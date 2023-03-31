@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     // Singleton pattern
     public static GameManager S;
     public GameObject playerInputManager;
-    public DualSenseMonitor dualSenseMonitor;
     private PlayerInputManager _inputManager;
     
     public enum State
@@ -40,6 +39,7 @@ public class GameManager : MonoBehaviour
     public int maxPlayerCount;
     // joinedPlayer: the number of players that have joined the game
     public int joinedPlayer;
+    // readyPlayer: the number of players that are prepared
     public int readyPlayer;
     public State gameState;
 

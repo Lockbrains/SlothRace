@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using DualSenseSample.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UniSense;
-using DualSenseGamepadHID = UniSense.DualSenseGamepadHID;
+
 
 public class Player : MonoBehaviour
 {
@@ -56,58 +54,35 @@ public class Player : MonoBehaviour
     [Header("Rank")]
     public int rank;
 
- 
-
     // private bool sprinting = false;
     private float verticalVelocity = 0;
 
-    private DualSenseTriggerState leftTriggerState;
-    private DualSenseTriggerState rightTriggerState;
-    private DualSenseRumble _rumble;
 
-    [SerializeField] private AbstractDualSenseBehaviour listener;
-    public DualSenseGamepadHID DualSense;
-    [HideInInspector] public bool hasDualSense;
     #endregion
 
     #region Unity Basics
 
     private void Awake()
     {
-        leftTriggerState = new DualSenseTriggerState
-        {
-            EffectType = DualSenseTriggerEffectType.ContinuousResistance,
-            EffectEx = new DualSenseEffectExProperties(),
-            Section = new DualSenseSectionResistanceProperties(),
-            Continuous = new DualSenseContinuousResistanceProperties()
-        };
-
-        rightTriggerState = new DualSenseTriggerState
-        {
-            EffectType = DualSenseTriggerEffectType.ContinuousResistance,
-            EffectEx = new DualSenseEffectExProperties(),
-            Section = new DualSenseSectionResistanceProperties(),
-            Continuous = new DualSenseContinuousResistanceProperties()
-        };
     }
 
     private void Start()
     {
+        // setting the playerID as the id from playerInput
         playerID = playerInput.playerIndex;
+
+        // the player should be generated in the WaitForPlayer state
         GUIManager.S.PlayerJoin(playerID);
         GameManager.S.joinedPlayer++;
         
-        GameManager.S.dualSenseMonitor.listeners[playerID] = listener;
-        if(GameManager.S.joinedPlayer == GameManager.S.maxPlayerCount)
-            GameManager.S.dualSenseMonitor.gameObject.SetActive(true);
-        hasDualSense = false;
-
+        // Set up the player input comp
         if (playerInput == null)
         {
             playerInput = GetComponent<PlayerInput>();
         }
-        
-        
+
+
+        // Set up GameManager and GUIManager slothAnimator
         switch (playerID)
         {
             case 0:
@@ -140,30 +115,15 @@ public class Player : MonoBehaviour
         animatorSpeed = originalAnimatorSpeed;
     }
 
-    private void CheckDSController()
-    {
-        leftTriggerState.Continuous.StartPosition = 0;
-        leftTriggerState.Continuous.Force = 255;
-        rightTriggerState.Continuous.StartPosition = 0;
-        rightTriggerState.Continuous.Force = 255;
-        
-        var state = new DualSenseGamepadState
-        {
-            LeftTrigger = leftTriggerState,
-            RightTrigger = rightTriggerState
-        };
-        DualSense?.SetGamepadState(state);
-    }
+
     void Update()
-    {
-        CheckDSController();
-        
+    {      
         if (GameManager.S.gameState == GameManager.State.GameStart)
         {
             SlothMovement();
-        }
-        SetAnimation();
-        SetPlayerStatusInHUD();
+            SetAnimation();
+            SetPlayerStatusInHUD();
+        }   
     }
 
     #endregion
@@ -171,69 +131,43 @@ public class Player : MonoBehaviour
     #region Control
     void SlothMovement()
     {
-        /*
-        float targetSpeed = movementSpeed;
-        Vector3 movement = new Vector3().normalized * (targetSpeed * slothAnimator.speed);
-
-        //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
-        Vector3 curPos = transform.position;
-        curPos += movement * Time.deltaTime;
-        transform.position = curPos;
-    */
-        
-        // if the left joystick is at its original position, stop the animation
-        if (leftStick.magnitude == 0f)
+        // the player tries to move
+        if (isMovingLeft)
         {
-            //slothAnimator.speed = 0;
-        }
-        else
-        {
-            // left joystick moving, the player tries to move
-            if (isMovingLeft)
+            GUIManager.S.EnableLeft(playerID);
+            _isSwitchingToRight = true;
+            if (_isSwitchingToLeft)
             {
-                GUIManager.S.EnableLeft(playerID);
-                _isSwitchingToRight = true;
-                if (_isSwitchingToLeft)
-                {
-                    GUIManager.S.RefreshHUDColor(playerID, false);
-                    _isSwitchingToLeft = false;
-                }
-                if (leftArm && rightLeg && !rightArm && !leftLeg)
-                {
-                    slothAnimator.speed = animatorSpeed;
-                    float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                    //Gamepad.current.SetMotorSpeeds(0.01f, 1f);
-                }
-                else
-                {
-                    slothAnimator.speed = 0;
-                    //Gamepad.current.SetMotorSpeeds(0f, 0f);
-                }
+                GUIManager.S.RefreshHUDColor(playerID, false);
+                _isSwitchingToLeft = false;
+            }
+            if (leftArm && rightLeg && !rightArm && !leftLeg)
+            {
+                slothAnimator.speed = animatorSpeed;
             }
             else
             {
-                GUIManager.S.DisableLeft(playerID);
-                _isSwitchingToLeft = true;
-                if (_isSwitchingToRight)
-                {
-                    GUIManager.S.RefreshHUDColor(playerID, true);
-                    _isSwitchingToRight = false;
-                }
-                if (leftLeg && rightArm)
-                {
-                    slothAnimator.speed = animatorSpeed;
-                    float size = slothAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                    //Gamepad.current.SetMotorSpeeds(1f, 0.01f);
-                }
-                else
-                {
-                    slothAnimator.speed = 0;
-                    //Gamepad.current.SetMotorSpeeds(0f, 0f);
-                }
+                slothAnimator.speed = 0;
             }
-            
         }
-
+        else
+        {
+            GUIManager.S.DisableLeft(playerID);
+            _isSwitchingToLeft = true;
+            if (_isSwitchingToRight)
+            {
+                GUIManager.S.RefreshHUDColor(playerID, true);
+                _isSwitchingToRight = false;
+            }
+            if (leftLeg && rightArm && !leftArm && !rightLeg)
+            {
+                slothAnimator.speed = animatorSpeed;
+            }
+            else
+            {
+                slothAnimator.speed = 0;
+            }
+        }
 
     }
     
@@ -255,13 +189,13 @@ public class Player : MonoBehaviour
         player.transform.rotation = rotation1;
 
         // update camera rotation so its directly behind player
-        var rotation2 = camPosition.transform.rotation;
-        float camYRotation = inputValue * playerRotationSpeed + rotation2.eulerAngles.y;
-        float camXRotation = rotation2.eulerAngles.x;
-        float camZRotation = rotation2.eulerAngles.z;
+        //var rotation2 = camPosition.transform.rotation;
+        //float camYRotation = inputValue * playerRotationSpeed + rotation2.eulerAngles.y;
+        //float camXRotation = rotation2.eulerAngles.x;
+        //float camZRotation = rotation2.eulerAngles.z;
 
-        rotation2 = Quaternion.Euler(camXRotation, camYRotation, camZRotation);
-        camPosition.transform.rotation = rotation2;
+        //rotation2 = Quaternion.Euler(camXRotation, camYRotation, camZRotation);
+        //camPosition.transform.rotation = rotation2;
 
     }
 
@@ -306,7 +240,6 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             leftArm = true;
-            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
@@ -324,7 +257,6 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             rightLeg = true;
-            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
@@ -341,7 +273,6 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             leftLeg = true;
-            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
@@ -359,7 +290,6 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             rightArm = true;
-            //SoundManager.S.LaunchMove();
         }
 
         if (context.canceled)
