@@ -130,6 +130,14 @@ public class Player : MonoBehaviour
     #region Control
     void SlothMovement()
     {
+        float targetSpeed = movementSpeed;
+        Vector3 movement = new Vector3(0,0,1) * movementSpeed * slothAnimator.speed;
+
+        //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
+        Vector3 curPos = transform.position;
+        curPos += movement * Time.deltaTime;
+        transform.position = curPos;
+        
         // the player tries to move
         if (isMovingLeft)
         {

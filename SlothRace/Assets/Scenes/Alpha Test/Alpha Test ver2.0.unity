@@ -21528,8 +21528,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4480681231061702189, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480681231061702189, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480681231061702189, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480681231061702189, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480681231061702189, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4480681231061702189, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
       propertyPath: m_LocalRotation.z
@@ -21537,15 +21553,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
       propertyPath: field of view
-      value: 60
+      value: 78.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_FocalLength
+      value: 0.6119695
       objectReference: {fileID: 0}
     - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
       propertyPath: far clip plane
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_SensorSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_SensorSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
       propertyPath: near clip plane
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304945828584768613, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7923208057674303276, guid: f9f66f5871ff4c24f8b9697fc2ca6369, type: 3}
       propertyPath: m_RootOrder
