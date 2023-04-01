@@ -127,7 +127,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Joystick",
                     "action": "LeftStickMove",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -193,7 +193,7 @@
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Joystick",
                     "action": "RightStickMove",
                     "isComposite": false,
                     "isPartOfComposite": false

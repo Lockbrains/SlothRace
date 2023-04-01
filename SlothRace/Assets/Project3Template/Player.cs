@@ -122,6 +122,8 @@ public class Player : MonoBehaviour
             SlothMovement();
             SetAnimation();
             SetPlayerStatusInHUD();
+            UpdatePlayerRotation();
+            UpdateCameraRotation();
         }   
     }
 
@@ -184,71 +186,53 @@ public class Player : MonoBehaviour
     
     public void OnLeftStickMove(InputAction.CallbackContext context)
     {
-        if (GameManager.S.maxPlayerCount == 2)
-        {
-            leftStick = context.ReadValue<Vector2>();
-        }
-
-        float inputValue = context.ReadValue<Vector2>().x;
-
-        // player rotation
-        var rotation1 = player.transform.rotation;
-        float rotation = inputValue * actualRotationSpeed + rotation1.eulerAngles.y;
-        Vector3 playerEulerAngles = rotation1.eulerAngles;
-        playerEulerAngles.y = rotation;
-        rotation1 = Quaternion.Euler(playerEulerAngles);
-        player.transform.rotation = rotation1;
-
-        // update camera rotation so its directly behind player
-        //var rotation2 = camPosition.transform.rotation;
-        //float camYRotation = inputValue * playerRotationSpeed + rotation2.eulerAngles.y;
-        //float camXRotation = rotation2.eulerAngles.x;
-        //float camZRotation = rotation2.eulerAngles.z;
-
-        //rotation2 = Quaternion.Euler(camXRotation, camYRotation, camZRotation);
-        //camPosition.transform.rotation = rotation2;
-
+        leftStick = context.ReadValue<Vector2>();
     }
 
+    private void UpdatePlayerRotation()
+    {
+        float inputValue = leftStick.x;
+        
+        // read the current rotation
+        var currentRotation = player.transform.rotation;
+        
+        // set the offset
+        float y_offset = inputValue * actualRotationSpeed + currentRotation.eulerAngles.y;
+        Vector3 playerEulerAngles = currentRotation.eulerAngles;
+        playerEulerAngles.y = y_offset + camPosition.transform.eulerAngles.y;
+        currentRotation = Quaternion.Euler(playerEulerAngles);
+        //player.transform.rotation = currentRotation;
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, actualRotationSpeed * Time.deltaTime);
+    }
+    
+    private void UpdateCameraRotation()
+    {
+        float inputValueX = rightStick.x;
+        float inputValueY = rightStick.y;
+
+        // read the current rotation
+        var rotation1 = camPosition.transform.rotation;
+        
+        // rotating around the y axis
+        float startY = rotation1.eulerAngles.y;
+        float startX = rotation1.eulerAngles.x;
+        
+        float rotation_y = inputValueX * camRotationSpeed + rotation1.eulerAngles.y;
+        float rotation_x = inputValueY * camRotationSpeed + startX;
+        if (rotation_x > 180 && rotation_x < 340) rotation_x = 340;
+        else if (rotation_x < 180 && rotation_x > 40) rotation_x = 40;
+        
+        rotation1 = Quaternion.Euler(rotation_x, rotation_y, 0f);
+        camPosition.transform.rotation =
+            Quaternion.Lerp(camPosition.transform.rotation, rotation1, camRotationSpeed * Time.deltaTime);
+    }
     
     // RightStickMove: move the camera
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
         rightStick = context.ReadValue<Vector2>();
-        //float inputValue = context.ReadValue<Vector2>().x;
-        
-        //var rotation1 = camPosition.transform.rotation;
-        //float start = rotation1.eulerAngles.y;
-        //float rotation = inputValue * camRotationSpeed + rotation1.eulerAngles.y;
-        //rotation1 = Quaternion.Euler(0f, rotation, 0f);
-        //camPosition.transform.rotation = rotation1;
     }
-
-    private IEnumerator CameraSmoothSnap(float rotation, float start)
-    {
-        float timePassed = 0;
-        float lerpValue;
-
-        while (timePassed < 1f)
-        {
-            if (rotation > start - 180 && rotation < start)
-            {
-                
-                lerpValue = Mathf.Lerp(rotation, 360 + start, timePassed);
-                camPosition.transform.rotation = Quaternion.Euler(0f, lerpValue, 0f);
-            }
-            else
-            {
-                lerpValue = Mathf.Lerp(rotation, start, timePassed);
-                camPosition.transform.rotation = Quaternion.Euler(0f, lerpValue, 0f);
-            }
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-
-        lerpValue = 0;
-    }
-
+    
     public void OnMoveLeftArm(InputAction.CallbackContext context)
     {
         if (context.started)
