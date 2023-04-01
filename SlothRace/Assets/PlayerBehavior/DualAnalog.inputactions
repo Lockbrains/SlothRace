@@ -29,17 +29,17 @@
                     "id": "26110d56-bce0-4de2-97a4-e1f9926c32b2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "MoveRightLeg",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "a65d09cf-562b-40b1-9d55-07e562046e88",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
-                    "initialStateCheck": false
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "LeftStickMove",

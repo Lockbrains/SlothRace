@@ -498,7 +498,7 @@ MonoBehaviour:
   playerID: 0
   _sloth: {fileID: 390356730890239861}
   _physicalSloth: {fileID: 6441048306623344769}
-  originalMoveSpeed: 0.4
+  originalMoveSpeed: 4
   movementSpeed: 0.4
   camRotationSpeed: 1.5
   playerRotationSpeed: 1
