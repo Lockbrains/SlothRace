@@ -12,13 +12,16 @@ public class Player : MonoBehaviour
     [SerializeField] private int playerID;
     [SerializeField] private Sloth _sloth;
     [SerializeField] private GameObject _physicalSloth;
+    public Camera playerCamera;
     private bool _isReadyToGame;
 
-    [Header("Player Properties")]
+    [Header("Player Properties")] 
+    [SerializeField] private List<LayerMask> playerLayers;
     public float originalMoveSpeed = 0.4f;
-    public float movementSpeed;
     public float camRotationSpeed = 100;
     public float playerRotationSpeed = 2;
+    public float movementSpeed;
+    private float actualRotationSpeed = 0;
 
     public float originalAnimatorSpeed = 1;
     public float animatorSpeed;
@@ -61,10 +64,6 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Unity Basics
-
-    private void Awake()
-    {
-    }
 
     private void Start()
     {
@@ -143,10 +142,12 @@ public class Player : MonoBehaviour
             }
             if (leftArm && rightLeg && !rightArm && !leftLeg)
             {
+                actualRotationSpeed = playerRotationSpeed;
                 slothAnimator.speed = animatorSpeed;
             }
             else
             {
+                actualRotationSpeed = 0;
                 slothAnimator.speed = 0;
             }
         }
@@ -161,10 +162,12 @@ public class Player : MonoBehaviour
             }
             if (leftLeg && rightArm && !leftArm && !rightLeg)
             {
+                actualRotationSpeed = playerRotationSpeed;
                 slothAnimator.speed = animatorSpeed;
             }
             else
             {
+                actualRotationSpeed = 0;
                 slothAnimator.speed = 0;
             }
         }
@@ -182,7 +185,7 @@ public class Player : MonoBehaviour
 
         // player rotation
         var rotation1 = player.transform.rotation;
-        float rotation = inputValue * playerRotationSpeed + rotation1.eulerAngles.y;
+        float rotation = inputValue * actualRotationSpeed + rotation1.eulerAngles.y;
         Vector3 playerEulerAngles = rotation1.eulerAngles;
         playerEulerAngles.y = rotation;
         rotation1 = Quaternion.Euler(playerEulerAngles);
@@ -199,15 +202,18 @@ public class Player : MonoBehaviour
 
     }
 
+    
+    // RightStickMove: move the camera
     public void OnRightStickMove(InputAction.CallbackContext context)
     {
         rightStick = context.ReadValue<Vector2>();
-        float inputValue = context.ReadValue<Vector2>().x;
-        var rotation1 = camPosition.transform.rotation;
-        float start = rotation1.eulerAngles.y;
-        float rotation = inputValue * camRotationSpeed + rotation1.eulerAngles.y;
-        rotation1 = Quaternion.Euler(0f, rotation, 0f);
-        camPosition.transform.rotation = rotation1;
+        //float inputValue = context.ReadValue<Vector2>().x;
+        
+        //var rotation1 = camPosition.transform.rotation;
+        //float start = rotation1.eulerAngles.y;
+        //float rotation = inputValue * camRotationSpeed + rotation1.eulerAngles.y;
+        //rotation1 = Quaternion.Euler(0f, rotation, 0f);
+        //camPosition.transform.rotation = rotation1;
     }
 
     private IEnumerator CameraSmoothSnap(float rotation, float start)
