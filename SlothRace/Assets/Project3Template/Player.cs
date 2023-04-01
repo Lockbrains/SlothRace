@@ -57,10 +57,6 @@ public class Player : MonoBehaviour
     [Header("Rank")]
     public int rank;
 
-    // private bool sprinting = false;
-    private float verticalVelocity = 0;
-
-
     #endregion
 
     #region Unity Basics
@@ -85,19 +81,15 @@ public class Player : MonoBehaviour
         switch (playerID)
         {
             case 0:
-                GameManager.S.player1 = this.gameObject;
                 GUIManager.S.player1Anim = slothAnimator;
                 break;
             case 1:
-                GameManager.S.player2 = this.gameObject;
                 GUIManager.S.player2Anim = slothAnimator;
                 break;
             case 2:
-                GameManager.S.player3 = this.gameObject;
                 GUIManager.S.player3Anim = slothAnimator;
                 break;
             case 3:
-                GameManager.S.player4 = this.gameObject;
                 GUIManager.S.player4Anim = slothAnimator;
                 break;
             default:
@@ -132,8 +124,9 @@ public class Player : MonoBehaviour
     #region Control
     void SlothMovement()
     {
+        // compensate for physical system with speed that's too slow
         float targetSpeed = movementSpeed;
-        Vector3 movement = new Vector3(0,0,1) * movementSpeed * slothAnimator.speed;
+        Vector3 movement = camPosition.transform.forward.normalized * movementSpeed * slothAnimator.speed;
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         Vector3 curPos = transform.position;
@@ -246,8 +239,7 @@ public class Player : MonoBehaviour
         }
         
         GUIManager.S.ChangeLeftArmColor(isMovingLeft, leftArm, playerID);
-        if (playerID == 0) GameManager.S.player1Started = true;
-        else GameManager.S.player2Started = true;
+        PlayerManager.S.playerHasStart[playerID] = true;
     }
 
     public void OnMoveRightLeg(InputAction.CallbackContext context)
@@ -262,8 +254,8 @@ public class Player : MonoBehaviour
             rightLeg = false;
         }
         GUIManager.S.ChangeRightLegColor(isMovingLeft, rightLeg, playerID);
-        if (playerID == 0) GameManager.S.player1Started = true;
-        else GameManager.S.player2Started = true;
+        
+        PlayerManager.S.playerHasStart[playerID] = true;
     }
     
     public void OnMoveLeftLeg(InputAction.CallbackContext context)
@@ -278,9 +270,8 @@ public class Player : MonoBehaviour
             leftLeg = false;
         }
         GUIManager.S.ChangeLeftLegColor(!isMovingLeft, leftLeg, playerID);
-        if (playerID == 0) GameManager.S.player1Started = true;
-        else GameManager.S.player2Started = true;
-
+        
+        PlayerManager.S.playerHasStart[playerID] = true;
     }
 
     public void OnMoveRightArm(InputAction.CallbackContext context)
@@ -296,9 +287,8 @@ public class Player : MonoBehaviour
         }
         
         GUIManager.S.ChangeRightArmColor(!isMovingLeft, rightArm, playerID);
-        if (playerID == 0) GameManager.S.player1Started = true;
-        else GameManager.S.player2Started = true;
-
+        
+        PlayerManager.S.playerHasStart[playerID] = true;
     }
 
     public void OnRestart(InputAction.CallbackContext context)
@@ -395,7 +385,7 @@ public class Player : MonoBehaviour
 
     public void ResetPosition()
     {
-        GameManager.S.SendPlayerToOrigin(playerID);
+        PlayerManager.S.RespawnPlayer(playerID);
         GameObject ragdoll = transform.Find("PhysicalSloth").gameObject;
         GameObject hips = ragdoll.transform.Find("mixamorig:Hips").gameObject;
         Debug.Log("hips:" + hips);

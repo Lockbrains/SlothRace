@@ -141,7 +141,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a8bfc233b26964198b991e30752afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawningPoints: []
+  playerGOs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playerHasStart: 00000000
+  respawningPoints:
+  - {x: -1.5, y: 0, z: 6}
+  - {x: 0.7, y: 0, z: 6}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   playerLayers:
   - serializedVersion: 2
     m_Bits: 128

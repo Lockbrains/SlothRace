@@ -19,14 +19,6 @@ public class GameManager : MonoBehaviour
         TitleScreen, LevelSelection, WaitForPlayers, Countdown, GameStart, GameEnd
     }
     
-    // public variables
-    public GameObject player1;
-    public GameObject player2;
-    public GameObject player3;
-    public GameObject player4;
-
-    public bool player1Started;
-    public bool player2Started;
 
     [Header("Spawn Positions")] 
     [SerializeField] private Vector3 player1SpawnPoint;
@@ -73,33 +65,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         EnableAndDisableJoin();
-        ResetPlayer();
         CheckPlayerNum();
-        if (gameState == State.GameStart)
-        {
-            GetPlayersRank();
-        }
-    }
-
-    private void ResetPlayer()
-    {
-        if (player1 != null)
-        {
-            if (!player1Started)
-            {
-                player1.transform.position = player1SpawnPoint;
-            }
-        }
         
-        if (player2 != null)
-        {
-            if (!player2Started)
-            {
-                player2.transform.position = player2SpawnPoint;
-            }
-        }
     }
-
+    
     private void EnableAndDisableJoin()
     {
         if(gameState != State.WaitForPlayers) _inputManager.DisableJoining();
@@ -121,17 +90,7 @@ public class GameManager : MonoBehaviour
         GUIManager.S.allSet = (joinedPlayer == maxPlayerCount);
     }
 
-    public void SendPlayerToOrigin(int playerID)
-    {
-        if (playerID == 0)
-        {
-            player1.transform.position = player1SpawnPoint;
-        }
-        else
-        {
-            player2.transform.position = player2SpawnPoint;
-        }
-    }
+    
 
     public void SetDistanceArray()
     {
@@ -145,40 +104,7 @@ public class GameManager : MonoBehaviour
         else return;
     }
 
-    public void GetPlayersRank()
-    {
-        Transform player1model = player1.transform.GetChild(0).transform.GetChild(3);
-        Transform player2model = player2.transform.GetChild(0).transform.GetChild(3);
-
-        Vector3 player1Pos = player1model.position;
-        Vector3 player2Pos = player2model.position;
-
-        // compare positions to final destinations
-        float p1Distance = Vector3.Distance(player1Pos, finishPosition);
-        float p2Distance = Vector3.Distance(player2Pos, finishPosition);
-
-        if (p1Distance > p2Distance)
-        {
-            // player 2 is in the lead 
-            GUIManager.S.ChangePlayerRank(rankNumbers[0], 1);
-            player2.GetComponent<Player>().rank = 1;
-
-            // player 1 is second
-            GUIManager.S.ChangePlayerRank(rankNumbers[1], 0);
-            player1.GetComponent<Player>().rank = 2;
-        } else
-        {
-            // player 1 is in the lead
-            GUIManager.S.ChangePlayerRank(rankNumbers[0], 0);
-            player1.GetComponent<Player>().rank = 1;
-
-            // player 2 is second
-            GUIManager.S.ChangePlayerRank(rankNumbers[1], 1);
-            player2.GetComponent<Player>().rank = 2;
-
-
-        }
-    }
+    
 
 
 }

@@ -775,7 +775,7 @@ MonoBehaviour:
     m_Bits: 512
   - serializedVersion: 2
     m_Bits: 1024
-  originalMoveSpeed: 0
+  originalMoveSpeed: 1
   camRotationSpeed: 5
   playerRotationSpeed: 1
   movementSpeed: 0.4
