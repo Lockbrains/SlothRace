@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6156082140994258387}
   - component: {fileID: 2347945009118748679}
   - component: {fileID: 4736208578775268831}
+  - component: {fileID: 5642704546591020735}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_MaxPlayerCount: 4
   m_AllowJoining: 1
   m_JoinBehavior: 1
@@ -106,7 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 6156082140994258384}
-  dualSenseMonitor: {fileID: 0}
   player1: {fileID: 0}
   player2: {fileID: 0}
   player3: {fileID: 0}
@@ -129,3 +129,35 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7312f893ac1614bd1a3af7326ec7ceb9, type: 3}
   finishLine: {fileID: 8352477703446274750, guid: 84a26196c09a34595b550fa92727a657, type: 3}
   finishPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &5642704546591020735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156082140994258384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a8bfc233b26964198b991e30752afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerGOs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playerHasStart: 00000000
+  respawningPoints:
+  - {x: -1.5, y: 0, z: 6}
+  - {x: 0.7, y: 0, z: 6}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  playerLayers:
+  - serializedVersion: 2
+    m_Bits: 128
+  - serializedVersion: 2
+    m_Bits: 256
+  - serializedVersion: 2
+    m_Bits: 512
+  - serializedVersion: 2
+    m_Bits: 1024
