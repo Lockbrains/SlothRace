@@ -11,7 +11,6 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Image leftArm, rightLeg, rightArm, leftLeg;
     [SerializeField] private Text t_leftArm, t_rightLeg, t_rightArm, t_leftLeg;
     [SerializeField] private Scrollbar progress;
-    [SerializeField] private GameObject leftPress, rightPress;
     [SerializeField] private Image item;
     private bool isMovingLeft = false;
     
@@ -136,17 +135,6 @@ public class PlayerHUD : MonoBehaviour
             rightLeg.color = enableColor;
         }
         
-    }
-    public void Left()
-    {
-        leftPress.SetActive(true);
-        rightPress.SetActive(false);
-    }
-
-    public void Right()
-    {
-        leftPress.SetActive(false);
-        rightPress.SetActive(true);
     }
 
     public void ChangeLeftArmColor(bool enabled, bool active)

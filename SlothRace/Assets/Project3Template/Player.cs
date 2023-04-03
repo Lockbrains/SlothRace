@@ -136,7 +136,6 @@ public class Player : MonoBehaviour
         // the player tries to move
         if (isMovingLeft)
         {
-            GUIManager.S.EnableLeft(playerID);
             _isSwitchingToRight = true;
             if (_isSwitchingToLeft)
             {
@@ -156,7 +155,6 @@ public class Player : MonoBehaviour
         }
         else
         {
-            GUIManager.S.DisableLeft(playerID);
             _isSwitchingToLeft = true;
             if (_isSwitchingToRight)
             {

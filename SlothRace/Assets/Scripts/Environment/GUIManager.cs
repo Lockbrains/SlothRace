@@ -77,8 +77,6 @@ public class GUIManager : MonoBehaviour
     {
         hasStartedCountdown = false;
         DisableCountdown();
-        DisableLeft(0);
-        DisableLeft(1);
         InitialColorAdjustment();
     }
     
@@ -304,14 +302,6 @@ public class GUIManager : MonoBehaviour
     public void RefreshHUDColor(int playerID, bool isLeft)
     {
         _playerHUDs[playerID].InitialColorAdjustment(isLeft);
-    }
-    public void EnableLeft(int playerID)
-    {
-        _playerHUDs[playerID].Left();
-    }
-    public void DisableLeft(int playerID)
-    {
-        _playerHUDs[playerID].Right();
     }
 
     public void MoveLeft(int playerID, bool isMoving)
