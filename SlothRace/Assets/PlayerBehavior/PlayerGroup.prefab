@@ -775,12 +775,13 @@ MonoBehaviour:
     m_Bits: 512
   - serializedVersion: 2
     m_Bits: 1024
-  originalMoveSpeed: 1
+  originalMoveSpeed: 0.4
+  movementSpeed: 0.4
   camRotationSpeed: 5
   playerRotationSpeed: 1
-  movementSpeed: 0.4
   originalAnimatorSpeed: 1
   animatorSpeed: 1
+  slowAmt: 0.95
   isMovingLeft: 0
   isAttacking: 0
   leftLeg: 0
@@ -789,6 +790,7 @@ MonoBehaviour:
   rightArm: 0
   speedBoost: 0
   hasItem: 0
+  foodCounter: 0
   leftStick: {x: 0, y: 0}
   rightStick: {x: 0, y: 0}
   controller: {fileID: 738262305072145322}
@@ -797,6 +799,7 @@ MonoBehaviour:
   slothCamera: {fileID: 1457272051291143181}
   player: {fileID: 6441048306623344769}
   camPosition: {fileID: 2470347686834898049}
+  poop: {fileID: 8325791676373648708, guid: 36191def7bd4947048e9e2fa73c00d35, type: 3}
   rank: 0
 --- !u!143 &738262305072145322
 CharacterController:

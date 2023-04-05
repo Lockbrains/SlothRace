@@ -334,7 +334,7 @@ public class GUIManager : MonoBehaviour
     #region GameEnd, Codes for Leaderboard UI
     public void PlayerWins(int playerID)
     {
-        if (playerID == 1)
+        if (playerID == 0)
         {
             DisableHUD();
             player1Wins.SetActive(true);

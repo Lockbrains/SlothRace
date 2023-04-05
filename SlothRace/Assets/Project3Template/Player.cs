@@ -18,13 +18,15 @@ public class Player : MonoBehaviour
     [Header("Player Properties")] 
     [SerializeField] private List<LayerMask> playerLayers;
     public float originalMoveSpeed = 0.4f;
+    public float movementSpeed;
     public float camRotationSpeed = 100;
     public float playerRotationSpeed = 2;
-    public float movementSpeed;
     private float actualRotationSpeed = 0;
 
     public float originalAnimatorSpeed = 1;
     public float animatorSpeed;
+
+    public float slowAmt = 0.95f;
 
     private bool _isSwitchingToLeft, _isSwitchingToRight;
   
@@ -37,6 +39,9 @@ public class Player : MonoBehaviour
     [Header("Player Abilities")]
     public Stack<GameObject> playerAbilities = new Stack<GameObject>();
     public bool hasItem;
+
+    public int foodCounter = 0;
+    private int maxfoodCount = 5;
 
     //the analog values read from the controller
 
@@ -53,6 +58,8 @@ public class Player : MonoBehaviour
     public GameObject slothCamera;
     public GameObject player;
     public GameObject camPosition;
+
+    public GameObject poop;
 
     [Header("Rank")]
     public int rank;
@@ -114,7 +121,7 @@ public class Player : MonoBehaviour
             SlothMovement();
             SetAnimation();
             SetPlayerStatusInHUD();
-            UpdatePlayerRotation();
+            //UpdatePlayerRotation();
             UpdateCameraRotation();
         }   
     }
@@ -188,18 +195,18 @@ public class Player : MonoBehaviour
         var currentRotation = player.transform.rotation;
         
         // set the offset
-        float y_offset = inputValue * actualRotationSpeed + currentRotation.eulerAngles.y;
+        float y_offset = inputValue * playerRotationSpeed + currentRotation.eulerAngles.y;
         Vector3 playerEulerAngles = currentRotation.eulerAngles;
         playerEulerAngles.y = y_offset + camPosition.transform.eulerAngles.y;
         currentRotation = Quaternion.Euler(playerEulerAngles);
         //player.transform.rotation = currentRotation;
-        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, actualRotationSpeed * Time.deltaTime);
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, playerRotationSpeed * Time.deltaTime);
     }
     
     private void UpdateCameraRotation()
     {
-        float inputValueX = rightStick.x;
-        float inputValueY = rightStick.y;
+        float inputValueX = leftStick.x;
+        float inputValueY = leftStick.y;
 
         // read the current rotation
         var rotation1 = camPosition.transform.rotation;
@@ -299,7 +306,28 @@ public class Player : MonoBehaviour
     
     public void OnSpeedBoost(InputAction.CallbackContext context)
     {
-        if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
+        if (context.started && foodCounter > 0 && foodCounter < 5)
+        {
+            // fart
+            Debug.Log("farting");
+            // instaniate fart
+            foodCounter--;
+            // increase speed
+            movementSpeed = movementSpeed / slowAmt;
+            animatorSpeed = animatorSpeed / slowAmt;
+            // update UI
+
+        } else if (context.started && foodCounter == maxfoodCount)
+        {
+            //poop
+            foodCounter = 0;
+            StartCoroutine(PoopDelay());
+            
+        }
+
+
+        // old speed boost
+        /*if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
         {
             hasItem = false;
             GameObject speedItem = playerAbilities.Pop();
@@ -307,7 +335,35 @@ public class Player : MonoBehaviour
             SpeedBoostData speedData = speed.speedData;
             StartCoroutine(StartSpeedBoost(speedData));
             TellGUIManagerIHaveUsedTheItem();
-        }
+        }*/
+    }
+
+    private IEnumerator PoopDelay()
+    {
+        // get current speed
+        float curSpeed = movementSpeed;
+        float curAnimator = animatorSpeed;
+
+        // cant move while pooping
+        animatorSpeed = 0;
+        movementSpeed = 0;
+        yield return new WaitForSeconds(3f);
+
+        // reset to cur speed
+        movementSpeed = curSpeed;
+        animatorSpeed = curAnimator;
+
+        // instaniate poop
+        // behind player position
+        Vector3 playerPos = camPosition.transform.position;
+        playerPos.y = -3.5f;
+
+        Debug.Log("pooping");
+        GameObject newPoop = Instantiate(poop, playerPos - (player.transform.forward * 3f), Quaternion.identity);
+        newPoop.transform.position = playerPos - (player.transform.forward * 10f);
+
+        // incease speed 3x
+        StartCoroutine(StartSpeedBoost());
     }
     
     public void OnGetReady(InputAction.CallbackContext context)
@@ -356,28 +412,27 @@ public class Player : MonoBehaviour
     #endregion
     
     #region Player Items
-    private void SpeedBoost(SpeedBoostData speedData)
+    private void SpeedBoost()
     {
-        animatorSpeed = speedData.animationSpeed;
-        movementSpeed = speedData.movementSpeed;
+        Debug.Log("speeding");
+        animatorSpeed = animatorSpeed * 3;
+        movementSpeed = movementSpeed * 3;
         speedBoost = true;
     }
 
     private void ResetSpeed()
     {
         animatorSpeed = originalAnimatorSpeed;
-        //slothAnimator.speed = originalanimatorSpeed;
         movementSpeed = originalMoveSpeed;
         speedBoost = false;
         Debug.Log("slow down");
     }
 
-    private IEnumerator StartSpeedBoost(SpeedBoostData speedData)
+    private IEnumerator StartSpeedBoost()
     {
-        SpeedBoost(speedData);
-        yield return new WaitForSeconds(speedData.duration);
+        SpeedBoost();
+        yield return new WaitForSeconds(10f);
         ResetSpeed();
-
     }
 
 

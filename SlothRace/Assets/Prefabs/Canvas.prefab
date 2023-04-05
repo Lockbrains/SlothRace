@@ -1437,8 +1437,8 @@ MonoBehaviour:
   go_label: {fileID: 706403282821191967}
   shortTime: 1
   longTime: 1
-  player1Wins: {fileID: 865487701774408439}
-  player2Wins: {fileID: 2098339188149852595}
+  player1Wins: {fileID: 2098339188149852595}
+  player2Wins: {fileID: 865487701774408439}
 --- !u!1 &8123584768638817333
 GameObject:
   m_ObjectHideFlags: 0

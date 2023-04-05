@@ -45,6 +45,9 @@ public class NPCWalk : MonoBehaviour
             Rigidbody component = collision.gameObject.GetComponent<Rigidbody>();
             component.AddForce(walkingSpeed * 1000 * (destPos-originPos).normalized);
             Player player = collision.gameObject.GetComponent<HipCamera>().player;
+
+            // stop car after collision
+            StartCoroutine(DisableCar());
             //if (!getHit) RespawnPlayer(player);
             //GUIManager.S.PlayerWins(player.GetPlayerID());
             //GameManager.S.gameState = GameManager.State.GameEnd;
@@ -64,5 +67,16 @@ public class NPCWalk : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         player.ResetPosition();
         getHit = false;
+    }
+
+    private IEnumerator DisableCar()
+    {
+        // disable car for 10 secs
+        float currentSpeed = walkingSpeed;
+        walkingSpeed = 0; 
+        yield return new WaitForSeconds(10f);
+
+        // reenable car
+        walkingSpeed = currentSpeed;
     }
 }
