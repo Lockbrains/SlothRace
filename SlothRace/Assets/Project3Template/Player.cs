@@ -317,7 +317,7 @@ public class Player : MonoBehaviour
             animatorSpeed = animatorSpeed / slowAmt;
             // update UI
 
-        } else if (context.started && foodCounter == 0)
+        } else if (context.started && foodCounter == maxfoodCount)
         {
             //poop
             foodCounter = 0;
