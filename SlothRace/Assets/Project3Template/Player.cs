@@ -317,7 +317,7 @@ public class Player : MonoBehaviour
             animatorSpeed = animatorSpeed / slowAmt;
             // update UI
 
-        } else if (context.started && foodCounter == maxfoodCount)
+        } else if (context.started && foodCounter == 0)
         {
             //poop
             foodCounter = 0;
@@ -359,8 +359,7 @@ public class Player : MonoBehaviour
         playerPos.y = -3.5f;
 
         Debug.Log("pooping");
-        GameObject newPoop = Instantiate(poop, playerPos - (player.transform.forward * 3f), Quaternion.identity);
-        newPoop.transform.position = playerPos - (player.transform.forward * 10f);
+        GameObject newPoop = Instantiate(poop, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
 
         // incease speed 3x
         StartCoroutine(StartSpeedBoost());
