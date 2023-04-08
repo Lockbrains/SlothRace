@@ -12,21 +12,18 @@ public class SpeedBoost : MonoBehaviour
             Player player = collision.gameObject.GetComponent<HipCamera>().player;
 
             // add speed boost to player only if stack == 0
-            if (player.foodCounter < 5)
+            if (player.EatLettuce())
             {
                 player.hasItem = true;
-                player.foodCounter++;
                 // decrease movement speed
                 player.movementSpeed = player.movementSpeed * player.slowAmt;
                 // decrease animator speed
                 player.animatorSpeed = player.animatorSpeed * player.slowAmt;
-
                 player.TellGUIManagerIHaveAnItem();
-                Debug.Log("adding lettuce: " + player.foodCounter + "/5");
             }
             else
             {
-                Debug.Log("you reached the limit of max number of lettuces");
+                player.TellGUIManagerICantEatMore();
             }
 
             Destroy(this.gameObject);

@@ -663,7 +663,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2347120692595698283}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: OnSpeedBoost
+        m_MethodName: OnUseItem
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1132,7 +1132,6 @@ MonoBehaviour:
   rightArm: 0
   speedBoost: 0
   hasItem: 0
-  foodCounter: 0
   leftStick: {x: 0, y: 0}
   rightStick: {x: 0, y: 0}
   controller: {fileID: 738262305072145322}
@@ -1142,6 +1141,7 @@ MonoBehaviour:
   player: {fileID: 6441048306623344769}
   camPosition: {fileID: 2470347686834898049}
   poop: {fileID: 8325791676373648708, guid: 36191def7bd4947048e9e2fa73c00d35, type: 3}
+  poopProgress: {fileID: 2960599286264138674}
   rank: 0
 --- !u!143 &738262305072145322
 CharacterController:

@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour
     public Stack<GameObject> playerAbilities = new Stack<GameObject>();
     public bool hasItem;
 
-    public int foodCounter = 0;
+    private int lettuceCounter = 0;
     private int maxfoodCount = 5;
 
     //the analog values read from the controller
@@ -59,7 +62,10 @@ public class Player : MonoBehaviour
     public GameObject player;
     public GameObject camPosition;
 
+    [Header("Lettuce and Poop")]
     public GameObject poop;
+
+    public Scrollbar poopProgress;
 
     [Header("Rank")]
     public int rank;
@@ -304,28 +310,33 @@ public class Player : MonoBehaviour
         }
     }
     
-    public void OnSpeedBoost(InputAction.CallbackContext context)
+    public void OnUseItem(InputAction.CallbackContext context)
     {
-        if (context.started && foodCounter > 0 && foodCounter < 5)
+        if (context.started)
         {
-            // fart
-            Debug.Log("farting");
-            // instaniate fart
-            foodCounter--;
-            // increase speed
-            movementSpeed = movementSpeed / slowAmt;
-            animatorSpeed = animatorSpeed / slowAmt;
-            // update UI
-
-        } else if (context.started && foodCounter == maxfoodCount)
-        {
-            //poop
-            foodCounter = 0;
-            StartCoroutine(PoopDelay());
-            
+            if (lettuceCounter <= 2)
+            {
+                // Todo
+                Debug.Log("Your stomach is still empty.");    
+            } else if (lettuceCounter < 5)
+            {
+                // fart
+                Debug.Log("farting");
+                // instantiate fart
+                lettuceCounter-=2;
+                // increase speed
+                movementSpeed = movementSpeed / slowAmt;
+                animatorSpeed = animatorSpeed / slowAmt;
+                // update UI
+                // todo
+            }
+            else
+            {
+                //poop
+                lettuceCounter = 0;
+                StartCoroutine(PoopDelay());
+            }
         }
-
-
         // old speed boost
         /*if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
         {
@@ -353,7 +364,7 @@ public class Player : MonoBehaviour
         movementSpeed = curSpeed;
         animatorSpeed = curAnimator;
 
-        // instaniate poop
+        // instantiate poop
         // behind player position
         Vector3 playerPos = camPosition.transform.position;
         playerPos.y = -3.5f;
@@ -361,7 +372,7 @@ public class Player : MonoBehaviour
         Debug.Log("pooping");
         GameObject newPoop = Instantiate(poop, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
 
-        // incease speed 3x
+        // increase speed 3x
         StartCoroutine(StartSpeedBoost());
     }
     
@@ -408,6 +419,12 @@ public class Player : MonoBehaviour
     {
         GUIManager.S.SetItemAvailability(playerID, false);
     }
+
+    public void TellGUIManagerICantEatMore()
+    {
+        //todo
+        return;
+    }
     #endregion
     
     #region Player Items
@@ -448,6 +465,8 @@ public class Player : MonoBehaviour
             child.gameObject.GetComponent<ResetPosition>().resetPosition();
         }
     }
+
+    
     #endregion
     
     #region Public Interface
@@ -456,6 +475,18 @@ public class Player : MonoBehaviour
         return playerID;
     }
 
+    public bool EatLettuce()
+    {
+        lettuceCounter++;
+        if (lettuceCounter > 5)
+        {
+            lettuceCounter = 5;
+            return false;
+        }
+
+        return true;
+    }
+    
     public void Win()
     {
         GameManager.S.gameState = GameManager.State.GameEnd;

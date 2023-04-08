@@ -78,7 +78,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SpeedBoost",
+                    "name": "UseItem",
                     "type": "Button",
                     "id": "fe8b0c9f-4394-46ae-b247-45bfc6305733",
                     "expectedControlType": "Button",
@@ -359,7 +359,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpeedBoost",
+                    "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
