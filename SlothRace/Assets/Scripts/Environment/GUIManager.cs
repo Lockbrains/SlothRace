@@ -298,6 +298,11 @@ public class GUIManager : MonoBehaviour
     {
         _playerHUDs[playerID].isItemAvailable = available;
     }
+
+    public void UpdateCount(int playerID, int count)
+    {
+        _playerHUDs[playerID].UpdateItemCount(count);
+    }
     
     public void RefreshHUDColor(int playerID, bool isLeft)
     {

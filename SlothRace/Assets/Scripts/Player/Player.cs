@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     [Header("Player Properties")] 
     [SerializeField] private List<LayerMask> playerLayers;
     public float originalMoveSpeed = 0.4f;
+    public float poopSpeed;
     public float movementSpeed;
     public float camRotationSpeed = 100;
     public float playerRotationSpeed = 2;
@@ -62,10 +63,13 @@ public class Player : MonoBehaviour
     public GameObject player;
     public GameObject camPosition;
 
+    
     [Header("Lettuce and Poop")]
-    public GameObject poop;
-
-    public Scrollbar poopProgress;
+    [SerializeField] private GameObject poopPrefab;
+    [SerializeField] private GameObject poopHUD;
+    [SerializeField] private Scrollbar poopProgress;
+    private bool pooping = false;
+    
 
     [Header("Rank")]
     public int rank;
@@ -127,11 +131,38 @@ public class Player : MonoBehaviour
             SlothMovement();
             SetAnimation();
             SetPlayerStatusInHUD();
-            //UpdatePlayerRotation();
+            UpdatePlayerRotation();
             UpdateCameraRotation();
+            CheckPoop();
         }   
     }
 
+    private void CheckPoop()
+    {
+        if (pooping)
+        {
+            poopProgress.size += poopSpeed * Time.deltaTime;
+        }
+
+        if (Mathf.Abs(poopProgress.size - 1.0f) <= float.Epsilon)
+        {
+            poopHUD.SetActive(false);
+            poopProgress.size = 0;
+            // poop ends
+            lettuceCounter = 0;
+            pooping = false;
+            UpdateCount();
+            
+            // instantiate poop
+            // get the hip position
+            Vector3 playerPos = camPosition.transform.position;
+            playerPos.y = -1.5f;
+            Debug.Log("pooping");
+            GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
+            
+            newPoop.GetComponent<Rigidbody>().AddForce((-camPosition.transform.forward * 3f + new Vector3(0,10f,0)).normalized * 100f);
+        }
+    }
     #endregion
     
     #region Control
@@ -145,7 +176,7 @@ public class Player : MonoBehaviour
         Vector3 curPos = transform.position;
         curPos += movement * Time.deltaTime;
         transform.position = curPos;
-        
+
         // the player tries to move
         if (isMovingLeft)
         {
@@ -184,6 +215,12 @@ public class Player : MonoBehaviour
                 actualRotationSpeed = 0;
                 slothAnimator.speed = 0;
             }
+        }
+        
+        if (pooping)
+        {
+            slothAnimator.speed = 0;
+            actualRotationSpeed = 0;
         }
 
     }
@@ -312,31 +349,43 @@ public class Player : MonoBehaviour
     
     public void OnUseItem(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (GameManager.S.gameState == GameManager.State.GameStart)
         {
-            if (lettuceCounter <= 2)
+            if (context.started)
             {
-                // Todo
-                Debug.Log("Your stomach is still empty.");    
-            } else if (lettuceCounter < 5)
-            {
-                // fart
-                Debug.Log("farting");
-                // instantiate fart
-                lettuceCounter-=2;
-                // increase speed
-                movementSpeed = movementSpeed / slowAmt;
-                animatorSpeed = animatorSpeed / slowAmt;
-                // update UI
-                // todo
+                if (lettuceCounter <= 2)
+                {
+                    // Todo
+                    Debug.Log("Your stomach is still empty.");    
+                } else if (lettuceCounter < 5)
+                {
+                    // fart
+                    Debug.Log("farting");
+                    // instantiate fart
+                    lettuceCounter-=2;
+                    // increase speed
+                    movementSpeed = movementSpeed / slowAmt;
+                    animatorSpeed = animatorSpeed / slowAmt;
+                    // update UI
+                    // todo
+                }
+                else
+                {
+                    //poop
+                    poopHUD.SetActive(true);
+                    pooping = true;
+                }
             }
-            else
+
+            if (context.canceled)
             {
-                //poop
-                lettuceCounter = 0;
-                StartCoroutine(PoopDelay());
+                if (lettuceCounter >= 5)
+                {
+                    pooping = false;
+                }
             }
         }
+        
         // old speed boost
         /*if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
         {
@@ -370,7 +419,7 @@ public class Player : MonoBehaviour
         playerPos.y = -3.5f;
 
         Debug.Log("pooping");
-        GameObject newPoop = Instantiate(poop, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
+        GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
 
         // increase speed 3x
         StartCoroutine(StartSpeedBoost());
@@ -485,6 +534,11 @@ public class Player : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void UpdateCount()
+    {
+        GUIManager.S.UpdateCount(playerID, lettuceCounter);
     }
     
     public void Win()

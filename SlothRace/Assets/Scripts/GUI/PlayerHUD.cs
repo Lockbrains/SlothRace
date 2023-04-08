@@ -11,7 +11,10 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Image leftArm, rightLeg, rightArm, leftLeg;
     [SerializeField] private Text t_leftArm, t_rightLeg, t_rightArm, t_leftLeg;
     [SerializeField] private Scrollbar progress;
+    
+    [Header("Lettuce Count")]
     [SerializeField] private Image item;
+    [SerializeField] private Text itemCount;
     private bool isMovingLeft = false;
     
     [Header("UI Settings")]
@@ -135,6 +138,11 @@ public class PlayerHUD : MonoBehaviour
             rightLeg.color = enableColor;
         }
         
+    }
+
+    public void UpdateItemCount(int count)
+    {
+        itemCount.text = count.ToString();
     }
 
     public void ChangeLeftArmColor(bool enabled, bool active)
