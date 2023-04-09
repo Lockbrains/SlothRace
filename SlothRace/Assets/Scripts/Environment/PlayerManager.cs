@@ -102,8 +102,8 @@ public class PlayerManager : MonoBehaviour
         GameObject player1, player2;
         player1 = playerGOs[0];
         player2 = playerGOs[1];
-        Transform player1model = player1.transform.GetChild(0).transform.GetChild(3);
-        Transform player2model = player2.transform.GetChild(0).transform.GetChild(3);
+        Transform player1model = player1.transform.GetChild(0).transform.GetChild(0);
+        Transform player2model = player2.transform.GetChild(0).transform.GetChild(0);
 
         Vector3 player1Pos = player1model.position;
         Vector3 player2Pos = player2model.position;
