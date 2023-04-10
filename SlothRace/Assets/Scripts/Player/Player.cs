@@ -451,7 +451,6 @@ public class Player : MonoBehaviour
     private void SetAnimation()
     {
         slothAnimator.SetBool("MoveLeft", isMovingLeft);
-        slothAnimator.SetBool("Attacking", isAttacking);
     }
 
     private void SetPlayerStatusInHUD()
