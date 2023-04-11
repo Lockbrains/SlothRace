@@ -1235,7 +1235,7 @@ MonoBehaviour:
   poopSpeed: 0.3
   movementSpeed: 0.4
   camRotationSpeed: 3.5
-  playerRotationSpeed: 5
+  playerRotationSpeed: 3
   actualRotationSpeed: 0
   y_offset: 0
   originalAnimatorSpeed: 1

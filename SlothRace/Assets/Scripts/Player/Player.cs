@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     public float camRotationSpeed;
     public float playerRotationSpeed = 2;
     [SerializeField]private float actualRotationSpeed = 0;
-    //[SerializeField] private float y_offset = 0;
+    [SerializeField] private float y_offset = 0;
 
     public float originalAnimatorSpeed = 1;
     public float animatorSpeed;
@@ -234,22 +234,27 @@ public class Player : MonoBehaviour
     private void UpdatePlayerRotation()
     {
         float inputValue = leftStick.x;
+
+        if (inputValue == 0) return;
         
         // read the current rotation
         var currentRotation = player.transform.rotation;
         Debug.Log("Current Rotation is: " + currentRotation);
-        
+
         // set the offset
-        float y_offset = inputValue * actualRotationSpeed + currentRotation.eulerAngles.y;
+
+        float alpha = inputValue * actualRotationSpeed; // Player's local rotation
+        y_offset = alpha + currentRotation.eulerAngles.y; 
         Vector3 playerEulerAngles = currentRotation.eulerAngles;
-        playerEulerAngles.y = y_offset + camPosition.transform.eulerAngles.y;
+        float theta = camPosition.transform.eulerAngles.y; // Camera's local rotation
+        playerEulerAngles.y = y_offset + theta;
 
         //if (playerEulerAngles.y > 180 && playerEulerAngles.y < 340) playerEulerAngles.y = 340;
         //else if (playerEulerAngles.y < 180 && playerEulerAngles.y > 40) playerEulerAngles.y = 40;
 
         currentRotation = Quaternion.Euler(playerEulerAngles);
-        player.transform.rotation = currentRotation;
-        //player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, actualRotationSpeed * Time.deltaTime);
+        //player.transform.rotation = currentRotation;
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, actualRotationSpeed * Time.deltaTime);
     }
     
     private void UpdateCameraRotation()
