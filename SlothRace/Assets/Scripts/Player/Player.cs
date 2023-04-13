@@ -239,7 +239,7 @@ public class Player : MonoBehaviour
         
         // read the current rotation
         var currentRotation = player.transform.rotation;
-        Debug.Log("Current Rotation is: " + currentRotation);
+        // Debug.Log("Current Rotation is: " + currentRotation);
 
         // set the offset
 
@@ -247,9 +247,11 @@ public class Player : MonoBehaviour
         y_offset = alpha + currentRotation.eulerAngles.y; 
         Vector3 playerEulerAngles = currentRotation.eulerAngles;
         float theta = camPosition.transform.eulerAngles.y; // Camera's local rotation
+        Debug.Log("Y_offset: "+ y_offset + "\nCamera Rotation: " + theta + "\nPlayerRotation: " + (y_offset+theta));
         playerEulerAngles.y = y_offset + theta;
 
-        //if (playerEulerAngles.y > 180 && playerEulerAngles.y < 340) playerEulerAngles.y = 340;
+
+        //if (playerEulerAngles.y > 180 && playerEulerAngles.y < 320) playerEulerAngles.y = 320;
         //else if (playerEulerAngles.y < 180 && playerEulerAngles.y > 40) playerEulerAngles.y = 40;
 
         currentRotation = Quaternion.Euler(playerEulerAngles);
@@ -274,7 +276,7 @@ public class Player : MonoBehaviour
         if (rotation_x > 180 && rotation_x < 340) rotation_x = 340;
         else if (rotation_x < 180 && rotation_x > 40) rotation_x = 40;
 
-        if (rotation_y > 180 && rotation_y < 340) rotation_y = 340;
+        if (rotation_y > 180 && rotation_y < 320) rotation_y = 320;
         else if (rotation_y < 180 && rotation_y > 40) rotation_y = 40;
 
         rotation1 = Quaternion.Euler(rotation_x, rotation_y, 0f);
