@@ -20,17 +20,17 @@ public class Player : MonoBehaviour
 
     [Header("Player Properties")] 
     [SerializeField] private List<LayerMask> playerLayers;
-    public float originalMoveSpeed = 0.4f;
-    public float poopSpeed;
+    public float originalMoveSpeed;
     public float movementSpeed;
-    public float camRotationSpeed;
-    public float playerRotationSpeed = 2;
-    [SerializeField]private float actualRotationSpeed = 0;
-    [SerializeField] private float y_offset = 0;
-
-    public float originalAnimatorSpeed = 1;
+    public float originalAnimatorSpeed;
     public float animatorSpeed;
-
+    public float poopSpeed;
+    public float camRotationSpeed;
+    public float playerRotationSpeed;
+    [SerializeField] private GameObject playerForward;
+    [SerializeField] private float actualRotationSpeed = 0;
+    [SerializeField] private float y_offset = 0;
+    
     public float slowAmt = 0.95f;
 
     private bool _isSwitchingToLeft, _isSwitchingToRight;
@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
     {      
         if (GameManager.S.gameState == GameManager.State.GameStart)
         {
+            UpdatePlayerSpeed();
             SlothMovement();
             SetAnimation();
             SetPlayerStatusInHUD();
@@ -138,6 +139,28 @@ public class Player : MonoBehaviour
         }   
     }
 
+    private float Remap(float value, float fromMin, float fromMax, float toMin, float toMax)
+    {
+        var percentage = (value - fromMin) / (fromMax - fromMin);
+
+        return percentage * (toMax - toMin) + toMin; 
+    }
+
+    private void UpdatePlayerSpeed()
+    {
+        float maxSpeed = originalMoveSpeed;
+        float maxAnimSpeed = originalAnimatorSpeed;
+        float maxRotateSpeed = playerRotationSpeed;
+
+        float minSpeed = 0.4f;
+        float minAnimSpeed = 0.4f;
+        float minRotateSpeed = 3.3f;
+
+        animatorSpeed = Remap(5-lettuceCounter, 0, 5, minAnimSpeed, maxAnimSpeed);
+        movementSpeed = Remap(5-lettuceCounter, 0, 5, minSpeed, maxSpeed);
+        actualRotationSpeed = Remap(5-lettuceCounter, 0, 5, minRotateSpeed, maxRotateSpeed);
+    }
+    
     private void CheckPoop()
     {
         if (pooping)
@@ -161,7 +184,9 @@ public class Player : MonoBehaviour
             Debug.Log("pooping");
             GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
             
-            newPoop.GetComponent<Rigidbody>().AddForce((-camPosition.transform.forward * 3f + new Vector3(0,10f,0)).normalized * 100f);
+            newPoop.GetComponent<Rigidbody>().AddForce((-playerForward.transform.forward * 3f + new Vector3(0,10f,0)).normalized * 100f);
+            
+            //StartCoroutine(StartSpeedBoost());
         }
     }
     #endregion
@@ -171,7 +196,8 @@ public class Player : MonoBehaviour
     {
         // compensate for physical system with speed that's too slow
         float targetSpeed = movementSpeed;
-        Vector3 movement = camPosition.transform.forward.normalized * movementSpeed * slothAnimator.speed;
+        
+        Vector3 movement = playerForward.transform.forward.normalized * movementSpeed * slothAnimator.speed;
 
         //since it's in update and continuous the vector has to be multiplied by Time.deltaTime to be frame independent
         Vector3 curPos = transform.position;
@@ -189,7 +215,7 @@ public class Player : MonoBehaviour
             }
             if (leftArm && rightLeg && !rightArm && !leftLeg)
             {
-                actualRotationSpeed = playerRotationSpeed;
+                actualRotationSpeed = Remap(5-lettuceCounter, 0, 5, 3.3f, playerRotationSpeed);
                 slothAnimator.speed = animatorSpeed;
             }
             else
@@ -208,7 +234,7 @@ public class Player : MonoBehaviour
             }
             if (leftLeg && rightArm && !leftArm && !rightLeg)
             {
-                actualRotationSpeed = playerRotationSpeed;
+                actualRotationSpeed = Remap(5-lettuceCounter, 0, 5, 3.3f, playerRotationSpeed);
                 slothAnimator.speed = animatorSpeed;
             }
             else
@@ -239,24 +265,26 @@ public class Player : MonoBehaviour
         
         // read the current rotation
         var currentRotation = player.transform.rotation;
-        // Debug.Log("Current Rotation is: " + currentRotation);
+        var currentForwardRotation = playerForward.transform.rotation;
+        
+        // set the offset, camera should work individually from the player rotation
+        float alpha = inputValue * actualRotationSpeed;
+        y_offset = alpha + currentRotation.eulerAngles.y;
+        var forwardOffset = alpha + currentForwardRotation.eulerAngles.y;
 
-        // set the offset
-
-        float alpha = inputValue * actualRotationSpeed; // Player's local rotation
-        y_offset = alpha + currentRotation.eulerAngles.y; 
         Vector3 playerEulerAngles = currentRotation.eulerAngles;
-        float theta = camPosition.transform.eulerAngles.y; // Camera's local rotation
-        Debug.Log("Y_offset: "+ y_offset + "\nCamera Rotation: " + theta + "\nPlayerRotation: " + (y_offset+theta));
-        playerEulerAngles.y = y_offset + theta;
+        playerEulerAngles.y = y_offset;
 
-
-        //if (playerEulerAngles.y > 180 && playerEulerAngles.y < 320) playerEulerAngles.y = 320;
-        //else if (playerEulerAngles.y < 180 && playerEulerAngles.y > 40) playerEulerAngles.y = 40;
+        Vector3 playerForwardAngles = currentForwardRotation.eulerAngles;
+        playerForwardAngles.y = forwardOffset;
 
         currentRotation = Quaternion.Euler(playerEulerAngles);
+        currentForwardRotation = Quaternion.Euler(playerForwardAngles);
+
+        var amount = actualRotationSpeed * Time.deltaTime;
         //player.transform.rotation = currentRotation;
-        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, actualRotationSpeed * Time.deltaTime);
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, currentRotation, amount);
+        playerForward.transform.rotation = Quaternion.Lerp(playerForward.transform.rotation, currentForwardRotation, amount);
     }
     
     private void UpdateCameraRotation()
@@ -379,9 +407,6 @@ public class Player : MonoBehaviour
                     Debug.Log("farting");
                     // instantiate fart
                     lettuceCounter-=2;
-                    // increase speed
-                    movementSpeed = movementSpeed / slowAmt;
-                    animatorSpeed = animatorSpeed / slowAmt;
                     // update UI
                     // todo
                 }
@@ -401,17 +426,6 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        
-        // old speed boost
-        /*if (context.started && playerAbilities.Count != 0 && playerAbilities.Peek().name.Contains("SpeedBoost"))
-        {
-            hasItem = false;
-            GameObject speedItem = playerAbilities.Pop();
-            SpeedBoost speed = speedItem.GetComponent<SpeedBoost>();
-            SpeedBoostData speedData = speed.speedData;
-            StartCoroutine(StartSpeedBoost(speedData));
-            TellGUIManagerIHaveUsedTheItem();
-        }*/
     }
 
     private IEnumerator PoopDelay()

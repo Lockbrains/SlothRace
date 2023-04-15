@@ -1231,11 +1231,13 @@ MonoBehaviour:
     m_Bits: 512
   - serializedVersion: 2
     m_Bits: 1024
-  originalMoveSpeed: 0.4
+  originalMoveSpeed: 1
   poopSpeed: 0.3
-  movementSpeed: 0.4
+  movementSpeed: 3
   camRotationSpeed: 3.5
-  playerRotationSpeed: 1
+  playerRotationSpeed: 0.35
+  actualRotationSpeed: 0
+  y_offset: 0
   originalAnimatorSpeed: 1
   animatorSpeed: 1
   slowAmt: 0.95
