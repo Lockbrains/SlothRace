@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
 
     [Header("Player Abilities")]
     public Stack<GameObject> playerAbilities = new Stack<GameObject>();
+    [SerializeField] private ParticleSystem fart;
     public bool hasItem;
 
     private int lettuceCounter = 0;
@@ -398,7 +399,7 @@ public class Player : MonoBehaviour
         {
             if (context.started)
             {
-                if (lettuceCounter <= 2)
+                if (lettuceCounter < 2)
                 {
                     // Todo
                     Debug.Log("Your stomach is still empty.");    
@@ -408,8 +409,10 @@ public class Player : MonoBehaviour
                     Debug.Log("farting");
                     // instantiate fart
                     lettuceCounter-=2;
-                    // update UI
-                    // todo
+                    // particle system
+                    fart.Clear();
+                    fart.Play();
+
                 }
                 else
                 {
