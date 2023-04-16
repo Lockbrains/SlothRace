@@ -301,7 +301,7 @@ public class GUIManager : MonoBehaviour
 
     public void UpdateCount(int playerID, int count)
     {
-        _playerHUDs[playerID].UpdateItemCount(count);
+        _playerHUDs[playerID].UpdateLettuceCounter(count);
     }
     
     public void RefreshHUDColor(int playerID, bool isLeft)

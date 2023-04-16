@@ -13,9 +13,31 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Scrollbar progress;
     
     [Header("Lettuce Count")]
-    [SerializeField] private Image item;
-    [SerializeField] private Text itemCount;
     private bool isMovingLeft = false;
+    [SerializeField] private Image[] lettuces;
+    [SerializeField] private Sprite availableLettuce;
+    [SerializeField] private Sprite disableLettuce;
+    [SerializeField] private Image fartIcon;
+    [SerializeField] private Image poopIcon;
+    [SerializeField] private Sprite availableFart;
+    [SerializeField] private Sprite disableFart;
+    [SerializeField] private Sprite availablePoop;
+    [SerializeField] private Sprite disablePoop;
+    [SerializeField] private Image fartText;
+    [SerializeField] private Image poopText;
+    [SerializeField] private Sprite availableFartText;
+    [SerializeField] private Sprite disableFartText;
+    [SerializeField] private Sprite availablePoopText;
+    [SerializeField] private Sprite disablePoopText;
+    [SerializeField] private Image fartButton;
+    [SerializeField] private Sprite availableFartButton;
+    [SerializeField] private Sprite disableFartButton;
+    [SerializeField] private Image poopButton;
+    [SerializeField] private Sprite availablePoopButton;
+    [SerializeField] private Sprite disablePoopButton;
+    [SerializeField] private Image poopFire;
+    [SerializeField] private Sprite availablePoopFire;
+    [SerializeField] private Sprite disablePoopFire;
     
     [Header("UI Settings")]
     [SerializeField] private Color enableColor;
@@ -34,7 +56,7 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private GameObject rightLegGO;
 
     public bool isItemAvailable;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,9 +113,8 @@ public class PlayerHUD : MonoBehaviour
                 t_rightLeg.color = (rightLeg.color == enableColor) ? darkFontColor : lightFontColor;
             }
         }
-        
-        if (item != null) item.color = isItemAvailable ? Color.white : itemDisableColor;
     }
+    
 
     public void MoveLeft(bool isMoving)
     {
@@ -137,12 +158,23 @@ public class PlayerHUD : MonoBehaviour
             leftLeg.color = limbDisableColor;
             rightLeg.color = enableColor;
         }
-        
     }
 
-    public void UpdateItemCount(int count)
+    public void UpdateLettuceCounter(int count)
     {
-        itemCount.text = count.ToString();
+        for (int i = 0; i < 5; i++)
+        {
+            lettuces[i].sprite = i < count ? availableLettuce : disableLettuce;
+        }
+
+        fartIcon.sprite = count is >= 2 and < 5 ? availableFart : disableFart;
+        fartText.sprite = count is >= 2 and < 5 ? availableFartText : disableFartText;
+        fartButton.sprite = count is >= 2 and < 5 ? availableFartButton : disableFartButton;
+
+        poopIcon.sprite = count >= 5 ? availablePoop : disablePoop;
+        poopText.sprite = count >= 5 ? availablePoopText : disablePoopText;
+        poopButton.sprite = count >= 5 ? availablePoopButton : disablePoopButton;
+        poopFire.sprite = count >= 5 ? availablePoopFire : disablePoopFire;
     }
 
     public void ChangeLeftArmColor(bool enabled, bool active)

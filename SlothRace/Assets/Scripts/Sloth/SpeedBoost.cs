@@ -16,7 +16,6 @@ public class SpeedBoost : MonoBehaviour
             if (player.EatLettuce())
             {
                 player.hasItem = true;
-                player.UpdateCount();
                 // decrease movement speed
                 player.movementSpeed = player.movementSpeed * player.slowAmt;
                 // decrease animator speed

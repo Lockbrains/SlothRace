@@ -135,6 +135,7 @@ public class Player : MonoBehaviour
             SetPlayerStatusInHUD();
             UpdatePlayerRotation();
             UpdateCameraRotation();
+            UpdateCount();
             CheckPoop();
         }   
     }
@@ -565,7 +566,7 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    public void UpdateCount()
+    private void UpdateCount()
     {
         GUIManager.S.UpdateCount(playerID, lettuceCounter);
     }
