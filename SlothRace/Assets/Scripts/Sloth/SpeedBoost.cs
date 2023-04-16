@@ -15,6 +15,7 @@ public class SpeedBoost : MonoBehaviour
             // add speed boost to player only if stack == 0
             if (player.EatLettuce())
             {
+                SoundManager.S.PickUpItem();
                 player.hasItem = true;
                 // decrease movement speed
                 player.movementSpeed = player.movementSpeed * player.slowAmt;

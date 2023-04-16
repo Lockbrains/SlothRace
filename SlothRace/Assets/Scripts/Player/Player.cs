@@ -412,6 +412,7 @@ public class Player : MonoBehaviour
                     // particle system
                     fart.Clear();
                     fart.Play();
+                    SoundManager.S.Fart();
 
                 }
                 else

@@ -6,6 +6,8 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private GameObject sfx_move;
+    [SerializeField] private GameObject sfx_fart;
+    [SerializeField] private GameObject sfx_item;
 
     public static SoundManager S;
 
@@ -21,9 +23,24 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private void GenerateSoundEffect(GameObject sfx, float time)
+    {
+        GameObject g = Instantiate(sfx);
+        Destroy(g, time);
+    }
     public void LaunchMove()
     {
         GameObject g = Instantiate(sfx_move);
         Destroy(g, 3f);
+    }
+
+    public void PickUpItem()
+    {
+        GenerateSoundEffect(sfx_item, 1.0f);
+    }
+
+    public void Fart()
+    {
+        GenerateSoundEffect(sfx_fart, 3.0f);
     }
 }
