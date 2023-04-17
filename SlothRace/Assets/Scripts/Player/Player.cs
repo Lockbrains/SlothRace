@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     [Header("Player Properties")] 
     [SerializeField] private List<LayerMask> playerLayers;
     public float originalMoveSpeed;
+
     public float movementSpeed;
     public float originalAnimatorSpeed;
     public float animatorSpeed;
@@ -130,7 +131,6 @@ public class Player : MonoBehaviour
     {      
         if (GameManager.S.gameState == GameManager.State.GameStart)
         {
-            UpdatePlayerSpeed();
             SlothMovement();
             SetAnimation();
             SetPlayerStatusInHUD();
@@ -148,13 +148,19 @@ public class Player : MonoBehaviour
         return percentage * (toMax - toMin) + toMin; 
     }
 
-    private void UpdatePlayerSpeed()
+    public void UpdatePlayerSpeed()
     {
         float maxSpeed = originalMoveSpeed;
         float maxAnimSpeed = originalAnimatorSpeed;
         float maxRotateSpeed = playerRotationSpeed;
 
-        float minSpeed = 0.4f;
+        if (speedBoost)
+        {
+            maxSpeed = originalMoveSpeed * 3;
+            maxAnimSpeed = originalAnimatorSpeed * 3;
+        }
+        
+        float minSpeed = 0.3f;
         float minAnimSpeed = 0.4f;
         float minRotateSpeed = 3.3f;
 
@@ -178,7 +184,10 @@ public class Player : MonoBehaviour
             lettuceCounter = 0;
             pooping = false;
             UpdateCount();
-            
+
+            // reset speed to default
+            movementSpeed = originalMoveSpeed;
+            animatorSpeed = originalAnimatorSpeed;
             // instantiate poop
             // get the hip position
             Vector3 playerPos = camPosition.transform.position;
@@ -188,7 +197,7 @@ public class Player : MonoBehaviour
             
             newPoop.GetComponent<Rigidbody>().AddForce((-playerForward.transform.forward * 3f + new Vector3(0,10f,0)).normalized * 100f);
             
-            //StartCoroutine(StartSpeedBoost());
+            StartCoroutine(StartSpeedBoost());
         }
     }
     #endregion
@@ -413,6 +422,7 @@ public class Player : MonoBehaviour
                     fart.Clear();
                     fart.Play();
                     SoundManager.S.Fart();
+                    UpdatePlayerSpeed();
 
                 }
                 else
@@ -456,7 +466,7 @@ public class Player : MonoBehaviour
         Debug.Log("pooping");
         GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
 
-        // increase speed 3x
+        //increase speed 3x
         StartCoroutine(StartSpeedBoost());
     }
     

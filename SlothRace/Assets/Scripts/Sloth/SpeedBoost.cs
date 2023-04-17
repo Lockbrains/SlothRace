@@ -17,10 +17,7 @@ public class SpeedBoost : MonoBehaviour
             {
                 SoundManager.S.PickUpItem();
                 player.hasItem = true;
-                // decrease movement speed
-                player.movementSpeed = player.movementSpeed * player.slowAmt;
-                // decrease animator speed
-                player.animatorSpeed = player.animatorSpeed * player.slowAmt;
+                player.UpdatePlayerSpeed();
                 player.TellGUIManagerIHaveAnItem();
             }
             else
