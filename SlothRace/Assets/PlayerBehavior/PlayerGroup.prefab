@@ -6090,13 +6090,13 @@ MonoBehaviour:
     m_Bits: 512
   - serializedVersion: 2
     m_Bits: 1024
-  originalMoveSpeed: 0.4
-  movementSpeed: 0.4
-  originalAnimatorSpeed: 1
-  animatorSpeed: 1
+  originalMoveSpeed: 0.5
+  movementSpeed: 0.8
+  originalAnimatorSpeed: 3
+  animatorSpeed: 3
   poopSpeed: 0.3
   camRotationSpeed: 3.5
-  playerRotationSpeed: 5
+  playerRotationSpeed: 8
   playerForward: {fileID: 3854707981362744920}
   actualRotationSpeed: 0
   y_offset: 0

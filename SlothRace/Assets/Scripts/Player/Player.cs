@@ -156,12 +156,12 @@ public class Player : MonoBehaviour
 
         if (speedBoost)
         {
-            maxSpeed = originalMoveSpeed * 3;
-            maxAnimSpeed = originalAnimatorSpeed * 3;
+           maxSpeed = originalMoveSpeed * 1.3f;
+           maxAnimSpeed = originalAnimatorSpeed * 1.3f;
         }
         
-        float minSpeed = 0.3f;
-        float minAnimSpeed = 0.4f;
+        float minSpeed = 0.35f;
+        float minAnimSpeed = 1.0f;
         float minRotateSpeed = 3.3f;
 
         animatorSpeed = Remap(5-lettuceCounter, 0, 5, minAnimSpeed, maxAnimSpeed);
@@ -524,8 +524,8 @@ public class Player : MonoBehaviour
     private void SpeedBoost()
     {
         Debug.Log("speeding");
-        animatorSpeed = animatorSpeed * 3;
-        movementSpeed = movementSpeed * 3;
+        animatorSpeed = animatorSpeed * 1.2f;
+        movementSpeed = movementSpeed * 1.2f;
         speedBoost = true;
     }
 
