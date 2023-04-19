@@ -38,6 +38,8 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Image poopFire;
     [SerializeField] private Sprite availablePoopFire;
     [SerializeField] private Sprite disablePoopFire;
+    [SerializeField] private GameObject pressHolder;
+    [SerializeField] private GameObject holdHolder;
     
     [Header("UI Settings")]
     [SerializeField] private Color enableColor;
@@ -167,14 +169,16 @@ public class PlayerHUD : MonoBehaviour
             lettuces[i].sprite = i < count ? availableLettuce : disableLettuce;
         }
 
-        fartIcon.sprite = count is >= 2 and < 5 ? availableFart : disableFart;
-        fartText.sprite = count is >= 2 and < 5 ? availableFartText : disableFartText;
-        fartButton.sprite = count is >= 2 and < 5 ? availableFartButton : disableFartButton;
+        fartIcon.sprite = count is >= 2 ? availableFart : disableFart;
+        fartText.sprite = count is >= 2 ? availableFartText : disableFartText;
+        fartButton.sprite = count is >= 2 ? availableFartButton : disableFartButton;
+        pressHolder.SetActive(count >= 2);
 
         poopIcon.sprite = count >= 5 ? availablePoop : disablePoop;
         poopText.sprite = count >= 5 ? availablePoopText : disablePoopText;
         poopButton.sprite = count >= 5 ? availablePoopButton : disablePoopButton;
         poopFire.sprite = count >= 5 ? availablePoopFire : disablePoopFire;
+        holdHolder.SetActive(count >= 5);
     }
 
     public void ChangeLeftArmColor(bool enabled, bool active)

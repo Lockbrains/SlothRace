@@ -412,7 +412,7 @@ public class Player : MonoBehaviour
                 {
                     // Todo
                     Debug.Log("Your stomach is still empty.");    
-                } else if (lettuceCounter < 5)
+                } else
                 {
                     // fart
                     Debug.Log("farting");
@@ -425,20 +425,29 @@ public class Player : MonoBehaviour
                     UpdatePlayerSpeed();
 
                 }
-                else
-                {
-                    //poop
-                    poopHUD.SetActive(true);
-                    pooping = true;
-                }
             }
+            
+        }
+    }
 
-            if (context.canceled)
+    public void OnPoop(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (lettuceCounter < 5)
             {
-                if (lettuceCounter >= 5)
-                {
-                    pooping = false;
-                }
+                Debug.Log("Not able to poop.");
+            }
+            else
+            {
+                //poop
+                poopHUD.SetActive(true);
+                pooping = true;
+            }
+            
+            if (context.canceled && lettuceCounter >= 5)
+            {
+                pooping = false;
             }
         }
     }
