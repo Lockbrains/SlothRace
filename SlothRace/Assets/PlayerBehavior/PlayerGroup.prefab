@@ -791,9 +791,21 @@ MonoBehaviour:
     m_ActionId: fe8b0c9f-4394-46ae-b247-45bfc6305733
     m_ActionName: Player/SpeedBoost[/DualSenseGamepadHID/buttonWest,/DualSenseGamepadHID1/buttonWest]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2507568f-c7f2-4178-b3f6-59e9c626045c
-    m_ActionName: Player/New action
+      m_Calls:
+      - m_Target: {fileID: 2347120692595698283}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnPoop
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cc547a5e-efcb-4434-9a63-54d0cad39004
+    m_ActionName: Player/Poop[/XInputControllerWindows/buttonWest]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

@@ -432,22 +432,28 @@ public class Player : MonoBehaviour
 
     public void OnPoop(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (GameManager.S.gameState == GameManager.State.GameStart)
         {
-            if (lettuceCounter < 5)
+            if (context.started)
             {
-                Debug.Log("Not able to poop.");
-            }
-            else
-            {
-                //poop
-                poopHUD.SetActive(true);
-                pooping = true;
+                if (lettuceCounter < 5)
+                {
+                    Debug.Log("Not able to poop.");
+                }
+                else
+                {
+                    //poop
+                    poopHUD.SetActive(true);
+                    pooping = true;
+                }
             }
             
-            if (context.canceled && lettuceCounter >= 5)
+            if (context.canceled)
             {
-                pooping = false;
+                if (lettuceCounter >= 5)
+                {
+                    pooping = false;
+                }
             }
         }
     }
