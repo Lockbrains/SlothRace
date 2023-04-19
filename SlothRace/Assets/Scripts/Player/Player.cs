@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
     public float slowAmt = 0.95f;
 
     private bool _isSwitchingToLeft, _isSwitchingToRight;
+
+    [Header("Player Appearance")] 
+    [SerializeField] private Material[] SlothMaterials;
+    [SerializeField] private Renderer slothSkin;
   
     [Header("Player Status")]
     public bool isMovingLeft;
@@ -85,7 +89,7 @@ public class Player : MonoBehaviour
     {
         // setting the playerID as the id from playerInput
         playerID = playerInput.playerIndex;
-
+        slothSkin.sharedMaterial = SlothMaterials[playerID];
         // the player should be generated in the WaitForPlayer state
         GUIManager.S.PlayerJoin(playerID);
         GameManager.S.joinedPlayer++;

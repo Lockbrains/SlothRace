@@ -6117,6 +6117,12 @@ MonoBehaviour:
   actualRotationSpeed: 0
   y_offset: 0
   slowAmt: 0.95
+  SlothMaterials:
+  - {fileID: 2100000, guid: 65c9bf70b061d4ca1b027ccb645a8933, type: 2}
+  - {fileID: 2100000, guid: 830884ec434d2493b8c0b4fca279371d, type: 2}
+  - {fileID: 2100000, guid: 36680af5f432f4a9da67486de1662caa, type: 2}
+  - {fileID: 2100000, guid: 54b7a7ee3cb0c4fadb2bb3a0e4f72c7c, type: 2}
+  slothSkin: {fileID: 6494333961133743050}
   isMovingLeft: 0
   isAttacking: 0
   leftLeg: 0
@@ -6367,6 +6373,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5344030311456282323, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 65c9bf70b061d4ca1b027ccb645a8933, type: 2}
     - target: {fileID: 5916062097452594739, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -8786,6 +8796,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2347120692595698283}
+--- !u!137 &6494333961133743050 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5344030311456282323, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
+  m_PrefabInstance: {fileID: 1155539533486640409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6691429297577804860 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3686769780366243547, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
