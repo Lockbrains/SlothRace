@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04676559fc105b4e905ccb14f8b9592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 3.8
+  walkingSpeed: 1.9
   directionNormalized: {x: -1, y: 0, z: 0}
 --- !u!1001 &3342409950314618183
 PrefabInstance:
