@@ -17,6 +17,7 @@ public class GUIManager : MonoBehaviour
     [Header("State UI")] 
     [SerializeField] private GameObject titlePage;
     [SerializeField] private GameObject levelSelectionPage;
+    [SerializeField] private GameObject mappingPage;
     [SerializeField] private GameObject waitForPlayerPage;
     [SerializeField] private GameObject countdownPage;
     [SerializeField] private GameObject inGameHUD;
@@ -96,6 +97,16 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.TitleScreen:
                 titlePage.SetActive(true);
                 levelSelectionPage.SetActive(false);
+                mappingPage.SetActive(false);
+                waitForPlayerPage.SetActive(false);
+                countdownPage.SetActive(false);
+                inGameHUD.SetActive(false);
+                leaderboardPage.SetActive(false);
+                break;
+            case GameManager.State.Mapping:
+                titlePage.SetActive(false);
+                levelSelectionPage.SetActive(false);
+                mappingPage.SetActive(true);
                 waitForPlayerPage.SetActive(false);
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
@@ -104,6 +115,7 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.LevelSelection:
                 titlePage.SetActive(false);
                 levelSelectionPage.SetActive(true);
+                mappingPage.SetActive(false);
                 waitForPlayerPage.SetActive(false);
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
@@ -112,6 +124,7 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.WaitForPlayers:
                 titlePage.SetActive(false);
                 levelSelectionPage.SetActive(false);
+                mappingPage.SetActive(false);
                 waitForPlayerPage.SetActive(true);
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
@@ -122,6 +135,7 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.Countdown:
                 titlePage.SetActive(false);
                 levelSelectionPage.SetActive(false);
+                mappingPage.SetActive(false);
                 waitForPlayerPage.SetActive(false);
                 countdownPage.SetActive(true);
                 inGameHUD.SetActive(false);
@@ -130,6 +144,7 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.GameStart:
                 titlePage.SetActive(false);
                 levelSelectionPage.SetActive(false);
+                mappingPage.SetActive(false);
                 waitForPlayerPage.SetActive(false);
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(true);
@@ -138,6 +153,7 @@ public class GUIManager : MonoBehaviour
             case GameManager.State.GameEnd:
                 titlePage.SetActive(false);
                 levelSelectionPage.SetActive(false);
+                mappingPage.SetActive(false);
                 waitForPlayerPage.SetActive(false);
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
@@ -155,6 +171,13 @@ public class GUIManager : MonoBehaviour
                 if (Input.anyKey)
                 {
                     GameManager.S.gameState = GameManager.State.LevelSelection;
+                }
+                break;
+            case GameManager.State.Mapping:
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Cancel"))
+                {
+                    GameManager.S.gameState = GameManager.State.WaitForPlayers;
+                    OnMappingToWaitForPlayer();
                 }
                 break;
             default:
@@ -182,30 +205,34 @@ public class GUIManager : MonoBehaviour
         if (GameManager.S.gameState == GameManager.State.LevelSelection)
         {
             GameManager.S.maxPlayerCount = playerNum;
-            GameManager.S.gameState = GameManager.State.WaitForPlayers;
-            switch (playerNum)
-            {
-                case 2:
-                    twoPlayerMode.SetActive(true);
-                    _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
-                    threePlayerMode.SetActive(false);
-                    fourPlayerMode.SetActive(false);
-                    break;
-                case 3:
-                    twoPlayerMode.SetActive(false);
-                    threePlayerMode.SetActive(true);
-                    _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
-                    fourPlayerMode.SetActive(false);
-                    break;
-                case 4:
-                    twoPlayerMode.SetActive(false);
-                    threePlayerMode.SetActive(false);
-                    fourPlayerMode.SetActive(true);
-                    _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
-                    break;
-                default:
-                    break;
-            }
+            GameManager.S.gameState = GameManager.State.Mapping;
+        }
+    }
+
+    private void OnMappingToWaitForPlayer()
+    {
+        switch (GameManager.S.maxPlayerCount)
+        {
+            case 2:
+                twoPlayerMode.SetActive(true);
+                _waitModule = twoPlayerMode.GetComponent<WaitForPlayer>();
+                threePlayerMode.SetActive(false);
+                fourPlayerMode.SetActive(false);
+                break;
+            case 3:
+                twoPlayerMode.SetActive(false);
+                threePlayerMode.SetActive(true);
+                _waitModule = threePlayerMode.GetComponent<WaitForPlayer>();
+                fourPlayerMode.SetActive(false);
+                break;
+            case 4:
+                twoPlayerMode.SetActive(false);
+                threePlayerMode.SetActive(false);
+                fourPlayerMode.SetActive(true);
+                _waitModule = fourPlayerMode.GetComponent<WaitForPlayer>();
+                break;
+            default:
+                break;
         }
     }
     

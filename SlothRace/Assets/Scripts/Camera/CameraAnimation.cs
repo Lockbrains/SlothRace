@@ -28,16 +28,25 @@ public class CameraAnimation : MonoBehaviour
                 _animator.SetBool("IsOnTitle", true);
                 _animator.SetBool("IsOnLevelSelection", false);
                 _animator.SetBool("IsOnWaitForPlayer", false);
+                _animator.SetBool("IsOnMapping", false);
                 break;
             case GameManager.State.LevelSelection:
                 _animator.SetBool("IsOnTitle", false);
                 _animator.SetBool("IsOnLevelSelection", true);
                 _animator.SetBool("IsOnWaitForPlayer", false);
+                _animator.SetBool("IsOnMapping", false);
+                break;
+            case GameManager.State.Mapping:
+                _animator.SetBool("IsOnTitle", false);
+                _animator.SetBool("IsOnLevelSelection", false);
+                _animator.SetBool("IsOnWaitForPlayer", false);
+                _animator.SetBool("IsOnMapping", true);
                 break;
             case GameManager.State.WaitForPlayers:
                 _animator.SetBool("IsOnTitle", false);
                 _animator.SetBool("IsOnLevelSelection", false);
                 _animator.SetBool("IsOnWaitForPlayer", true);
+                _animator.SetBool("IsOnMapping", false);
                 break;
             default:
                 break;
