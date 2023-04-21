@@ -402,7 +402,7 @@ public class Player : MonoBehaviour
     {
         if(GameManager.S.gameState == GameManager.State.GameEnd)
         {
-            SceneManager.LoadScene("Alpha Test");
+            SceneManager.LoadScene("Beta Test");
         }
     }
     

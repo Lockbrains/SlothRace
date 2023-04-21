@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private GameObject sfx_move;
     [SerializeField] private GameObject sfx_fart;
     [SerializeField] private GameObject sfx_item;
+    [SerializeField] private GameObject sfx_shout;
 
     public static SoundManager S;
 
@@ -20,6 +21,14 @@ public class SoundManager : MonoBehaviour
         else
         {
             S = this;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            GenerateSoundEffect(sfx_shout, 1.0f);
         }
     }
 
