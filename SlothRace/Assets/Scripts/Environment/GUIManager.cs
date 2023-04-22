@@ -11,11 +11,11 @@ public class GUIManager : MonoBehaviour
 {
 
     #region Variables
+
     public static GUIManager S;
     private GameManager.State _state;
-    
-    [Header("State UI")] 
-    [SerializeField] private GameObject titlePage;
+
+    [Header("State UI")] [SerializeField] private GameObject titlePage;
     [SerializeField] private GameObject levelSelectionPage;
     [SerializeField] private GameObject mappingPage;
     [SerializeField] private GameObject waitForPlayerPage;
@@ -23,15 +23,15 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private GameObject inGameHUD;
     [SerializeField] private GameObject leaderboardPage;
 
-    [Header("UI GameObjects")]
-    public GameObject img_titleScreen;
+    [Header("UI GameObjects")] public GameObject img_titleScreen;
     public GameObject img_waitingForPlayer2;
-    
-    [Header("Player HUD")]
-    [SerializeField] private PlayerHUD[] _playerHUDs;
-    
-    [Header("UI Setting")] 
-    [SerializeField] private Color enableColor;
+
+    [Header("Player HUD")] [SerializeField]
+    private PlayerHUD[] _playerHUDs;
+
+    [Header("UI Setting")] [SerializeField]
+    private Color enableColor;
+
     [SerializeField] private Color disableColor;
     [SerializeField] private Color limbDisableColor;
     [SerializeField] private Color activeColor;
@@ -40,16 +40,16 @@ public class GUIManager : MonoBehaviour
     [HideInInspector] public Animator player3Anim;
     [HideInInspector] public Animator player4Anim;
 
-    [Header("Wait For Players")] 
-    [SerializeField] private GameObject twoPlayerMode;
+    [Header("Wait For Players")] [SerializeField]
+    private GameObject twoPlayerMode;
+
     [SerializeField] private GameObject threePlayerMode;
     [SerializeField] private GameObject fourPlayerMode;
     [SerializeField] private GameObject allSetIcon;
     [HideInInspector] public bool allSet;
     private WaitForPlayer _waitModule;
-    
-    [Header("Countdown")] 
-    [SerializeField] private GameObject reverseCount;
+
+    [Header("Countdown")] [SerializeField] private GameObject reverseCount;
     [SerializeField] private GameObject three_label;
     [SerializeField] private GameObject two_label;
     [SerializeField] private GameObject one_label;
@@ -58,12 +58,13 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private float longTime;
     private bool hasStartedCountdown;
 
-    [Header("Game Over")]
-    [SerializeField] private GameObject player1Wins;
-    [SerializeField] private GameObject player2Wins;
+    [Header("Game Over")] 
+    [SerializeField] private Leaderboard _leaderboard;
+
     #endregion
-    
+
     #region Unity Basics
+
     private void Awake()
     {
         if (S)
@@ -73,27 +74,28 @@ public class GUIManager : MonoBehaviour
 
         S = this;
     }
-    
+
     private void Start()
     {
         hasStartedCountdown = false;
         DisableCountdown();
         InitialColorAdjustment();
     }
-    
+
     private void Update()
     {
         UpdateHUD();
         UpdateListenToInput();
         UpdatePlayerScrollBar();
     }
-    
+
     #region Update Helpers
+
     private void UpdateHUD()
     {
         _state = GameManager.S.gameState;
         switch (_state)
-        {   
+        {
             case GameManager.State.TitleScreen:
                 titlePage.SetActive(true);
                 levelSelectionPage.SetActive(false);
@@ -163,6 +165,7 @@ public class GUIManager : MonoBehaviour
                 break;
         }
     }
+
     private void UpdateListenToInput()
     {
         switch (_state)
@@ -172,6 +175,7 @@ public class GUIManager : MonoBehaviour
                 {
                     GameManager.S.gameState = GameManager.State.LevelSelection;
                 }
+
                 break;
             case GameManager.State.Mapping:
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Cancel"))
@@ -179,11 +183,13 @@ public class GUIManager : MonoBehaviour
                     GameManager.S.gameState = GameManager.State.WaitForPlayers;
                     OnMappingToWaitForPlayer();
                 }
+
                 break;
             default:
                 break;
         }
     }
+
     private void UpdatePlayerScrollBar()
     {
         if (GameManager.S.gameState == GameManager.State.GameStart)
@@ -192,14 +198,17 @@ public class GUIManager : MonoBehaviour
             Debug.Assert(len >= 2);
             _playerHUDs[0].UpdateProgress(player1Anim);
             _playerHUDs[1].UpdateProgress(player2Anim);
-            if(len >=3) _playerHUDs[2].UpdateProgress(player3Anim);
-            if(len >=4) _playerHUDs[3].UpdateProgress(player4Anim);
+            if (len >= 3) _playerHUDs[2].UpdateProgress(player3Anim);
+            if (len >= 4) _playerHUDs[3].UpdateProgress(player4Anim);
         }
     }
+
     #endregion
+
     #endregion
 
     #region LevelSelection, Codes for Ad Board
+
     public void OnLevelSelectButtonClick(int playerNum)
     {
         if (GameManager.S.gameState == GameManager.State.LevelSelection)
@@ -235,11 +244,12 @@ public class GUIManager : MonoBehaviour
                 break;
         }
     }
-    
+
 
     #endregion
-    
+
     #region WaitForPlayer, Codes for Join UI
+
     private void CheckPlayerNum()
     {
         if (GameManager.S.readyPlayer == GameManager.S.maxPlayerCount)
@@ -252,7 +262,7 @@ public class GUIManager : MonoBehaviour
             }
         }
     }
-    
+
     public void PlayerJoin(int playerID)
     {
         _waitModule.Join(playerID);
@@ -267,10 +277,11 @@ public class GUIManager : MonoBehaviour
     {
         _playerHUDs[playerID].ChangePlayerRank(rank);
     }
-    
+
     #endregion
 
     #region Countdown, Codes for countdown
+
     private void DisableCountdown()
     {
         reverseCount.SetActive(false);
@@ -294,17 +305,22 @@ public class GUIManager : MonoBehaviour
         yield return new WaitForSeconds(longTime);
         one_label.SetActive(false);
         go_label.SetActive(true);
-        yield return new WaitForSeconds(shortTime); 
+        yield return new WaitForSeconds(shortTime);
         GameManager.S.gameState = GameManager.State.GameStart;
+        GameManager.S.gameStartTime = Time.time;
+        Debug.Log("Start time is " + GameManager.S.gameStartTime);
         foreach (PlayerHUD playerHUD in _playerHUDs)
         {
             playerHUD.gameObject.SetActive(true);
         }
+
         DisableCountdown();
     }
+
     #endregion
-    
+
     #region GameStart, Codes for Player HUD
+
     private void DisableHUD()
     {
         foreach (PlayerHUD playerHUD in _playerHUDs)
@@ -312,7 +328,7 @@ public class GUIManager : MonoBehaviour
             playerHUD.gameObject.SetActive(false);
         }
     }
-    
+
     void InitialColorAdjustment()
     {
         foreach (var t in _playerHUDs)
@@ -330,7 +346,7 @@ public class GUIManager : MonoBehaviour
     {
         _playerHUDs[playerID].UpdateLettuceCounter(count);
     }
-    
+
     public void RefreshHUDColor(int playerID, bool isLeft)
     {
         _playerHUDs[playerID].InitialColorAdjustment(isLeft);
@@ -350,12 +366,12 @@ public class GUIManager : MonoBehaviour
     {
         _playerHUDs[playerID].ChangeRightArmColor(enabled, active);
     }
-    
+
     public void ChangeLeftLegColor(bool enabled, bool active, int playerID)
     {
         _playerHUDs[playerID].ChangeLeftLegColor(enabled, active);
     }
-    
+
     public void ChangeRightLegColor(bool enabled, bool active, int playerID)
     {
         _playerHUDs[playerID].ChangeRightLegColor(enabled, active);
@@ -364,20 +380,18 @@ public class GUIManager : MonoBehaviour
     #endregion
 
     #region GameEnd, Codes for Leaderboard UI
-    public void PlayerWins(int playerID)
+
+    public void PlayerReachTheEnd(int playerID) 
     {
-        if (playerID == 0)
-        {
-            DisableHUD();
-            player1Wins.SetActive(true);
-            player2Wins.SetActive(false);
-        }
-        else
-        {
-            DisableHUD();
-            player1Wins.SetActive(false);
-            player2Wins.SetActive(true);
-        }
+        // todo
+        return;
+    }
+
+    public void GameEnds()
+    {
+        // todo 
+        _leaderboard.UpdateLeaderboard();
+        return;
     }
     #endregion
     

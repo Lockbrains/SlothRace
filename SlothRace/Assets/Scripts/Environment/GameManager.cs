@@ -34,16 +34,25 @@ public class GameManager : MonoBehaviour
     // readyPlayer: the number of players that are prepared
     public int readyPlayer;
     public State gameState;
+    public float gameStartTime;
 
     [Header("Player Rank")]
     private float[] distance2p = new float[2];
     private float[] distance3p = new float[3];
     private float[] distance4p = new float[4];
     public float[] distances;
-
+    
+    [Header("Ending & Rank Check")]
     public Sprite[] rankNumbers = new Sprite[4];
     public GameObject finishLine;
     public Vector3 finishPosition;
+    public int finishedPlayer;
+
+    [Header("Player Data")] 
+    public int[] playerFartTimes = new int[4];
+    public int[] playerPoopTimes = new int[4];
+    public float[] playerEndTimes = new float[4];
+    public int[] playerEndOrder = new int[4];
     
     private void Awake()
     {

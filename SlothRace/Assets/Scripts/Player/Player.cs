@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject poopHUD;
     [SerializeField] private Scrollbar poopProgress;
     private bool pooping = false;
+    private bool hasReachedTheEnd = false;
     
 
     [Header("Rank")]
@@ -196,11 +197,9 @@ public class Player : MonoBehaviour
             // get the hip position
             Vector3 playerPos = camPosition.transform.position;
             playerPos.y = -1.5f;
-            Debug.Log("pooping");
             GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
-            
             newPoop.GetComponent<Rigidbody>().AddForce((-playerForward.transform.forward * 3f + new Vector3(0,10f,0)).normalized * 100f);
-            
+            GameManager.S.playerPoopTimes[playerID]++;
             StartCoroutine(StartSpeedBoost());
         }
     }
@@ -425,6 +424,7 @@ public class Player : MonoBehaviour
                     // particle system
                     fart.Clear();
                     fart.Play();
+                    GameManager.S.playerFartTimes[playerID]++;
                     SoundManager.S.Fart();
                     UpdatePlayerSpeed();
 
@@ -604,10 +604,29 @@ public class Player : MonoBehaviour
         GUIManager.S.UpdateCount(playerID, lettuceCounter);
     }
     
-    public void Win()
+    public void ReachFinishLine()
     {
-        GameManager.S.gameState = GameManager.State.GameEnd;
-        GUIManager.S.PlayerWins(playerID);
+        if (!hasReachedTheEnd)
+        {
+            hasReachedTheEnd = true;
+            GameManager.S.playerEndOrder[GameManager.S.finishedPlayer] = playerID;
+            GameManager.S.finishedPlayer++;
+            GameManager.S.playerEndTimes[playerID] = Time.time;
+        
+        
+            // if all the players have reached the end
+            if (GameManager.S.finishedPlayer == GameManager.S.maxPlayerCount)
+            {
+                GameManager.S.gameState = GameManager.State.GameEnd;
+                // Show Leaderboard
+                GUIManager.S.GameEnds();
+            }
+            else
+            {
+                GUIManager.S.PlayerReachTheEnd(playerID);
+            }
+            // GUIManager.S.PlayerWins(playerID);
+        }
     }
     
     #endregion

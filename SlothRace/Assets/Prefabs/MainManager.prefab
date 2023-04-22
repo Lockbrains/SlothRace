@@ -107,12 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 6156082140994258384}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  player3: {fileID: 0}
-  player4: {fileID: 0}
-  player1Started: 0
-  player2Started: 0
   player1SpawnPoint: {x: -1.5, y: 0, z: 0}
   player2SpawnPoint: {x: 0.7, y: 0, z: 0}
   player3SpawnPoint: {x: 0, y: 0, z: 0}
@@ -121,14 +115,24 @@ MonoBehaviour:
   joinedPlayer: 0
   readyPlayer: 0
   gameState: 0
+  gameStartTime: 0
   distances: []
   rankNumbers:
-  - {fileID: 21300000, guid: ea45e9bb679a0485e8a5a0b312a4b7f5, type: 3}
-  - {fileID: 21300000, guid: c0b5cbd0ba20a488c9005217c333a28b, type: 3}
-  - {fileID: 21300000, guid: d7b53c19ec21b498292be288abb48314, type: 3}
-  - {fileID: 21300000, guid: 7312f893ac1614bd1a3af7326ec7ceb9, type: 3}
+  - {fileID: 21300000, guid: 3c12d37ceaae13646847673eda23ff2e, type: 3}
+  - {fileID: 21300000, guid: 035009ab63ace854491b11fa6b7fae3c, type: 3}
+  - {fileID: 21300000, guid: 31a347540d9a245419d5d4c45d38130e, type: 3}
+  - {fileID: 21300000, guid: 73bc0b6fae52d034b91b37317ad0d5a7, type: 3}
   finishLine: {fileID: 8352477703446274750, guid: 84a26196c09a34595b550fa92727a657, type: 3}
   finishPosition: {x: 0, y: 0, z: 0}
+  finishedPlayer: 0
+  playerFartTimes: 00000000000000000000000000000000
+  playerPoopTimes: 00000000000000000000000000000000
+  playerEndTimes:
+  - 0
+  - 0
+  - 0
+  - 0
+  playerEndOrder: 00000000000000000000000000000000
 --- !u!114 &5642704546591020735
 MonoBehaviour:
   m_ObjectHideFlags: 0
