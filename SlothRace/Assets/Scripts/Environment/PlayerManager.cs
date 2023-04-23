@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject[] playerGOs = new GameObject[4];
     public bool[] playerHasStart = new bool[4];
 
+    private List<Tuple<float, int>> playerRankList = new List<Tuple<float, int>>();
+
     [SerializeField] private Vector3[] respawningPoints = new Vector3[4];
     [SerializeField] private List<LayerMask> playerLayers;
 
@@ -97,41 +99,104 @@ public class PlayerManager : MonoBehaviour
         playerGOs[playerID].transform.position = respawningPoints[playerID];
     }
     
+
     public void GetPlayersRank()
     {
-        GameObject player1, player2;
+        // get players
+        GameObject player1, player2, player3, player4;
         player1 = playerGOs[0];
         player2 = playerGOs[1];
+        player3 = playerGOs[2];
+        player4 = playerGOs[3];
+
         Transform player1model = player1.transform.GetChild(0).transform.GetChild(0);
         Transform player2model = player2.transform.GetChild(0).transform.GetChild(0);
+        Transform player3model = null;
+        Transform player4model = null;
 
+        // get player physical models
+        if (player3 != null)
+        {
+            player3model = player3.transform.GetChild(0).transform.GetChild(0);
+        }
+        if (player4 != null)
+        {
+            player4model = player1.transform.GetChild(0).transform.GetChild(0);
+        }
+
+        // get positions
         Vector3 player1Pos = player1model.position;
         Vector3 player2Pos = player2model.position;
+        Vector3 player3Pos = new Vector3(0, 0, 0);
+        Vector3 player4Pos = new Vector3(0, 0, 0);
+
+        if (player3 != null)
+        {
+            player3Pos = player3model.position;
+        }
+        if (player4 != null)
+        {
+            player4Pos = player4model.position;
+        }
 
         // compare positions to final destinations
         float p1Distance = Vector3.Distance(player1Pos, GameManager.S.finishPosition);
         float p2Distance = Vector3.Distance(player2Pos, GameManager.S.finishPosition);
+        float p3Distance = 0;
+        float p4Distance = 0;
 
-        if (p1Distance > p2Distance)
+        if (player3 != null)
         {
-            // player 2 is in the lead 
-            GUIManager.S.ChangePlayerRank(GameManager.S.rankNumbers[0], 1);
-            player2.GetComponent<Player>().rank = 1;
-
-            // player 1 is second
-            GUIManager.S.ChangePlayerRank(GameManager.S.rankNumbers[1], 0);
-            player1.GetComponent<Player>().rank = 2;
-        } else
+            p3Distance = Vector3.Distance(player3Pos, GameManager.S.finishPosition);
+        }
+        if (player4 != null)
         {
-            // player 1 is in the lead
-            GUIManager.S.ChangePlayerRank(GameManager.S.rankNumbers[0], 0);
-            player1.GetComponent<Player>().rank = 1;
+            p4Distance = Vector3.Distance(player4Pos, GameManager.S.finishPosition);
+        }
 
-            // player 2 is second
-            GUIManager.S.ChangePlayerRank(GameManager.S.rankNumbers[1], 1);
-            player2.GetComponent<Player>().rank = 2;
+        // add to tuple list with respective player index and their distance
+        playerRankList.Add(new Tuple<float, int>(p1Distance, 0));
+        playerRankList.Add(new Tuple<float, int>(p2Distance, 1));
 
+        if (player3 != null)
+        {
+            playerRankList.Add(new Tuple<float, int>(p3Distance, 2));
+        }
+        if (player4 != null)
+        {
+            playerRankList.Add(new Tuple<float, int>(p4Distance, 3));
+        }
+
+        SortPlayerRanks();
+
+        // update ranks
+        for (int i = 0; i < GameManager.S.maxPlayerCount; i++)
+        {
+            int playerID = playerRankList[i].Item2;
+
+            GUIManager.S.ChangePlayerRank(GameManager.S.rankNumbers[i], playerID);
+            if (playerID == 0)
+            {
+                player1.GetComponent<Player>().rank = i + 1;
+            } else if (playerID == 1)
+            {
+                player2.GetComponent<Player>().rank = i + 1;
+            }
+            else if (playerID == 2)
+            {
+                player3.GetComponent<Player>().rank = i + 1;
+            }
+            else if (playerID == 3)
+            {
+                player4.GetComponent<Player>().rank = i + 1;
+            }
 
         }
+  
+    }
+
+    private void SortPlayerRanks()
+    {
+        playerRankList.Sort((x, y) => y.Item1.CompareTo(x.Item1));
     }
 }
