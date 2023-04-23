@@ -3,7 +3,57 @@ guid: 7e79edcb6876c498d901bee7022a6ff7
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body.001
+    second: {fileID: 2100000, guid: 41bea81794128fd4e9232dbfcb641a41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: car_label.001
+    second: {fileID: 2100000, guid: 0f7752010eff1f24e95c386a02ca93c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: handle.001
+    second: {fileID: 2100000, guid: 20a55273bbe5ce3498c475b7ce61f3d1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: inner.001
+    second: {fileID: 2100000, guid: 36a9b0501eb871f408f129ef342eb8c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: inner.006
+    second: {fileID: 2100000, guid: 07a073dd9e899bb4a953e48b642fd53e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: inner_wheel.001
+    second: {fileID: 2100000, guid: 92bd5c7465d54e041bb85287a7c48cca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lights.001
+    second: {fileID: 2100000, guid: 7ec5da09e16929a4c8468e0134068c2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ornaments.001
+    second: {fileID: 2100000, guid: 1675fe789017f87409181a8ab07abda5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outer_wheel.001
+    second: {fileID: 2100000, guid: fce62c3d27aac9c4fa979af8ac99c51b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: seat.001
+    second: {fileID: 2100000, guid: 669045289c7d3dd45aeabb5e3fd49d35, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -14,6 +14,7 @@ Material:
   - N_F_RELGI_ON
   - N_F_SS_ON
   m_InvalidKeywords:
+  - NOKEWO
   - _METALLICGLOSSMAP
   - _NORMALMAP
   - _PARALLAXMAP
@@ -151,10 +152,10 @@ Material:
     - _HighlightColorPower: 1
     - _LightAffectOutlineColor: 0
     - _LightAffectRimLightColor: 0
-    - _LightAffectShadow: 0
+    - _LightAffectShadow: 1
     - _LightFalloffAffectShadowT: 0
     - _LightFalloffSoftness: 1
-    - _LightIntensity: -1
+    - _LightIntensity: -0.36
     - _MCIALO: 0
     - _MCapIntensity: 1
     - _MVCOL: 0

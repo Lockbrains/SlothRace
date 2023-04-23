@@ -3,7 +3,52 @@ guid: 16e97625ad8c443f49f64a9798457f8c
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body
+    second: {fileID: 2100000, guid: 918c10ee6c3658946a0113d9d08f4ac2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: car_label
+    second: {fileID: 2100000, guid: 13a8ce53bcbb7a94a9c6b430052344a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: handle
+    second: {fileID: 2100000, guid: 1da312bebee8e0942bc207d4e64c13c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: inner
+    second: {fileID: 2100000, guid: 1ec6ab33fb2d4434f808592e114627e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: inner_wheel
+    second: {fileID: 2100000, guid: b8d1cf639039aa64bb3c25b3e5f2413f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lights
+    second: {fileID: 2100000, guid: 311ce0a515bcaf440a206e8070fca8f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ornaments
+    second: {fileID: 2100000, guid: 2874abab8d0d80f409ce21a3d38dfae3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outer_wheel
+    second: {fileID: 2100000, guid: 21fce2e84060c8c4a905e1001cffb724, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: seat
+    second: {fileID: 2100000, guid: 6d167616176b66843a015ed635ce853c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
