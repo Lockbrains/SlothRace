@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
 
 
     void Update()
-    {      
+    {
         if (GameManager.S.gameState == GameManager.State.GameStart)
         {
             SlothMovement();
@@ -460,33 +460,6 @@ public class Player : MonoBehaviour
                 }
             }
         }
-    }
-
-    private IEnumerator PoopDelay()
-    {
-        // get current speed
-        float curSpeed = movementSpeed;
-        float curAnimator = animatorSpeed;
-
-        // cant move while pooping
-        animatorSpeed = 0;
-        movementSpeed = 0;
-        yield return new WaitForSeconds(3f);
-
-        // reset to cur speed
-        movementSpeed = curSpeed;
-        animatorSpeed = curAnimator;
-
-        // instantiate poop
-        // behind player position
-        Vector3 playerPos = camPosition.transform.position;
-        playerPos.y = -3.5f;
-
-        Debug.Log("pooping");
-        GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
-
-        //increase speed 3x
-        StartCoroutine(StartSpeedBoost());
     }
     
     public void OnGetReady(InputAction.CallbackContext context)

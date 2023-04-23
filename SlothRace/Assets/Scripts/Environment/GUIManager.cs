@@ -26,7 +26,8 @@ public class GUIManager : MonoBehaviour
     [Header("UI GameObjects")] public GameObject img_titleScreen;
     public GameObject img_waitingForPlayer2;
 
-    [Header("Player HUD")] [SerializeField]
+    [Header("Player HUD")] 
+    [SerializeField] private PlayerHUDAssignment _assignment;
     private PlayerHUD[] _playerHUDs;
 
     [Header("UI Setting")] [SerializeField]
@@ -49,11 +50,12 @@ public class GUIManager : MonoBehaviour
     [HideInInspector] public bool allSet;
     private WaitForPlayer _waitModule;
 
-    [Header("Countdown")] [SerializeField] private GameObject reverseCount;
-    [SerializeField] private GameObject three_label;
-    [SerializeField] private GameObject two_label;
-    [SerializeField] private GameObject one_label;
-    [SerializeField] private GameObject go_label;
+    [Header("Countdown")]
+    [SerializeField] private CountdownAssignment _cdAssignment;
+    private GameObject three_label;
+    private GameObject two_label;
+    private GameObject one_label;
+    private GameObject go_label;
     [SerializeField] private float shortTime;
     [SerializeField] private float longTime;
     private bool hasStartedCountdown;
@@ -78,8 +80,6 @@ public class GUIManager : MonoBehaviour
     private void Start()
     {
         hasStartedCountdown = false;
-        DisableCountdown();
-        InitialColorAdjustment();
     }
 
     private void Update()
@@ -215,6 +215,15 @@ public class GUIManager : MonoBehaviour
         {
             GameManager.S.maxPlayerCount = playerNum;
             GameManager.S.gameState = GameManager.State.Mapping;
+            _playerHUDs = _assignment.AssignPlayerHUD(playerNum);
+            _assignment.TurnOnHUD(playerNum);
+            GameObject[] labels = _cdAssignment.AssignmentCDHUD(playerNum);
+            _cdAssignment.ActivateCDHUD(playerNum);
+            three_label = labels[0];
+            two_label = labels[1];
+            one_label = labels[2];
+            go_label = labels[3];
+            InitialColorAdjustment();
         }
     }
 
@@ -281,17 +290,11 @@ public class GUIManager : MonoBehaviour
     #endregion
 
     #region Countdown, Codes for countdown
-
-    private void DisableCountdown()
-    {
-        reverseCount.SetActive(false);
-    }
-
+    
     private IEnumerator Countdown()
     {
         GameManager.S.gameState = GameManager.State.Countdown;
         countdownPage.SetActive(true);
-        reverseCount.SetActive(true);
         three_label.SetActive(true);
         two_label.SetActive(false);
         one_label.SetActive(false);
@@ -313,8 +316,6 @@ public class GUIManager : MonoBehaviour
         {
             playerHUD.gameObject.SetActive(true);
         }
-
-        DisableCountdown();
     }
 
     #endregion

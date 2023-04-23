@@ -107,10 +107,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 6156082140994258384}
-  player1SpawnPoint: {x: -1.5, y: 0, z: 0}
-  player2SpawnPoint: {x: 0.7, y: 0, z: 0}
-  player3SpawnPoint: {x: 0, y: 0, z: 0}
-  player4SpawnPoint: {x: 0, y: 0, z: 0}
+  player1SpawnPoint: {x: -3, y: 0, z: 6}
+  player2SpawnPoint: {x: -1, y: 0, z: 6}
+  player3SpawnPoint: {x: 1, y: 0, z: 0}
+  player4SpawnPoint: {x: 3, y: 0, z: 0}
   maxPlayerCount: 0
   joinedPlayer: 0
   readyPlayer: 0
