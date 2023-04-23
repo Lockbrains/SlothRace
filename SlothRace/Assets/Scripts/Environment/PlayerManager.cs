@@ -15,8 +15,6 @@ public class PlayerManager : MonoBehaviour
     public GameObject[] playerGOs = new GameObject[4];
     public bool[] playerHasStart = new bool[4];
 
-    private List<Tuple<float, int>> playerRankList = new List<Tuple<float, int>>();
-
     [SerializeField] private Vector3[] respawningPoints = new Vector3[4];
     [SerializeField] private List<LayerMask> playerLayers;
 
@@ -154,6 +152,8 @@ public class PlayerManager : MonoBehaviour
             p4Distance = Vector3.Distance(player4Pos, GameManager.S.finishPosition);
         }
 
+        List<Tuple<float, int>> playerRankList = new List<Tuple<float, int>>();
+
         // add to tuple list with respective player index and their distance
         playerRankList.Add(new Tuple<float, int>(p1Distance, 0));
         playerRankList.Add(new Tuple<float, int>(p2Distance, 1));
@@ -167,7 +167,7 @@ public class PlayerManager : MonoBehaviour
             playerRankList.Add(new Tuple<float, int>(p4Distance, 3));
         }
 
-        SortPlayerRanks();
+        SortPlayerRanks(playerRankList);
 
         // update ranks
         for (int i = 0; i < GameManager.S.maxPlayerCount; i++)
@@ -192,10 +192,14 @@ public class PlayerManager : MonoBehaviour
             }
 
         }
+
+        playerRankList.Clear();
+        int id = GC.GetGeneration(playerRankList);
+        GC.Collect(id, GCCollectionMode.Forced);
   
     }
 
-    private void SortPlayerRanks()
+    private void SortPlayerRanks(List<Tuple<float, int>> playerRankList)
     {
         playerRankList.Sort((x, y) => x.Item1.CompareTo(y.Item1));
     }
