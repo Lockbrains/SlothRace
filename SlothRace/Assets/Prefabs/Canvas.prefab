@@ -171,7 +171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2546730869830488111
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1832,7 +1832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5707850588693791731
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7098,15 +7098,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4428431040440868390, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4428431040440868390, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.454
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4428431040440868390, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.5000038
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 4502843120464774179, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7512,15 +7512,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4428431040440868390, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4428431040440868390, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.454
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4428431040440868390, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.5000038
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 4502843120464774179, guid: db0d6a0a8707c3e44a18ae69b04a34d7, type: 3}
       propertyPath: m_AnchorMax.x
