@@ -28,7 +28,7 @@ public class Leaderboard : MonoBehaviour
             int timeRound = Mathf.RoundToInt(timeSpent);
             if (timeRound > timeSpent) timeRound -= 1;
             float fraction = timeSpent - timeRound;
-            int fractionInt = (int) fraction * 100;
+            int fractionInt = (int) (fraction * 100);
             
             int min = Mathf.RoundToInt(timeRound / 60);
             if (min * 60 > timeRound) min -= 1;
