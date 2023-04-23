@@ -38279,21 +38279,53 @@ PrefabInstance:
       propertyPath: dualSenseMonitor
       value: 
       objectReference: {fileID: 130356760}
+    - target: {fileID: 4736208578775268831, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: player1SpawnPoint.x
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736208578775268831, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: player2SpawnPoint.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736208578775268831, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: player3SpawnPoint.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736208578775268831, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: player3SpawnPoint.z
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736208578775268831, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: player4SpawnPoint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736208578775268831, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: player4SpawnPoint.z
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5642704546591020735, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
       propertyPath: respawningPoints.Array.data[0].x
-      value: -3
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 5642704546591020735, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
       propertyPath: respawningPoints.Array.data[1].x
-      value: -1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5642704546591020735, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
       propertyPath: respawningPoints.Array.data[2].x
-      value: 1
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642704546591020735, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: respawningPoints.Array.data[2].z
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5642704546591020735, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
       propertyPath: respawningPoints.Array.data[3].x
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642704546591020735, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
+      propertyPath: respawningPoints.Array.data[3].z
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6156082140994258384, guid: 5b309a1eac128004f99b567b2f16fa73, type: 3}
       propertyPath: m_Name

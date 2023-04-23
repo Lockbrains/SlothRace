@@ -6118,10 +6118,10 @@ MonoBehaviour:
   y_offset: 0
   slowAmt: 0.95
   SlothMaterials:
-  - {fileID: 2100000, guid: 65c9bf70b061d4ca1b027ccb645a8933, type: 2}
-  - {fileID: 2100000, guid: 830884ec434d2493b8c0b4fca279371d, type: 2}
-  - {fileID: 2100000, guid: 36680af5f432f4a9da67486de1662caa, type: 2}
-  - {fileID: 2100000, guid: 54b7a7ee3cb0c4fadb2bb3a0e4f72c7c, type: 2}
+  - {fileID: 2100000, guid: 630cb5aa6ebd11f4ea4a161f6f45b7d2, type: 2}
+  - {fileID: 2100000, guid: 156fbb5f56d50244abff11e7c07298af, type: 2}
+  - {fileID: 2100000, guid: 2b92940ed09a8ce4aa186f134ba3dc4b, type: 2}
+  - {fileID: 2100000, guid: 17158c268fb48e64f85a31e3f5adc0cb, type: 2}
   slothSkin: {fileID: 6494333961133743050}
   isMovingLeft: 0
   isAttacking: 0
@@ -6376,7 +6376,7 @@ PrefabInstance:
     - target: {fileID: 5344030311456282323, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 65c9bf70b061d4ca1b027ccb645a8933, type: 2}
+      objectReference: {fileID: 2100000, guid: 17158c268fb48e64f85a31e3f5adc0cb, type: 2}
     - target: {fileID: 5916062097452594739, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
       propertyPath: m_Layer
       value: 6
