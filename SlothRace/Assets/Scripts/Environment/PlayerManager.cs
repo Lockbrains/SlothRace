@@ -197,6 +197,6 @@ public class PlayerManager : MonoBehaviour
 
     private void SortPlayerRanks()
     {
-        playerRankList.Sort((x, y) => y.Item1.CompareTo(x.Item1));
+        playerRankList.Sort((x, y) => x.Item1.CompareTo(y.Item1));
     }
 }
