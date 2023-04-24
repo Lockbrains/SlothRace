@@ -119,7 +119,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (player4 != null)
         {
-            player4model = player1.transform.GetChild(0).transform.GetChild(0);
+            player4model = player4.transform.GetChild(0).transform.GetChild(0);
         }
 
         // get positions
@@ -194,8 +194,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         playerRankList.Clear();
-        int id = GC.GetGeneration(playerRankList);
-        GC.Collect(id, GCCollectionMode.Forced);
+        //int id = GC.GetGeneration(playerRankList);
+        //GC.Collect(id, GCCollectionMode.Forced);
   
     }
 
