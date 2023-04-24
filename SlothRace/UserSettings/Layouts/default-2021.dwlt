@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2194.286
     height: 1152
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 421}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 30
+  controlID: 143
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -266,7 +266,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1114.2858
+    width: 1036.5714
     height: 619.1428
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
@@ -291,9 +291,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1114.2858
+    x: 1036.5714
     y: 0
-    width: 609.1428
+    width: 686.8572
     height: 619.1428
   m_MinSize: {x: 232, y: 271}
   m_MaxSize: {x: 10002, y: 10021}
@@ -380,7 +380,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 555.4286
-    width: 1113.2858
+    width: 1035.5714
     height: 598.1428
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -428,23 +428,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1113.2858
+      width: 1035.5714
       height: 577.1428
-    m_Scale: {x: 0.9351851, y: 0.9351851}
-    m_Translation: {x: 556.6429, y: 288.5714}
+    m_Scale: {x: 0.935185, y: 0.9351851}
+    m_Translation: {x: 517.7857, y: 288.5714}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -595.22217
+      x: -553.67194
       y: -308.57144
-      width: 1190.4443
+      width: 1107.3439
       height: 617.1429
     m_MinimalGUI: 1
   m_defaultScale: 0.9351851
-  m_LastWindowPixelSize: {x: 1948.2501, y: 1046.75}
+  m_LastWindowPixelSize: {x: 1812.25, y: 1046.75}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
@@ -675,9 +675,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 898.3977, y: 512.8855, z: -61.852634}
+    m_Target: {x: 960, y: 540, z: 0}
     speed: 2
-    m_Value: {x: 898.3977, y: 512.8855, z: -61.852634}
+    m_Value: {x: 960, y: 540, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -724,13 +724,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.22172195, y: -0.29575577, z: 0.07077972, w: 0.92648435}
+    m_Target: {x: -0.0035954004, y: -0.06145999, z: -0.00022201428, w: 0.9981107}
     speed: 2
-    m_Value: {x: 0.22172028, y: -0.29575354, z: 0.07077919, w: 0.9264774}
+    m_Value: {x: -0.003595373, y: -0.06145952, z: -0.00022201259, w: 0.9981031}
   m_Size:
-    m_Target: 117.62838
+    m_Target: 886.8937
     speed: 2
-    m_Value: 117.62838
+    m_Value: 886.8937
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1084,18 +1084,18 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: b831e5ff1032e5ff6652e5ffda7de5ffa8abe6ff9e61f7ffa661f7ffae63f7ff9e65f7ffa665f7ff1c68f7ff2468f7ff06aff7ff04b2f7ff86b4f7ff24ebfffff6ecffff02edffffe0faffff94730000
+      m_ExpandedIDs: 0e6af2ff646af2fff687f2ff0eb3ffff66b3ffffbed3ffffe4faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: PlayerGroup(Clone)
-        m_OriginalName: PlayerGroup(Clone)
+        m_Name: Title Page HUD
+        m_OriginalName: Title Page HUD
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -1735370
+        m_UserData: 57694
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
         m_OriginalEventType: 0
@@ -1159,9 +1159,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1114.2858
+    x: 1036.5715
     y: 555.4286
-    width: 607.1428
+    width: 684.8572
     height: 598.1428
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -1180,36 +1180,36 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Sloth Skins/Sloth 4
+    - Assets/Sloth Skins
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Sloth Skins/Sloth 4
+  - Assets/Sloth Skins
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\UnityProjects\SlothRace\SlothRace\SlothRace
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 193.85718}
-    m_SelectedIDs: f4a10200
-    m_LastClickedID: 172532
-    m_ExpandedIDs: 00000000f29d0000f49d0000f69d0000f89d0000fa9d0000fc9d0000fe9d0000009e0000029e0000049e0000069e00000a9e00000c9e00000e9e0000109e0000129e0000149e0000169e000094a00000c2a0000002fb00004882060000ca9a3b
+    scrollPos: {x: 0, y: 97.85718}
+    m_SelectedIDs: d89e0000
+    m_LastClickedID: 40664
+    m_ExpandedIDs: 00000000b29e0000b49e0000b69e0000b89e0000ba9e0000bc9e0000be9e0000c09e0000c29e0000c49e0000c69e0000c89e0000ca9e0000cc9e0000ce9e0000d09e0000d29e0000d69e0000d89e0000da9e0000dc9e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Sloth 4
-      m_OriginalName: Sloth 4
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 172532
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 12}
     m_SearchString: 
@@ -1223,7 +1223,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f29d0000f49d0000f69d0000f89d0000fa9d0000fc9d0000fe9d0000009e0000029e0000049e0000069e0000089e00000a9e00000c9e00000e9e0000109e0000129e0000149e0000169e0000189e0000
+    m_ExpandedIDs: 00000000b29e0000b49e0000b69e0000b89e0000ba9e0000bc9e0000be9e0000c09e0000c29e0000c49e0000c69e0000c89e0000ca9e0000cc9e0000ce9e0000d09e0000d29e0000d49e0000d69e0000d89e0000da9e0000dc9e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
