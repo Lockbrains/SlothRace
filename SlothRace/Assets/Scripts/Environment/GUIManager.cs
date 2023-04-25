@@ -384,8 +384,7 @@ public class GUIManager : MonoBehaviour
 
     public void PlayerReachTheEnd(int playerID) 
     {
-        // todo
-        return;
+        _playerHUDs[playerID].ShowEOG(GameManager.S.finishedPlayer - 1);
     }
 
     public void GameEnds()
