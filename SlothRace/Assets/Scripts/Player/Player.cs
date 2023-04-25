@@ -484,6 +484,29 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (GameManager.S.gameState == GameManager.State.GameStart)
+            {
+                GameManager.S.gameState = GameManager.State.Pause;
+                GUIManager.S.Pause();
+            }
+        }
+    }
+
+    public void OnSwitchPauseMenu(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (GameManager.S.gameState == GameManager.State.Pause)
+            {
+                GUIManager.S.SwitchPauseMenu();
+            }
+        }
+    }
+
     #endregion
     
     #region GUI & Animation
