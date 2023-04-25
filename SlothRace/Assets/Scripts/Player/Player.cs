@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     public bool isAttacking;
     public bool leftLeg, leftArm, rightLeg, rightArm;
     public bool speedBoost;
+    private bool farting = false;
 
     [Header("Player Abilities")]
     public Stack<GameObject> playerAbilities = new Stack<GameObject>();
@@ -188,6 +189,7 @@ public class Player : MonoBehaviour
             // poop ends
             lettuceCounter = 0;
             pooping = false;
+            farting = false;
             UpdateCount();
 
             // reset speed to default
@@ -411,16 +413,13 @@ public class Player : MonoBehaviour
         {
             if (context.started)
             {
-                if (lettuceCounter < 2)
+                if (lettuceCounter == 2 && !farting)
                 {
-                    // Todo
-                    Debug.Log("Your stomach is still empty.");    
-                } else
-                {
+                 
                     // fart
                     Debug.Log("farting");
                     // instantiate fart
-                    lettuceCounter-=2;
+                    farting = true;
                     // particle system
                     fart.Clear();
                     fart.Play();
