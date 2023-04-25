@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject poopHUD;
     [SerializeField] private Scrollbar poopProgress;
     private bool pooping = false;
+    private bool farting = false;
     private bool hasReachedTheEnd = false;
     
 
@@ -188,6 +189,7 @@ public class Player : MonoBehaviour
             // poop ends
             lettuceCounter = 0;
             pooping = false;
+            farting = false;
             UpdateCount();
 
             // reset speed to default
@@ -411,23 +413,23 @@ public class Player : MonoBehaviour
         {
             if (context.started)
             {
-                if (lettuceCounter < 2)
-                {
-                    // Todo
-                    Debug.Log("Your stomach is still empty.");    
-                } else
+                if (lettuceCounter == 2 && !farting)
                 {
                     // fart
                     Debug.Log("farting");
-                    // instantiate fart
-                    lettuceCounter-=2;
+
+                    farting = true;
                     // particle system
                     fart.Clear();
                     fart.Play();
                     GameManager.S.playerFartTimes[playerID]++;
                     SoundManager.S.Fart();
                     UpdatePlayerSpeed();
-
+                    
+                } else
+                {
+                    // Todo
+                    Debug.Log("Cannot fart!!!");
                 }
             }
             
