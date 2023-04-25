@@ -162,21 +162,23 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
-    public void UpdateLettuceCounter(int count)
+    public void UpdateLettuceCounter(int count, bool farting)
     {
         for (int i = 0; i < 5; i++)
         {
             lettuces[i].sprite = i < count ? availableLettuce : disableLettuce;
         }
 
-        fartIcon.sprite = count is >= 2 ? availableFart : disableFart;
-        fartText.sprite = count is >= 2 ? availableFartText : disableFartText;
-        fartButton.sprite = count is >= 2 ? availableFartButton : disableFartButton;
-        pressHolder.SetActive(count >= 2);
+        fartIcon.sprite = count is >= 2 && !farting ? availableFart : disableFart;
+        fartText.sprite = count is >= 2 && !farting ? availableFartText : disableFartText;
+        fartButton.sprite = count is >= 2 && !farting ? availableFartButton : disableFartButton;
+        fartButton.enabled = count is >= 2 && !farting;
+        pressHolder.SetActive(count >= 2 && !farting);
 
         poopIcon.sprite = count >= 5 ? availablePoop : disablePoop;
         poopText.sprite = count >= 5 ? availablePoopText : disablePoopText;
         poopButton.sprite = count >= 5 ? availablePoopButton : disablePoopButton;
+        poopButton.enabled = count >= 5;
         poopFire.sprite = count >= 5 ? availablePoopFire : disablePoopFire;
         holdHolder.SetActive(count >= 5);
     }

@@ -343,9 +343,9 @@ public class GUIManager : MonoBehaviour
         _playerHUDs[playerID].isItemAvailable = available;
     }
 
-    public void UpdateCount(int playerID, int count)
+    public void UpdateCount(int playerID, int count, bool farting)
     {
-        _playerHUDs[playerID].UpdateLettuceCounter(count);
+        _playerHUDs[playerID].UpdateLettuceCounter(count, farting);
     }
 
     public void RefreshHUDColor(int playerID, bool isLeft)

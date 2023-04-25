@@ -200,6 +200,7 @@ public class Player : MonoBehaviour
             Vector3 playerPos = camPosition.transform.position;
             playerPos.y = -1.5f;
             GameObject newPoop = Instantiate(poopPrefab, playerPos - (camPosition.transform.forward * 3f), Quaternion.identity);
+            SoundManager.S.Poop();
             newPoop.GetComponent<Rigidbody>().AddForce((-playerForward.transform.forward * 3f + new Vector3(0,10f,0)).normalized * 100f);
             GameManager.S.playerPoopTimes[playerID]++;
             StartCoroutine(StartSpeedBoost());
@@ -272,6 +273,7 @@ public class Player : MonoBehaviour
     {
         leftStick = context.ReadValue<Vector2>();
     }
+
 
     private void UpdatePlayerRotation()
     {
@@ -413,7 +415,7 @@ public class Player : MonoBehaviour
         {
             if (context.started)
             {
-                if (lettuceCounter == 2 && !farting)
+                if (lettuceCounter is >= 2 and < 5 && !farting)
                 {
                  
                     // fart
@@ -425,6 +427,7 @@ public class Player : MonoBehaviour
                     fart.Play();
                     GameManager.S.playerFartTimes[playerID]++;
                     SoundManager.S.Fart();
+                    SoundManager.S.FartAttack();
                     UpdatePlayerSpeed();
 
                 }
@@ -573,7 +576,7 @@ public class Player : MonoBehaviour
 
     private void UpdateCount()
     {
-        GUIManager.S.UpdateCount(playerID, lettuceCounter);
+        GUIManager.S.UpdateCount(playerID, lettuceCounter, farting);
     }
     
     public void ReachFinishLine()
