@@ -14,6 +14,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private GameObject sfx_vomit;
     [SerializeField] private GameObject sfx_stun;
 
+    [SerializeField] private AudioSource BGM;
+    public float sfxVolume;
+    public float bgmVolume;
+
     public static SoundManager S;
 
     private void Awake()
@@ -37,12 +41,16 @@ public class SoundManager : MonoBehaviour
                 GenerateSoundEffect(sfx_shout, 1.0f);
             }
         }
+
+        BGM.volume = bgmVolume;
        
     }
 
     private void GenerateSoundEffect(GameObject sfx, float time)
     {
         GameObject g = Instantiate(sfx);
+        AudioSource a = g.GetComponent<AudioSource>();
+        a.volume = sfxVolume;
         Destroy(g, time);
     }
     public void LaunchMove()

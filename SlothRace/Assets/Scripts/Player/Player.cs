@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     public bool leftLeg, leftArm, rightLeg, rightArm;
     public bool speedBoost;
     private bool farting = false;
+    public bool stunned;
 
     [Header("Player Abilities")]
     public Stack<GameObject> playerAbilities = new Stack<GameObject>();
@@ -140,6 +141,7 @@ public class Player : MonoBehaviour
             SlothMovement();
             SetAnimation();
             SetPlayerStatusInHUD();
+            UpdatePlayerSpeed();
             UpdatePlayerRotation();
             UpdateCameraRotation();
             UpdateCount();
@@ -156,23 +158,31 @@ public class Player : MonoBehaviour
 
     public void UpdatePlayerSpeed()
     {
-        float maxSpeed = originalMoveSpeed;
-        float maxAnimSpeed = originalAnimatorSpeed;
-        float maxRotateSpeed = playerRotationSpeed;
-
-        if (speedBoost)
+        if(stunned)
         {
-           maxSpeed = originalMoveSpeed * 1.3f;
-           maxAnimSpeed = originalAnimatorSpeed * 1.3f;
-        }
-        
-        float minSpeed = 0.4f;
-        float minAnimSpeed = 1.0f;
-        float minRotateSpeed = 3.3f;
+            animatorSpeed = 0f;
+            movementSpeed = 0f;
+            actualRotationSpeed = 0f;
+        } else
+        {
+            float maxSpeed = originalMoveSpeed;
+            float maxAnimSpeed = originalAnimatorSpeed;
+            float maxRotateSpeed = playerRotationSpeed;
 
-        animatorSpeed = Remap(5-lettuceCounter, 0, 5, minAnimSpeed, maxAnimSpeed);
-        movementSpeed = Remap(5-lettuceCounter, 0, 5, minSpeed, maxSpeed);
-        actualRotationSpeed = Remap(5-lettuceCounter, 0, 5, minRotateSpeed, maxRotateSpeed);
+            if (speedBoost)
+            {
+                maxSpeed = originalMoveSpeed * 1.3f;
+                maxAnimSpeed = originalAnimatorSpeed * 1.3f;
+            }
+
+            float minSpeed = 0.4f;
+            float minAnimSpeed = 1.0f;
+            float minRotateSpeed = 3.3f;
+
+            animatorSpeed = Remap(5 - lettuceCounter, 0, 5, minAnimSpeed, maxAnimSpeed);
+            movementSpeed = Remap(5 - lettuceCounter, 0, 5, minSpeed, maxSpeed);
+            actualRotationSpeed = Remap(5 - lettuceCounter, 0, 5, minRotateSpeed, maxRotateSpeed);
+        }
     }
     
     private void CheckPoop()
@@ -428,7 +438,6 @@ public class Player : MonoBehaviour
                     GameManager.S.playerFartTimes[playerID]++;
                     SoundManager.S.Fart();
                     SoundManager.S.FartAttack();
-                    UpdatePlayerSpeed();
 
                 }
             }

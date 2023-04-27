@@ -20700,6 +20700,7 @@ GameObject:
   - component: {fileID: 4922018068700924678}
   - component: {fileID: 4922018068700924672}
   - component: {fileID: 4922018068700924679}
+  - component: {fileID: 420518000176227079}
   m_Layer: 5
   m_Name: SoundSetting
   m_TagString: Untagged
@@ -20770,6 +20771,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &420518000176227079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4922018068700924677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c1431c80c3bf945b19db19a6847efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButton: {fileID: 4922018069630115144}
+  bgmSlider: {fileID: 4922018070204739025}
+  btn_back: {fileID: 4922018069630115146}
+  btn_quit: {fileID: 4922018069630570479}
+  btn_restart: {fileID: 4922018070523012436}
+  slider_bgm: {fileID: 4922018070204739027}
+  slider_sfx: {fileID: 4922018068689942639}
+  isOnPause: 0
 --- !u!1 &4922018068815973328
 GameObject:
   m_ObjectHideFlags: 0
@@ -21244,7 +21265,7 @@ GameObject:
   - component: {fileID: 4922018069407544829}
   - component: {fileID: 4922018069407544831}
   - component: {fileID: 4922018069407544830}
-  - component: {fileID: 4922018069407544824}
+  - component: {fileID: 7765209313974721306}
   m_Layer: 5
   m_Name: Pause Menu
   m_TagString: Untagged
@@ -21313,7 +21334,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4922018069407544824
+--- !u!114 &7765209313974721306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21322,12 +21343,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4922018069407544828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 320abc1e5d524504ebc9b518eb7f5cb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 20c1431c80c3bf945b19db19a6847efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultButton: {fileID: 4922018069630115146}
-  selectState: 5
-  waitTime: 0
+  backButton: {fileID: 4922018069630115144}
+  bgmSlider: {fileID: 4922018070204739025}
+  btn_back: {fileID: 4922018069630115146}
+  btn_quit: {fileID: 4922018069630570479}
+  btn_restart: {fileID: 4922018070523012436}
+  slider_bgm: {fileID: 4922018070204739027}
+  slider_sfx: {fileID: 4922018068689942639}
+  isOnPause: 1
 --- !u!1 &4922018069514800496
 GameObject:
   m_ObjectHideFlags: 0
@@ -21658,7 +21684,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4922018069630570472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7765209313974721306}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4922018069736317748
 GameObject:
   m_ObjectHideFlags: 0
@@ -22584,7 +22622,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4922018070523012437}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7765209313974721306}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4922018070552293042
 GameObject:
   m_ObjectHideFlags: 0

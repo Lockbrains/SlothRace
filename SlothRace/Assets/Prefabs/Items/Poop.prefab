@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f481365f74ad04413b4f99a16e3cf1c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunDuration: 4
+  stunDuration: 10
 --- !u!54 &5999226684576771236
 Rigidbody:
   m_ObjectHideFlags: 0

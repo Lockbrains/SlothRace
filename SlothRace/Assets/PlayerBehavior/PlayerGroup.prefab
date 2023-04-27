@@ -100,7 +100,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925430540743507777}
-  m_LocalRotation: {x: 0.3125543, y: -0, z: -0, w: 0.9498999}
+  m_LocalRotation: {x: 0.31255427, y: 1.5142136e-15, z: 9.415362e-16, w: 0.9499}
   m_LocalPosition: {x: 0, y: 4.45, z: -6.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -341,7 +341,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457272051291143181}
-  m_LocalRotation: {x: 0.3125543, y: -0, z: -0, w: 0.9498999}
+  m_LocalRotation: {x: 0.31255427, y: 1.5142136e-15, z: 9.415362e-16, w: 0.9499}
   m_LocalPosition: {x: 0, y: 4.45, z: -6.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6162,6 +6162,7 @@ MonoBehaviour:
   rightLeg: 0
   rightArm: 0
   speedBoost: 0
+  stunned: 0
   fart: {fileID: 1375501478109197650}
   hasItem: 0
   leftStick: {x: 0, y: 0}
@@ -8987,7 +8988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   part: {fileID: 1375501478109197650}
-  stunDuration: 2
+  stunDuration: 5
 --- !u!1 &7573105847474842874 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8723576595543990755, guid: b2769874d107d4a6b8217e1af79c8fe5, type: 3}
