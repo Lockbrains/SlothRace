@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Players")]
     private List<PlayerInput> players = new List<PlayerInput>();
     private List<Player> playerControllers = new List<Player>();
+    private List<GameObject> playerCameras = new List<GameObject>();
     public GameObject[] playerGOs = new GameObject[4];
     public bool[] playerHasStart = new bool[4];
 
@@ -64,7 +65,9 @@ public class PlayerManager : MonoBehaviour
     {
         players.Add(player);
         playerGOs[player.playerIndex] = player.transform.parent.gameObject;
-        playerControllers.Add(player.transform.parent.GetComponent<Player>());
+        Player thisPlayer = player.transform.parent.GetComponent<Player>();
+        playerControllers.Add(thisPlayer);
+        playerCameras.Add(thisPlayer.slothCamera);
         
         Transform playerTransform = player.transform.parent;
         
@@ -202,5 +205,21 @@ public class PlayerManager : MonoBehaviour
     private void SortPlayerRanks(List<Tuple<float, int>> playerRankList)
     {
         playerRankList.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+    }
+
+    public void TurnOffCameras()
+    {
+        foreach (var playerCamera in playerCameras)
+        {
+            playerCamera.SetActive(false);
+        }
+    }
+
+    public void TurnOnCameras()
+    {
+        foreach (var playerCamera in playerCameras)
+        {
+            playerCamera.SetActive(true);
+        }
     }
 }

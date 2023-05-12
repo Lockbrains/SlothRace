@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     
     public enum State
     {
-        TitleScreen, LevelSelection, Mapping, WaitForPlayers, Countdown, GameStart, GameEnd
+        TitleScreen, LevelSelection, Mapping, WaitForPlayers, Countdown, GameStart, GameEnd, Pause
     }
     
 

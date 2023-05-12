@@ -9,6 +9,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private GameObject sfx_fart;
     [SerializeField] private GameObject sfx_item;
     [SerializeField] private GameObject sfx_shout;
+    [SerializeField] private GameObject sfx_fartAttack;
+    [SerializeField] private GameObject sfx_poop;
+    [SerializeField] private GameObject sfx_vomit;
+    [SerializeField] private GameObject sfx_stun;
+
+    [SerializeField] private AudioSource BGM;
+    public float sfxVolume;
+    public float bgmVolume;
 
     public static SoundManager S;
 
@@ -26,15 +34,23 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        if(GameManager.S.gameState != GameManager.State.GameStart)
         {
-            GenerateSoundEffect(sfx_shout, 1.0f);
+            if (Input.GetButtonDown("Cancel"))
+            {
+                GenerateSoundEffect(sfx_shout, 1.0f);
+            }
         }
+
+        BGM.volume = bgmVolume;
+       
     }
 
     private void GenerateSoundEffect(GameObject sfx, float time)
     {
         GameObject g = Instantiate(sfx);
+        AudioSource a = g.GetComponent<AudioSource>();
+        a.volume = sfxVolume;
         Destroy(g, time);
     }
     public void LaunchMove()
@@ -51,5 +67,25 @@ public class SoundManager : MonoBehaviour
     public void Fart()
     {
         GenerateSoundEffect(sfx_fart, 3.0f);
+    }
+
+    public void FartAttack() 
+    {
+        GenerateSoundEffect(sfx_fartAttack, 5.0f);
+    }
+
+    public void Poop()
+    {
+        GenerateSoundEffect(sfx_poop, 3.0f);
+    }
+
+    public void Vomit()
+    {
+        GenerateSoundEffect(sfx_vomit, 10.0f);
+    }
+
+    public void Stun()
+    {
+        GenerateSoundEffect(sfx_stun, 10.0f);
     }
 }

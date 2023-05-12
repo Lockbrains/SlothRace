@@ -13,27 +13,22 @@ public class Stun : MonoBehaviour
             Debug.Log("stunning Player");
             // get player script
             Player player = other.gameObject.GetComponent<HipCamera>().player;
+            SoundManager.S.Vomit();
             StartCoroutine(StunningPlayer(player));
             // set trigger to false, only want to use stun once
-            gameObject.GetComponent<Collider>().isTrigger = false;
+            gameObject.GetComponent<SphereCollider>().isTrigger = false;
 
-            
-            
         }
     }
 
     private IEnumerator StunningPlayer(Player player)
     {
-        float curSpeed = player.movementSpeed;
-        float animSpeed = player.animatorSpeed;
+        player.stunned = true;
 
-        player.movementSpeed = 0;
-        player.animatorSpeed = 0;
         Debug.Log("cant move");
         yield return new WaitForSeconds(stunDuration);
 
         // reset speeds
-        player.movementSpeed = curSpeed;
-        player.animatorSpeed = animSpeed;
+        player.stunned = false;
     }
 }
