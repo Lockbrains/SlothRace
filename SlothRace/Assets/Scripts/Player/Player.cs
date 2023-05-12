@@ -166,7 +166,7 @@ public class Player : MonoBehaviour
            maxAnimSpeed = originalAnimatorSpeed * 1.3f;
         }
         
-        float minSpeed = 0.4f;
+        float minSpeed = 0.35f;
         float minAnimSpeed = 1.0f;
         float minRotateSpeed = 3.3f;
 
