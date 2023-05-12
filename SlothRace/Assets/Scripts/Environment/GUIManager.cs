@@ -63,15 +63,6 @@ public class GUIManager : MonoBehaviour
     [Header("Game Over")] 
     [SerializeField] private Leaderboard _leaderboard;
 
-    [Header("Pause")] 
-    [SerializeField] private GameObject pauseCanvas;
-    [SerializeField] private GameObject otherCanvas;
-    [SerializeField] private GameObject followCamera;
-    [SerializeField] private Animator followCamAnim;
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject bgmMenu;
-    private bool isOnGameSettingMenu = true;
-
     #endregion
 
     #region Unity Basics
@@ -99,7 +90,7 @@ public class GUIManager : MonoBehaviour
     }
 
     #region Update Helpers
-    
+
     private void UpdateHUD()
     {
         _state = GameManager.S.gameState;
@@ -113,7 +104,6 @@ public class GUIManager : MonoBehaviour
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
                 leaderboardPage.SetActive(false);
-                TurnOffPauseMenu();
                 break;
             case GameManager.State.Mapping:
                 titlePage.SetActive(false);
@@ -123,7 +113,6 @@ public class GUIManager : MonoBehaviour
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
                 leaderboardPage.SetActive(false);
-                TurnOffPauseMenu();
                 break;
             case GameManager.State.LevelSelection:
                 titlePage.SetActive(false);
@@ -133,7 +122,6 @@ public class GUIManager : MonoBehaviour
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
                 leaderboardPage.SetActive(false);
-                TurnOffPauseMenu();
                 break;
             case GameManager.State.WaitForPlayers:
                 titlePage.SetActive(false);
@@ -145,7 +133,6 @@ public class GUIManager : MonoBehaviour
                 leaderboardPage.SetActive(false);
                 allSetIcon.SetActive(allSet);
                 CheckPlayerNum();
-                TurnOffPauseMenu();
                 break;
             case GameManager.State.Countdown:
                 titlePage.SetActive(false);
@@ -155,7 +142,6 @@ public class GUIManager : MonoBehaviour
                 countdownPage.SetActive(true);
                 inGameHUD.SetActive(false);
                 leaderboardPage.SetActive(false);
-                TurnOffPauseMenu();
                 break;
             case GameManager.State.GameStart:
                 titlePage.SetActive(false);
@@ -165,7 +151,6 @@ public class GUIManager : MonoBehaviour
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(true);
                 leaderboardPage.SetActive(false);
-                TurnOffPauseMenu();
                 break;
             case GameManager.State.GameEnd:
                 titlePage.SetActive(false);
@@ -175,23 +160,10 @@ public class GUIManager : MonoBehaviour
                 countdownPage.SetActive(false);
                 inGameHUD.SetActive(false);
                 leaderboardPage.SetActive(true);
-                TurnOffPauseMenu();
-                break;
-            case GameManager.State.Pause:
-                otherCanvas.SetActive(false);
-                followCamera.SetActive(true);
-                pauseCanvas.SetActive(true);
                 break;
             default:
                 break;
         }
-    }
-
-    private void TurnOffPauseMenu()
-    {
-        otherCanvas.SetActive(true);
-        followCamera.SetActive(false);
-        pauseCanvas.SetActive(false);
     }
 
     private void UpdateListenToInput()
@@ -371,9 +343,9 @@ public class GUIManager : MonoBehaviour
         _playerHUDs[playerID].isItemAvailable = available;
     }
 
-    public void UpdateCount(int playerID, int count, bool farting)
+    public void UpdateCount(int playerID, int count)
     {
-        _playerHUDs[playerID].UpdateLettuceCounter(count, farting);
+        _playerHUDs[playerID].UpdateLettuceCounter(count);
     }
 
     public void RefreshHUDColor(int playerID, bool isLeft)
@@ -406,33 +378,14 @@ public class GUIManager : MonoBehaviour
         _playerHUDs[playerID].ChangeRightLegColor(enabled, active);
     }
 
-    public void Pause()
-    {
-        PlayerManager.S.TurnOffCameras();
-    }
-
-    public void Back()
-    {
-        PlayerManager.S.TurnOnCameras();
-        GameManager.S.gameState = GameManager.State.GameStart;
-    }
-
-    public void SwitchPauseMenu()
-    {
-        isOnGameSettingMenu = !isOnGameSettingMenu;
-        followCamAnim.SetBool("IsOnGameSetting", isOnGameSettingMenu);
-        followCamAnim.SetBool("IsOnBGMSetting", !isOnGameSettingMenu);
-        pauseMenu.SetActive(isOnGameSettingMenu);
-        bgmMenu.SetActive(!isOnGameSettingMenu);
-    }
-    
     #endregion
 
     #region GameEnd, Codes for Leaderboard UI
 
     public void PlayerReachTheEnd(int playerID) 
     {
-        _playerHUDs[playerID].ShowEOG(GameManager.S.finishedPlayer - 1);
+        // todo
+        return;
     }
 
     public void GameEnds()
